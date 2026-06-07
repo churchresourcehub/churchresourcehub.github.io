@@ -270,9 +270,9 @@
   <details class="contribute">
     <summary>How to share your church's documents</summary>
     <ol>
-      <li><strong>Get it ready.</strong> Remove member names, salaries, account numbers, and anything identifying minors. Editable formats like Word and Excel are more useful to other churches than PDFs.</li>
-      <li><strong>Send it.</strong> Email your file to <a href="mailto:churchresourcehub@outlook.com">churchresourcehub@outlook.com</a>. A direct upload link is coming when the shared vault opens.</li>
-      <li><strong>Tell us what it is.</strong> Include your church name, the ministry area, the year, and a one-line description. We handle the rest: consistent naming, formatting, and a card on this page with credit to your congregation.</li>
+      <li><strong>Get it ready.</strong> Take out personal details: phone numbers, home addresses, salaries, and account numbers, and anything that identifies a minor. Participant names on a roster or a nominations slate are fine. Editable formats like Word and Excel are more useful to other churches than PDFs.</li>
+      <li><strong>Upload it.</strong> Drop your file straight into the shared upload folder: <a href="#" id="uploadLink">upload your files here</a>. No account needed. (Questions: <a href="mailto:churchresourcehub@outlook.com">churchresourcehub@outlook.com</a>.)</li>
+      <li><strong>Tell us what it is.</strong> In the file name or a short note, include your church name, the ministry area, the year, and a one-line description. We handle the rest: consistent naming, a cleanup check, and a card on this page with credit to your congregation.</li>
     </ol>
   </details>
 </header>
@@ -298,7 +298,7 @@
 </main>
 
 <footer>
-  <p><strong>Want to contribute?</strong> Send your church's documents to <a href="mailto:churchresourcehub@outlook.com">churchresourcehub@outlook.com</a>. We will remove names and sensitive details, apply consistent naming, and add them to the vault with credit to your congregation.</p>
+  <p><strong>Want to contribute?</strong> Upload your church's documents straight to the <a href="#" id="uploadLinkFooter">shared upload folder</a>. We apply consistent naming, run a cleanup check, and add them to the hub with credit to your congregation. Questions: <a href="mailto:churchresourcehub@outlook.com">churchresourcehub@outlook.com</a>.</p>
   <p>A connectional ministry project started by Spanish Fort UMC.</p>
 </footer>
 
@@ -351,15 +351,18 @@ const RESOURCES = [
     links: [ { label: "Download (PDF)", file: "SFUMC_Admin_TrusteePacket_2024.pdf", url: "#" } ] },
   { area: "Administration and Governance", topic: "Committee Basics", title: "Annual Meeting Schedule Template", desc: "A full-year calendar of committee meetings on a predictable monthly rhythm.", church: "Spanish Fort UMC", type: "Excel", year: 2026, url: "#",
     links: [ { label: "Excel (editable)", file: "SFUMC_Admin_MeetingScheduleTemplate_2026.xlsx", url: "#" }, { label: "PDF", file: "SFUMC_Admin_MeetingScheduleTemplate_2026.pdf", url: "#" } ] },
-  { area: "Administration and Governance", topic: "Personnel", title: "Staff Evaluation Forms", desc: "Team feedback, self appraisal, supervisor evaluation, and employee development plan in one set.", church: "Spanish Fort UMC", type: "PDF", year: 2024, url: "#",
-    links: [ { label: "Self Appraisal", file: "SFUMC_Admin_StaffSelfAppraisalForm_2024.pdf", url: "#" }, { label: "Team Feedback", file: "SFUMC_Admin_StaffTeamFeedbackForm_2024.pdf", url: "#" }, { label: "Supervisor Evaluation", file: "SFUMC_Admin_SupervisorEvaluationForm_2024.pdf", url: "#" }, { label: "Development Plan", file: "SFUMC_Admin_EmployeeDevelopmentPlan_2024.pdf", url: "#" } ] },
-  { area: "Administration and Governance", topic: "Personnel", title: "Employee Handbook", desc: "A working example of a church staff handbook, ready to adapt.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#" },
-  { area: "Administration and Governance", topic: "Personnel", title: "Hiring and Dismissal Policies", desc: "Written procedures for bringing staff on and letting staff go.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#" },
+  { area: "Administration and Governance", topic: "Personnel", title: "Staff Evaluation Forms", desc: "An employee self appraisal form and an employee development plan, ready to adapt.", church: "Spanish Fort UMC", type: "PDF", year: 2024, url: "#",
+    links: [ { label: "Self Appraisal", file: "SFUMC_Admin_StaffSelfAppraisalForm_2024.pdf", url: "#" }, { label: "Development Plan", file: "SFUMC_Admin_EmployeeDevelopmentPlan_2024.pdf", url: "#" } ] },
+  { area: "Administration and Governance", topic: "Personnel", title: "Employee Handbook", desc: "A full church staff handbook covering policies, procedures, and benefits, ready to adapt. Hiring and dismissal procedures are inside it.", church: "Spanish Fort UMC", type: "Word", year: 2024, url: "#",
+    links: [ { label: "Download (Word)", file: "SFUMC_Admin_EmployeeHandbook_2024.docx", url: "#" } ] },
+  { area: "Administration and Governance", topic: "Personnel", title: "Hiring and Dismissal Policies", desc: "Written procedures for bringing staff on and letting staff go. Found in the Employee Handbook.", church: "Spanish Fort UMC", type: "Word", year: 2024, url: "#",
+    links: [ { label: "See the Employee Handbook", file: "SFUMC_Admin_EmployeeHandbook_2024.docx", url: "#" } ] },
   { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Audit Guidelines", desc: "How to conduct the annual audit the Discipline requires, without hiring a firm.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#" },
   { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Commitment Card Follow-Up Process", desc: "What happens after pledge cards come in: tracking, thanking, and following up.", church: "Spanish Fort UMC", type: "Word", year: 2025, url: "#" },
   { area: "Administration and Governance", topic: "Property and Safety", title: "Hurricane and Disaster Preparedness Plan", desc: "A Gulf Coast church's full preparation plan: before, during, and after the storm.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
     links: [ { label: "Hurricane Plan", file: "SFUMC_Admin_HurricanePlan_2025.pdf", url: "#" }, { label: "Preparedness Doc (Word)", file: "SFUMC_Admin_HurricanePreparedness_2025.docx", url: "#" }, { label: "Disaster Management Cycle", file: "SFUMC_Admin_DisasterManagementCycle_2025.pdf", url: "#" } ] },
-  { area: "Administration and Governance", topic: "Property and Safety", title: "Safe Sanctuary Policy", desc: "Child and vulnerable adult protection policy with screening and two-adult rules.", church: "Spanish Fort UMC", type: "PDF", year: 2022, url: "#" },
+  { area: "Administration and Governance", topic: "Property and Safety", title: "Safe Sanctuary Policy", desc: "Current child and vulnerable adult protection policy and minimum standards: theological basis, screening, two-adult rule, and check-in. Voted by the Trustees in 2025.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
+    links: [ { label: "Download (PDF)", file: "SFUMC_Admin_SafeSanctuaryPolicy_2025.pdf", url: "#" } ] },
   { area: "Administration and Governance", topic: "Property and Safety", title: "Property Insurance Inventory Method", desc: "Photo-based asset inventory that makes insurance claims and renewals far easier.", church: "Spanish Fort UMC", type: "PDF", year: 2024, url: "#" },
   { area: "Administration and Governance", topic: "Office Systems", title: "Membership Database Guides (Shelby and Realm)", desc: "Practical guides for the systems many of our churches run on. Shelby is ready; a Realm guide is wanted from a contributor.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
     links: [ { label: "Shelby Instructions", file: "SFUMC_Admin_ShelbyInstructions_2025.pdf", url: "#" } ] },
@@ -459,7 +462,82 @@ const RESOURCES = [
   // ---- UMC Basics ----
   { area: "UMC Basics", topic: "Denominational Connection", title: "Alabama-West Florida Conference", desc: "Conference website: appointments, resources, and contacts.", church: "Conference", type: "Link", year: 2026, url: "https://www.awfumc.org" },
   { area: "UMC Basics", topic: "Denominational Connection", title: "The Book of Discipline", desc: "The current Discipline online.", church: "Conference", type: "Link", year: 2026, url: "https://www.umc.org" },
-  { area: "UMC Basics", topic: "Denominational Connection", title: "UMC Glossary and What We Believe", desc: "Plain-language explainers for members and new staff.", church: "Conference", type: "Link", year: 2026, url: "https://www.umc.org/en/what-we-believe" }
+  { area: "UMC Basics", topic: "Denominational Connection", title: "UMC Glossary and What We Believe", desc: "Plain-language explainers for members and new staff.", church: "Conference", type: "Link", year: 2026, url: "https://www.umc.org/en/what-we-believe" },
+
+  // ===== Comprehensive coverage: a card for every mind map node =====
+  // Worship
+  { area: "Worship", topic: "Sacraments and Rites", title: "Sacraments and Communion Practice", desc: "How the sacraments are understood and practiced: communion rhythm and the means-of-grace teaching behind it.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Worship", topic: "Sacraments and Rites", title: "Baptism Practice and Recognition", desc: "Baptism in a United Methodist congregation: theology, the seasonal baptism window, and recognizing the baptized.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Worship", topic: "Planning", title: "Liturgical Season Planning", desc: "Planning Advent, Lent, Holy Week, and the rest of the church year, with two years of worked examples.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Worship", topic: "Planning", title: "Combined Worship Services Model", desc: "When and why to combine two services into one, and how to make it a moment of unity rather than a logistics headache.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Worship", topic: "Music", title: "Traditional Music: Choir and Handbells", desc: "Structure and seasonal rhythm of a sanctuary choir and a handbell choir.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Worship", topic: "Music", title: "Contemporary Music: Band and Tech", desc: "How a contemporary band and its tech team are organized and scheduled.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Worship", topic: "Music", title: "Christmas Musical Production Model", desc: "Mounting an annual Christmas musical: rehearsal calendar, combined choirs, and hiring orchestra musicians.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Worship", topic: "Operations", title: "Ushers, Greeters, and Hospitality Roles", desc: "Role descriptions for the Sunday-morning hospitality team.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Worship", topic: "Operations", title: "Sanctuary Setup and Supplies", desc: "The systems behind paraments, flowers, pew supplies, and weekly sanctuary setup.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Worship", topic: "Operations", title: "Sound and Tech System Documentation", desc: "How to document your worship AV and lighting system so volunteers can run it and vendors can service it.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+
+  // Missions and Evangelism
+  { area: "Missions and Evangelism", topic: "Local Missions", title: "Missions Team Operations", desc: "How a missions team runs: meeting rhythm, per-drive leader rotation, and a walkthrough of the mission-line budget.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Missions and Evangelism", topic: "Local Missions", title: "Collections Drive Model", desc: "A reusable model for collection drives, with worked examples: flood buckets, blankets, paper products, veterans supplies.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Missions and Evangelism", topic: "Local Missions", title: "Mission Partner Relationships", desc: "How to build and sustain partnerships with local agencies: pantries, family housing, foster care, and more.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Missions and Evangelism", topic: "Local Missions", title: "Serve Day Model", desc: "Running a churchwide serve day, with examples from grounds work to partner-site projects.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Missions and Evangelism", topic: "Local Missions", title: "Disaster Response Team", desc: "Organizing a congregation for disaster response, especially on the Gulf Coast.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Missions and Evangelism", topic: "International Missions", title: "Missionary Support Model", desc: "Supporting field missionaries and hosting a Missionary Sunday.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+
+  // Fellowship and Family Life
+  { area: "Fellowship and Family Life", topic: "Groups", title: "Fellowship Groups Model", desc: "Unifying supper clubs and affinity groups under one banner to lower the bar to connection.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Fellowship and Family Life", topic: "Events", title: "Family Life Event Playbooks", desc: "Playbooks for the recurring family events: cook-off, Easter egg hop, beach day, advent celebration, and more.", church: "Spanish Fort UMC", type: "Folder", year: 2026, url: "#" },
+
+  // Congregational Care
+  { area: "Congregational Care", topic: "Care Systems", title: "Congregational Care System", desc: "How visitation, prayer chain, and care-team coordination fit together to cover hospital, homebound, and crisis needs.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Congregational Care", topic: "Care Systems", title: "Stephen Ministry Structure", desc: "The structure of a lay pastoral-care ministry. A live example from a contributing church is wanted.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Congregational Care", topic: "Care Systems", title: "Spiritual Guidance and Direction", desc: "Offering spiritual direction and discernment support to members.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+
+  // Membership
+  { area: "Membership and Hospitality", topic: "Joining", title: "Visitor Class and Meet the Pastor", desc: "An orientation gathering for newcomers: format, content, and follow-up.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+
+  // Communications
+  { area: "Communications", topic: "Publications", title: "Spanish Fort Monthly", desc: "A monthly congregational publication: what it carries and what it replaced.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Communications", topic: "Publications", title: "Churchwide Email and Calendar Rhythm", desc: "The weekly and monthly cadence of churchwide email and the shared calendar behind it.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Communications", topic: "Digital", title: "Website Structure", desc: "A church website that works: an I'm-new path, events, online giving, and a merch store.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Communications", topic: "Digital", title: "Social Media Rhythm", desc: "A sustainable rhythm for church social media. A strong example from a contributing church is wanted.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+
+  // Adult Discipleship
+  { area: "Adult Discipleship", topic: "Structure", title: "Launching and Structuring Sunday Classes", desc: "How adult Sunday classes fit together and how to start a new one.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Adult Discipleship", topic: "Groups", title: "Men's Ministry", desc: "Men's breakfasts and small groups, including a young-adult men's rhythm.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Adult Discipleship", topic: "Groups", title: "Women's Ministry and Bible Study", desc: "Women's Bible studies and gatherings.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+
+  // Youth Ministry
+  { area: "Youth Ministry", topic: "Leadership", title: "Youth Parent Council", desc: "A lay governance body for youth ministry: who serves and what it oversees.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Youth Ministry", topic: "Weekly Programming", title: "Youth Weekly Rhythm and Morning Devo", desc: "The weekly rhythm of a youth group, including an off-campus morning devotional.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Youth Ministry", topic: "Events and Milestones", title: "Youth Mission Trips", desc: "Planning and running a youth mission trip.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+
+  // Children's Ministry
+  { area: "Children's Ministry", topic: "Structure", title: "Sunday Morning: Sunday School, Children's Church, Nursery", desc: "How the Sunday-morning children's hour is structured across ages.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Children's Ministry", topic: "Events and Programs", title: "Children's Celebrations", desc: "Baptism recognition, Third Grade Bibles, and children-led worship.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Children's Ministry", topic: "Events and Programs", title: "Children's Winter Retreat", desc: "A grades 3-6 winter retreat: planning and logistics.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+
+  // Older Adult Ministry
+  { area: "Older Adult Ministry", topic: "Groups and Events", title: "S.A.L.T. Senior Adult Ministry", desc: "A monthly senior-adult ministry: gatherings, themed events, and a friday-night format.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+
+  // Administration and Governance
+  { area: "Administration and Governance", topic: "Committee Basics", title: "Church Council Operating Rhythm", desc: "Running a church council: meeting cadence, the monthly brochure practice, and how decisions move.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Administration and Governance", topic: "Committee Basics", title: "Nominations Process and Slate", desc: "How to staff every leadership position: the nominations process and a slate template.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Administration and Governance", topic: "Personnel", title: "Staff Structure and Org Chart", desc: "A church staff structure and organizational chart you can adapt.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Administration and Governance", topic: "Property and Safety", title: "Facility Use Policy", desc: "A current facility-use policy with member and non-member terms, including the wedding policy.", church: "Spanish Fort UMC", type: "Word", year: 2025, url: "#" },
+  { area: "Administration and Governance", topic: "Property and Safety", title: "Property and Maintenance Systems", desc: "How a trustees team tracks repairs, vendors, and grounds work.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Administration and Governance", topic: "Property and Safety", title: "Lease Management", desc: "Stewarding a long-term commercial lease on church property, including renegotiation strategy.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Annual Budget", desc: "A full church operating budget by line item, with multiple years side by side. No individual salaries.", church: "Spanish Fort UMC", type: "Excel", year: 2026, url: "#",
+    links: [ { label: "2026 Budget (Excel)", file: "SFUMC_Admin_AnnualBudget_2026.xlsx", url: "#" }, { label: "2025 Budget (Excel)", file: "SFUMC_Admin_AnnualBudget_2025.xlsx", url: "#" }, { label: "2025 Budget (PDF)", file: "SFUMC_Admin_AnnualBudget_2025.pdf", url: "#" } ] },
+  { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Year-Round Stewardship Plan", desc: "A month-by-month stewardship and giving-communication calendar.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
+    links: [ { label: "Download (PDF)", file: "SFUMC_Admin_YearRoundStewardshipPlan_2025.pdf", url: "#" } ] },
+  { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Stewardship Campaign Model", desc: "Running an annual pledge campaign: sermon series, commitment cards, a 30-day devotional, and follow-up.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Business Partnership Program", desc: "A sponsorship program that brings local businesses alongside the church, with clear guardrails.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Internal Controls", desc: "Financial internal controls and separation of duties for a church.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Counting and Depositing Procedures", desc: "Written procedures for counting, depositing, and disbursing church funds.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Administration and Governance", topic: "Office Systems", title: "Church Database Migration", desc: "Moving a church off one management system and onto another, including online giving, with the lessons learned.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
+  { area: "Administration and Governance", topic: "Office Systems", title: "Attendance Tracking System", desc: "Count sheets, a sign-in process, and weekly attendance tracking.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" }
 ];
 
 // ============================================================
@@ -535,9 +613,13 @@ const AVAILABLE = new Set([
   "SFUMC_Admin_SPRCGuide_2026.pdf",
   "SFUMC_Admin_ShelbyInstructions_2025.pdf",
   "SFUMC_Admin_StaffSelfAppraisalForm_2024.pdf",
-  "SFUMC_Admin_StaffTeamFeedbackForm_2024.pdf",
-  "SFUMC_Admin_SupervisorEvaluationForm_2024.pdf",
   "SFUMC_Admin_TrusteePacket_2024.pdf",
+  "SFUMC_Admin_SafeSanctuaryPolicy_2025.pdf",
+  "SFUMC_Admin_EmployeeHandbook_2024.docx",
+  "SFUMC_Admin_AnnualBudget_2025.pdf",
+  "SFUMC_Admin_AnnualBudget_2025.xlsx",
+  "SFUMC_Admin_AnnualBudget_2026.xlsx",
+  "SFUMC_Admin_YearRoundStewardshipPlan_2025.pdf",
   "SFUMC_Adults_AtonementTheoriesDeck_2024.pdf",
   "SFUMC_Adults_BibleBasicsParticipantGuide_2024.pdf",
   "SFUMC_Adults_JudgesStudyWeek1_2026.pdf",
