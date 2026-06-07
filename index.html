@@ -260,7 +260,7 @@
 </head>
 <body>
 
-<div class="proto-note">Prototype. The vault is populated; download links are being added file by file.</div>
+<div class="proto-note">Working prototype. Highlighted resources download now; cards marked "link coming" are still being prepared.</div>
 
 <header class="hero">
   <div class="eyebrow">Church Resource Hub</div>
@@ -514,19 +514,76 @@ function matches(r) {
   return true;
 }
 
+// Files actually present in the repo's /files folder are downloadable.
+// Add a filename here when its file is committed and the card lights up.
+const FILES_BASE = "files/";
+const AVAILABLE = new Set([
+  "SFUMC_Admin_AllCommitteeGuides_2026.pdf",
+  "SFUMC_Admin_BuildingCommitteeFramework_2026.docx",
+  "SFUMC_Admin_ChurchCouncilOrientationPacket_2024.docx",
+  "SFUMC_Admin_ChurchCouncilOrientationPacket_2024.pdf",
+  "SFUMC_Admin_DisasterManagementCycle_2025.pdf",
+  "SFUMC_Admin_EmployeeDevelopmentPlan_2024.pdf",
+  "SFUMC_Admin_EventPlanningCalendar_2026.xlsx",
+  "SFUMC_Admin_FinanceOrientationPacket_2024.pdf",
+  "SFUMC_Admin_HurricanePlan_2025.pdf",
+  "SFUMC_Admin_HurricanePreparedness_2025.docx",
+  "SFUMC_Admin_MeetingScheduleTemplate_2026.pdf",
+  "SFUMC_Admin_MeetingScheduleTemplate_2026.xlsx",
+  "SFUMC_Admin_OrientationPacket_2026.pdf",
+  "SFUMC_Admin_RunningAVisionProcess_2026.docx",
+  "SFUMC_Admin_SPRCGuide_2026.pdf",
+  "SFUMC_Admin_ShelbyInstructions_2025.pdf",
+  "SFUMC_Admin_StaffSelfAppraisalForm_2024.pdf",
+  "SFUMC_Admin_StaffTeamFeedbackForm_2024.pdf",
+  "SFUMC_Admin_SupervisorEvaluationForm_2024.pdf",
+  "SFUMC_Admin_TrusteePacket_2024.pdf",
+  "SFUMC_Adults_AtonementTheoriesDeck_2024.pdf",
+  "SFUMC_Adults_BibleBasicsParticipantGuide_2024.pdf",
+  "SFUMC_Adults_JudgesStudyWeek1_2026.pdf",
+  "SFUMC_Adults_WhatMakesUsUsBrief_2026.pdf",
+  "SFUMC_Adults_WhatMakesUsUsStudy_2026.pdf",
+  "SFUMC_Children_ActivityConsentForm_2024.pdf",
+  "SFUMC_Children_KidCheckSignInOutGuidelines_2024.pdf",
+  "SFUMC_Fellowship_SilentAuctionDonationForm_2026.docx",
+  "SFUMC_Fellowship_SilentAuctionDonationLetter_2026.docx",
+  "SFUMC_Frameworks_ChurchHouse_2024.docx",
+  "SFUMC_Frameworks_PastorsTriangle_2024.docx",
+  "SFUMC_Frameworks_WordTableOrderService_2024.docx",
+  "SFUMC_Membership_NewMemberWelcomeChecklist_2024.docx",
+  "SFUMC_Missions_ESOBoardMemberAgreement_2026.docx",
+  "SFUMC_Missions_ESOBylaws_2026.docx",
+  "SFUMC_Missions_ESOConflictOfInterestPolicy_2026.docx",
+  "SFUMC_Missions_ESODonationReceiptTemplate_2026.docx",
+  "SFUMC_Missions_ESOFinancialControlsPolicy_2026.docx",
+  "SFUMC_Missions_ESOForm1023Narrative_2026.docx",
+  "SFUMC_Missions_ESOInitialBoardResolutions_2026.docx",
+  "SFUMC_Missions_ESOMeetingMinutesTemplate_2026.docx",
+  "SFUMC_Missions_ESOOverviewChurchRelationship_2026.docx",
+  "SFUMC_Volunteers_CouncilVolunteerPresentation_2026.pptx",
+  "SFUMC_Volunteers_MinistryLanesOnePager_2026.pdf",
+  "SFUMC_Volunteers_MinistryMindMap_2026.pdf",
+  "SFUMC_Volunteers_VolunteerInfrastructureLanes_2026.pdf",
+  "SFUMC_Worship_BulletinExampleCombined_2025.pdf",
+  "SFUMC_Worship_BulletinExample_2025.pdf",
+  "SFUMC_Worship_WorshipOrderGoodFriday_2024.pdf",
+]);
+function fileHref(name) { return FILES_BASE + name.split("/").map(encodeURIComponent).join("/"); }
+
 function cardHTML(r) {
   let action;
   if (r.links && r.links.length) {
-    // Each link maps to one file in the vault. data-file carries the exact
-    // vault filename so swapping in share URLs later is mechanical.
-    action = r.links.map(l => l.url === "#"
-      ? `<a class="action pending" href="#" onclick="return false;" data-file="${l.file}">${l.label} (link coming)</a>`
-      : `<a class="action" href="${l.url}" target="_blank" rel="noopener" data-file="${l.file}">${l.label}</a>`
+    // A link lights up as a real download once its file is in AVAILABLE.
+    action = r.links.map(l => (l.file && AVAILABLE.has(l.file))
+      ? `<a class="action" href="${fileHref(l.file)}" target="_blank" rel="noopener" data-file="${l.file}">${l.label}</a>`
+      : `<a class="action pending" href="#" onclick="return false;" data-file="${l.file || ''}">${l.label} (link coming)</a>`
     ).join("");
   } else {
-    action = r.url === "#"
-      ? `<a class="action pending" href="#" onclick="return false;">Link coming</a>`
-      : `<a class="action" href="${r.url}" target="_blank" rel="noopener">Open resource</a>`;
+    action = (r.file && AVAILABLE.has(r.file))
+      ? `<a class="action" href="${fileHref(r.file)}" target="_blank" rel="noopener">Open resource</a>`
+      : r.url === "#"
+        ? `<a class="action pending" href="#" onclick="return false;">Link coming</a>`
+        : `<a class="action" href="${r.url}" target="_blank" rel="noopener">Open resource</a>`;
   }
   return `<div class="card">
     <h3>${r.title}</h3>
