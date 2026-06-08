@@ -271,7 +271,7 @@
     <summary>How to share your church's documents</summary>
     <ol>
       <li><strong>Get it ready.</strong> Take out personal details: phone numbers, home addresses, salaries, and account numbers, and anything that identifies a minor. Participant names on a roster or a nominations slate are fine. Editable formats like Word and Excel are more useful to other churches than PDFs.</li>
-      <li><strong>Upload it.</strong> Drop your file straight into the shared upload folder: <a href="#" id="uploadLink">upload your files here</a>. No account needed. (Questions: <a href="mailto:churchresourcehub@outlook.com">churchresourcehub@outlook.com</a>.)</li>
+      <li><strong>Upload it.</strong> Drop your file straight into the shared upload folder: <a href="https://sfunitedmethodist-my.sharepoint.com/:f:/g/personal/srpastor_spanishfortumc_org/IgDrPbnqtvFFRoLHzM6zD6BBAf3dpc9SzzZGDmAoPKyuq2Y?e=OZs3Zv" target="_blank" rel="noopener" id="uploadLink">upload your files here</a>. No account needed. (Questions: <a href="mailto:churchresourcehub@outlook.com">churchresourcehub@outlook.com</a>.)</li>
       <li><strong>Tell us what it is.</strong> In the file name or a short note, include your church name, the ministry area, the year, and a one-line description. We handle the rest: consistent naming, a cleanup check, and a card on this page with credit to your congregation.</li>
     </ol>
   </details>
@@ -298,7 +298,7 @@
 </main>
 
 <footer>
-  <p><strong>Want to contribute?</strong> Upload your church's documents straight to the <a href="#" id="uploadLinkFooter">shared upload folder</a>. We apply consistent naming, run a cleanup check, and add them to the hub with credit to your congregation. Questions: <a href="mailto:churchresourcehub@outlook.com">churchresourcehub@outlook.com</a>.</p>
+  <p><strong>Want to contribute?</strong> Upload your church's documents straight to the <a href="https://sfunitedmethodist-my.sharepoint.com/:f:/g/personal/srpastor_spanishfortumc_org/IgDrPbnqtvFFRoLHzM6zD6BBAf3dpc9SzzZGDmAoPKyuq2Y?e=OZs3Zv" target="_blank" rel="noopener" id="uploadLinkFooter">shared upload folder</a>. We apply consistent naming, run a cleanup check, and add them to the hub with credit to your congregation. Questions: <a href="mailto:churchresourcehub@outlook.com">churchresourcehub@outlook.com</a>.</p>
   <p>A connectional ministry project started by Spanish Fort UMC.</p>
 </footer>
 
@@ -555,7 +555,8 @@ const toggleAllBtn = document.getElementById("toggleAllBtn");
 const countLine = document.getElementById("countLine");
 const noResults = document.getElementById("noResults");
 
-const PREVIEW_COUNT = 3;        // cards shown per section before "See more"
+// Cards shown per section before "See all": 6 on desktop (3 across, 2 rows), 3 on phone.
+function previewCount() { return window.matchMedia("(max-width: 600px)").matches ? 3 : 6; }
 let showAllFiles = false;       // global toggle from the toolbar
 let expandedSections = new Set(); // sections the user opened individually
 
@@ -691,10 +692,11 @@ function render() {
 
     // Collapsed by default: show the most recent few per section.
     // Filtering or the global toggle or a per-section "See more" expands it.
-    const expanded = filtering || showAllFiles || expandedSections.has(a.name) || areaItems.length <= PREVIEW_COUNT;
+    const PC = previewCount();
+    const expanded = filtering || showAllFiles || expandedSections.has(a.name) || areaItems.length <= PC;
     let items = areaItems;
     if (!expanded) {
-      items = [...areaItems].sort((x, y) => y.year - x.year).slice(0, PREVIEW_COUNT);
+      items = [...areaItems].sort((x, y) => y.year - x.year).slice(0, PC);
       anyCollapsed = true;
     }
     shown += items.length;
@@ -742,6 +744,8 @@ function clearAll() {
 [searchBox, filterArea, filterChurch, filterType].forEach(el => {
   el.addEventListener("input", render);
 });
+// Re-render on resize so the preview count switches between desktop (6) and phone (3).
+let _resizeTimer; window.addEventListener("resize", () => { clearTimeout(_resizeTimer); _resizeTimer = setTimeout(render, 150); });
 clearBtn.addEventListener("click", clearAll);
 
 toggleAllBtn.addEventListener("click", () => {
