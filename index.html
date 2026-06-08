@@ -701,17 +701,21 @@ function render() {
     }
     shown += items.length;
 
-    const topics = [...new Set(items.map(r => r.topic))];
     let inner = "";
-    topics.forEach(t => {
-      const topicItems = items.filter(r => r.topic === t);
-      inner += `<div class="topic-label">${t}</div><div class="cards">${topicItems.map(cardHTML).join("")}</div>`;
-    });
-
     if (!expanded) {
+      // Preview: one uniform grid (clean rows of three), no topic labels.
+      inner += `<div class="cards">${items.map(cardHTML).join("")}</div>`;
       inner += `<button class="see-more" data-area="${a.name}">See all ${areaItems.length} in this section</button>`;
-    } else if (!filtering && !showAllFiles && expandedSections.has(a.name) && areaItems.length > PREVIEW_COUNT) {
-      inner += `<button class="see-more" data-area="${a.name}" data-collapse="1">Show fewer</button>`;
+    } else {
+      // Expanded: group by topic with labels.
+      const topics = [...new Set(items.map(r => r.topic))];
+      topics.forEach(t => {
+        const topicItems = items.filter(r => r.topic === t);
+        inner += `<div class="topic-label">${t}</div><div class="cards">${topicItems.map(cardHTML).join("")}</div>`;
+      });
+      if (!filtering && !showAllFiles && expandedSections.has(a.name) && areaItems.length > PC) {
+        inner += `<button class="see-more" data-area="${a.name}" data-collapse="1">Show fewer</button>`;
+      }
     }
 
     const sec = document.createElement("section");
