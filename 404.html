@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Page not found | Doing Church Together</title>
+<style>
+  :root {
+    --paper: #f9f5ec;
+    --ink: #38332a;
+    --soft-ink: #6e675a;
+    --burgundy: #7b2d26;
+    --rule: #c8bda3;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 24px;
+  }
+  .wrap { max-width: 540px; }
+  .eyebrow {
+    font-size: 0.78rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--burgundy);
+    margin-bottom: 18px;
+  }
+  h1 {
+    font-size: clamp(1.6rem, 5vw, 2.2rem);
+    font-weight: normal;
+    margin-bottom: 14px;
+  }
+  hr.rule { width: 70px; margin: 0 auto 18px; border: none; border-top: 1px solid var(--rule); }
+  p { color: var(--soft-ink); margin-bottom: 22px; }
+  a.home {
+    display: inline-block;
+    background: var(--burgundy);
+    color: #fff;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 12px 30px;
+    border-radius: 6px;
+  }
+  a.home:hover { background: #5f231d; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="eyebrow">Church Resource Hub</div>
+    <h1>That page wandered off</h1>
+    <hr class="rule">
+    <p>The link you followed does not lead anywhere here. It may have moved, or the address may have a typo.</p>
+    <a class="home" href="/">Back to the library</a>
+  </div>
+</body>
+</html>
