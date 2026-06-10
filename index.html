@@ -229,6 +229,7 @@
     cursor: pointer;
   }
   .toolbar button.toggle-all:hover { border-color: var(--burgundy); color: var(--burgundy); }
+  .toolbar button.toggle-all.active { background: var(--burgundy); border-color: var(--burgundy); color: #fdf9f3; }
   details.contribute {
     max-width: 680px;
     margin: 22px auto 0;
@@ -298,6 +299,7 @@
   <select id="filterArea" aria-label="Filter by ministry area"><option value="">All Ministry Areas</option></select>
   <select id="filterChurch" aria-label="Filter by church"><option value="">All Churches</option></select>
   <select id="filterType" aria-label="Filter by file type"><option value="">All File Types</option></select>
+  <button class="toggle-all" id="starBtn" title="Show only cornerstone resources">&#9733; Important docs</button>
   <button class="toggle-all" id="toggleAllBtn">Show all files</button>
   <button class="clear" id="clearBtn">Clear</button>
 </div>
@@ -307,7 +309,7 @@
 <main>
   <section class="intro">
     <p>Browse by ministry area below, or use the search and filters above. Every resource shows which church contributed it and what kind of file it is.</p>
-    <p class="star-legend"><span class="star">&#9733;</span> marks a cornerstone resource: the documents we would hand a church first in each area.</p>
+    <p class="star-legend"><span class="star">&#9733;</span> marks a cornerstone resource. Use the &#9733; Important docs button above to see only those.</p>
   </section>
 
   <div id="sections"></div>
@@ -605,16 +607,18 @@ const filterChurch = document.getElementById("filterChurch");
 const filterType = document.getElementById("filterType");
 const clearBtn = document.getElementById("clearBtn");
 const toggleAllBtn = document.getElementById("toggleAllBtn");
+const starBtn = document.getElementById("starBtn");
 const countLine = document.getElementById("countLine");
 const noResults = document.getElementById("noResults");
 
 // Cards shown per section before "See all": 6 on desktop (3 across, 2 rows), 3 on phone.
 function previewCount() { return window.matchMedia("(max-width: 600px)").matches ? 3 : 6; }
 let showAllFiles = false;       // global toggle from the toolbar
+let starOnly = false;           // cornerstone-only filter
 let expandedSections = new Set(); // sections the user opened individually
 
 function isFiltering() {
-  return searchBox.value.trim() !== "" || filterArea.value !== "" || filterChurch.value !== "" || filterType.value !== "";
+  return searchBox.value.trim() !== "" || filterArea.value !== "" || filterChurch.value !== "" || filterType.value !== "" || starOnly;
 }
 
 function uniqueValues(key) {
@@ -645,6 +649,7 @@ function matches(r) {
   if (filterArea.value && r.area !== filterArea.value) return false;
   if (filterChurch.value && r.church !== filterChurch.value) return false;
   if (filterType.value && r.type !== filterType.value) return false;
+  if (starOnly && !r.star) return false;
   return true;
 }
 
@@ -899,6 +904,8 @@ function clearAll() {
   filterChurch.value = "";
   filterType.value = "";
   showAllFiles = false;
+  starOnly = false;
+  starBtn.classList.remove("active");
   expandedSections = new Set();
   toggleAllBtn.textContent = "Show all files";
   render();
@@ -915,6 +922,12 @@ toggleAllBtn.addEventListener("click", () => {
   showAllFiles = !showAllFiles;
   if (!showAllFiles) expandedSections = new Set();
   toggleAllBtn.textContent = showAllFiles ? "Show recent only" : "Show all files";
+  render();
+});
+
+starBtn.addEventListener("click", () => {
+  starOnly = !starOnly;
+  starBtn.classList.toggle("active", starOnly);
   render();
 });
 
