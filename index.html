@@ -181,6 +181,16 @@
     color: var(--soft-ink);
     margin-bottom: 0.35rem;
   }
+  .card h3 .star {
+    color: var(--burgundy);
+    margin-right: 2px;
+    font-size: 0.95em;
+  }
+  section.intro p.star-legend {
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+  section.intro p.star-legend .star { color: var(--burgundy); font-style: normal; }
   .card a.action {
     align-self: flex-start;
     font-size: 0.88rem;
@@ -297,6 +307,7 @@
 <main>
   <section class="intro">
     <p>Browse by ministry area below, or use the search and filters above. Every resource shows which church contributed it and what kind of file it is.</p>
+    <p class="star-legend"><span class="star">&#9733;</span> marks a cornerstone resource: the documents we would hand a church first in each area.</p>
   </section>
 
   <div id="sections"></div>
@@ -334,12 +345,12 @@ const AREAS = [
 
 const RESOURCES = [
   // ---- Frameworks ----
-  { area: "Miscellaneous", topic: "Core Frameworks", title: "The Pastor's Triangle", desc: "A framework for the three pulls on a pastor: Shepherd, Preacher, and Executive, with Teacher at the center. Includes how to use it for self-audit, staff-parish conversations, and guarding against burnout.", church: "Spanish Fort UMC", type: "Word", year: 2024, url: "#",
+  { area: "Miscellaneous", topic: "Core Frameworks", title: "The Pastor's Triangle", star: true, desc: "A framework for the three pulls on a pastor: Shepherd, Preacher, and Executive, with Teacher at the center. Includes how to use it for self-audit, staff-parish conversations, and guarding against burnout.", church: "Spanish Fort UMC", type: "Word", year: 2024, url: "#",
     links: [ { label: "Download (Word)", file: "SFUMC_Frameworks_PastorsTriangle_2024.docx", url: "#" } ] },
-  { area: "Miscellaneous", topic: "Core Frameworks", title: "The Church House", desc: "Wesley's house metaphor mapped to ministry: nine rooms from the front porch of evangelism to the home office of administration, with a method for auditing which rooms are thriving and which are dark.", church: "Spanish Fort UMC", type: "Word", year: 2024, url: "#",
+  { area: "Miscellaneous", topic: "Core Frameworks", title: "The Church House", star: true, desc: "Wesley's house metaphor mapped to ministry: nine rooms from the front porch of evangelism to the home office of administration, with a method for auditing which rooms are thriving and which are dark.", church: "Spanish Fort UMC", type: "Word", year: 2024, url: "#",
     links: [ { label: "Download (Word)", file: "SFUMC_Frameworks_ChurchHouse_2024.docx", url: "#" } ] },
-  { area: "Miscellaneous", topic: "Core Frameworks", title: "Pastoral Ministry: Systems, Processes, and Resources", cs: true, desc: "The full guide to organizing a pastorate, from holy moments to committee supervision. The three frameworks above are drawn from it.", church: "Spanish Fort UMC", type: "PDF", year: 2024, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Frameworks_PastoralMinistrySystems_2026.docx", url: "#" } ] },
-  { area: "Miscellaneous", topic: "Congregational Story", title: "SFUMC 24-26: A Two-Year Church History", cs: true, desc: "The full two-year account of a congregation's rebuild after disaffiliation losses: the financial reset, the vision process, the rebrand, and the systems behind them. Written as an honest worked example, not a highlight reel.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#",
+  { area: "Miscellaneous", topic: "Core Frameworks", title: "Pastoral Ministry: Systems, Processes, and Resources", star: true, cs: true, desc: "The full guide to organizing a pastorate, from holy moments to committee supervision. The three frameworks above are drawn from it.", church: "Spanish Fort UMC", type: "PDF", year: 2024, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Frameworks_PastoralMinistrySystems_2026.docx", url: "#" } ] },
+  { area: "Miscellaneous", topic: "Congregational Story", title: "SFUMC 24-26: A Two-Year Church History", star: true, cs: true, desc: "The full two-year account of a congregation's rebuild after disaffiliation losses: the financial reset, the vision process, the rebrand, and the systems behind them. Written as an honest worked example, not a highlight reel.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#",
     links: [ { label: "Download (Word)", file: "SFUMC_Misc_TwoYearHistory_2026.docx", url: "#" } ] },
 
   // ---- Administration and Governance ----
@@ -347,7 +358,7 @@ const RESOURCES = [
     links: [ { label: "PDF", file: "SFUMC_Admin_ChurchCouncilOrientationPacket_2024.pdf", url: "#" }, { label: "Word (editable)", file: "SFUMC_Admin_ChurchCouncilOrientationPacket_2024.docx", url: "#" } ] },
   { area: "Administration and Governance", topic: "Committee Basics", title: "Leadership Orientation Packet", desc: "The orientation packet handed to every committee and council member at the start of the year.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#",
     links: [ { label: "Download (PDF)", file: "SFUMC_Admin_OrientationPacket_2026.pdf", url: "#" } ] },
-  { area: "Administration and Governance", topic: "Committee Basics", title: "Annual Leadership Training Deck", desc: "The all-committee training presentation: church structure, ministry titles, each committee's mandate with Discipline references, key policies, and the meeting calendar. 2025 edition; a few chair names have since rotated.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
+  { area: "Administration and Governance", topic: "Committee Basics", title: "Annual Leadership Training Deck", star: true, desc: "The all-committee training presentation: church structure, ministry titles, each committee's mandate with Discipline references, key policies, and the meeting calendar. 2025 edition; a few chair names have since rotated.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
     links: [ { label: "Download (PDF)", file: "SFUMC_Admin_LeadershipTrainingDeck_2025.pdf", url: "#" } ] },
   { area: "Administration and Governance", topic: "Committee Basics", title: "SPRC Guide", desc: "Committee overview plus four points of emphasis, including confidentiality and handling complaints.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#",
     links: [ { label: "Download (PDF)", file: "SFUMC_Admin_SPRCGuide_2026.pdf", url: "#" } ] },
@@ -359,7 +370,7 @@ const RESOURCES = [
     links: [ { label: "Excel (editable)", file: "SFUMC_Admin_MeetingScheduleTemplate_2026.xlsx", url: "#" }, { label: "PDF", file: "SFUMC_Admin_MeetingScheduleTemplate_2026.pdf", url: "#" } ] },
   { area: "Administration and Governance", topic: "Personnel", title: "Staff Evaluation Forms", desc: "An employee self appraisal form and an employee development plan, ready to adapt.", church: "Spanish Fort UMC", type: "PDF", year: 2024, url: "#",
     links: [ { label: "Self Appraisal", file: "SFUMC_Admin_StaffSelfAppraisalForm_2024.pdf", url: "#" }, { label: "Development Plan", file: "SFUMC_Admin_EmployeeDevelopmentPlan_2024.pdf", url: "#" } ] },
-  { area: "Administration and Governance", topic: "Personnel", title: "Employee Handbook", desc: "A full church staff handbook covering policies, procedures, and benefits, ready to adapt. Hiring and dismissal procedures are inside it.", church: "Spanish Fort UMC", type: "Word", year: 2024, url: "#",
+  { area: "Administration and Governance", topic: "Personnel", title: "Employee Handbook", star: true, desc: "A full church staff handbook covering policies, procedures, and benefits, ready to adapt. Hiring and dismissal procedures are inside it.", church: "Spanish Fort UMC", type: "Word", year: 2024, url: "#",
     links: [ { label: "Download (Word)", file: "SFUMC_Admin_EmployeeHandbook_2024.docx", url: "#" } ] },
   { area: "Administration and Governance", topic: "Personnel", title: "Hiring and Dismissal Policies", desc: "The SPRC's written policy on employment decisions: hiring, compensation approval, evaluations, and dismissal of nonappointed staff.", church: "Spanish Fort UMC", type: "PDF", year: 2024, url: "#",
     links: [ { label: "Download (PDF)", file: "SFUMC_Admin_HiringDismissalPolicies_2024.pdf", url: "#" } ] },
@@ -374,15 +385,15 @@ const RESOURCES = [
     links: [ { label: "Shelby Instructions", file: "SFUMC_Admin_ShelbyInstructions_2025.pdf", url: "#" } ] },
   { area: "Administration and Governance", topic: "Office Systems", title: "Event Planning Calendar Template", desc: "A reusable calendar for planning the church year event by event.", church: "Spanish Fort UMC", type: "Excel", year: 2026, url: "#",
     links: [ { label: "Excel (editable)", file: "SFUMC_Admin_EventPlanningCalendar_2026.xlsx", url: "#" } ] },
-  { area: "Administration and Governance", topic: "Vision and Strategy", title: "Running a Congregational Vision Process", cs: true, desc: "A full working guide to a church vision process: the team, the four legs (listening sessions, survey, reading, prayer), the four questions, how themes become a vision statement, and how recommendations become launched ministries. With reading list.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#",
+  { area: "Administration and Governance", topic: "Vision and Strategy", title: "Running a Congregational Vision Process", star: true, cs: true, desc: "A full working guide to a church vision process: the team, the four legs (listening sessions, survey, reading, prayer), the four questions, how themes become a vision statement, and how recommendations become launched ministries. With reading list.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#",
     links: [ { label: "Download (Word)", file: "SFUMC_Admin_RunningAVisionProcess_2026.docx", url: "#" } ] },
-  { area: "Administration and Governance", topic: "Vision and Strategy", title: "SFUMC 2025 Vision Process (Full Document)", desc: "The actual 25-page vision process document SFUMC used, January to July 2025: the phased plan, the session structure, and the worksheets behind the guide above. A worked example to adapt.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
+  { area: "Administration and Governance", topic: "Vision and Strategy", title: "SFUMC 2025 Vision Process (Full Document)", star: true, desc: "The actual 25-page vision process document SFUMC used, January to July 2025: the phased plan, the session structure, and the worksheets behind the guide above. A worked example to adapt.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
     links: [ { label: "Download (PDF)", file: "SFUMC_Admin_VisionProcessFullDocument_2025.pdf", url: "#" } ] },
   { area: "Administration and Governance", topic: "Vision and Strategy", title: "Forming and Running a Building Committee", cs: true, desc: "A reusable framework for a major facilities decision: composition, a 17-month planning timeline, decision criteria, what is not the committee's job, and the hard lessons about sell-and-build economics.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#",
     links: [ { label: "Download (Word)", file: "SFUMC_Admin_BuildingCommitteeFramework_2026.docx", url: "#" } ] },
 
   // ---- Worship ----
-  { area: "Worship", topic: "Planning", title: "Annual Preaching Schedule Example", desc: "The actual 2026 preaching calendar: every Sunday mapped with series, sermon title, texts, and special days, planned a year ahead.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#", links: [ { label: "2026 Schedule (PDF)", file: "SFUMC_Worship_AnnualPreachingSchedule_2026.pdf", url: "#" } ] },
+  { area: "Worship", topic: "Planning", title: "Annual Preaching Schedule Example", star: true, desc: "The actual 2026 preaching calendar: every Sunday mapped with series, sermon title, texts, and special days, planned a year ahead.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#", links: [ { label: "2026 Schedule (PDF)", file: "SFUMC_Worship_AnnualPreachingSchedule_2026.pdf", url: "#" } ] },
   { area: "Worship", topic: "Planning", title: "Example Worship Orders", desc: "Real orders of worship, ready to adapt. A current Sunday example is coming.", church: "Spanish Fort UMC", type: "PDF", year: 2024, url: "#",
     links: [ { label: "Good Friday", file: "SFUMC_Worship_WorshipOrderGoodFriday_2024.pdf", url: "#" } ] },
   { area: "Worship", topic: "Planning", title: "Who Plans Worship: Committee, Team, and Staff", cs: true, desc: "How one church divides worship work between a committee, a volunteer team, and weekly staff planning.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Worship_PlanningRhythm_2026.docx", url: "#" } ] },
@@ -500,7 +511,7 @@ const RESOURCES = [
     links: [ { label: "Series Brief (PDF)", file: "SFUMC_Worship_SeriesBriefThatsNotInTheBible_2025.pdf", url: "#" } ] },
   { area: "Worship", topic: "Series", title: "Series: Rhythm", desc: "Balance is an illusion. Four weeks on a rhythm of priorities instead: faith, family, work, and rest. July to August 2025.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
     links: [ { label: "Series Brief (PDF)", file: "SFUMC_Worship_SeriesBriefRhythm_2025.pdf", url: "#" } ] },
-  { area: "Worship", topic: "Series", title: "Series: Welcome Home", desc: "The six-week vision launch series, August to September 2025, ending in Commitment Sunday. The strongest worked example of preaching a church into its new vision.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
+  { area: "Worship", topic: "Series", title: "Series: Welcome Home", star: true, desc: "The six-week vision launch series, August to September 2025, ending in Commitment Sunday. The strongest worked example of preaching a church into its new vision.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
     links: [ { label: "Series Brief (PDF)", file: "SFUMC_Worship_SeriesBriefWelcomeHome_2025.pdf", url: "#" } ] },
   { area: "Worship", topic: "Series", title: "Series: The Power of Promises", desc: "Four weeks on covenant and the renewal of the membership vows, September 2025.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
     links: [ { label: "Series Brief (PDF)", file: "SFUMC_Worship_SeriesBriefPowerOfPromises_2025.pdf", url: "#" } ] },
@@ -817,7 +828,7 @@ function cardHTML(r) {
         : `<a class="action" href="${r.url}" target="_blank" rel="noopener">Open resource</a>`;
   }
   return `<div class="card">
-    <h3>${r.title}</h3>
+    <h3>${r.star ? '<span class="star" title="Cornerstone resource">&#9733;</span> ' : ''}${r.title}</h3>
     <div class="meta">${r.church} &middot; ${r.type} &middot; ${r.year}</div>
     <p class="desc">${r.desc}</p>
     ${r.cs ? '<p class="cnote">Claude Summary</p>' : ''}
