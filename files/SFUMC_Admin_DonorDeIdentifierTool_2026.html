@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Multi-Year Donor De-Identifier (runs locally)</title>
+<style>
+  :root{ --teal:#1F7A8C; --tealdk:#155E6B; --ink:#222; --grey:#666; --line:#d9d9d9; --bg:#f7f9fa; --ok:#1c7c4a; }
+  *{ box-sizing:border-box; }
+  body{ font-family:Arial, Helvetica, sans-serif; color:var(--ink); margin:0; background:#fff; line-height:1.45; }
+  .wrap{ max-width:1080px; margin:0 auto; padding:24px 20px 90px; }
+  h1{ color:var(--tealdk); font-size:24px; margin:0 0 4px; }
+  .sub{ color:var(--grey); margin:0 0 18px; }
+  .banner{ background:#eaf5f8; border:1px solid #bfe0e8; border-left:5px solid var(--teal); border-radius:6px; padding:12px 14px; margin:0 0 20px; font-size:14px; }
+  .banner b{ color:var(--tealdk); }
+  h2{ color:var(--tealdk); font-size:17px; border-bottom:2px solid var(--teal); padding-bottom:6px; margin:26px 0 12px; }
+  .keycard{ border:1px dashed var(--teal); border-radius:8px; padding:14px; background:#f3fafb; margin-bottom:8px; }
+  .keycard h3{ margin:0 0 4px; font-size:14px; color:var(--tealdk); }
+  .files{ display:grid; grid-template-columns:1fr; gap:14px; }
+  @media(min-width:780px){ .files{ grid-template-columns:1fr 1fr; } }
+  @media(min-width:1080px){ .files{ grid-template-columns:1fr 1fr 1fr; } }
+  .card{ border:1px solid var(--line); border-radius:8px; padding:14px; background:var(--bg); position:relative; }
+  .card.attr{ background:#f6f3fa; border-color:#d8cae8; }
+  .card h3{ margin:0 0 8px; font-size:14px; color:var(--tealdk); }
+  .lbl-in{ width:100%; padding:6px; font-size:13px; border:1px solid var(--line); border-radius:4px; margin-bottom:8px; font-weight:bold; color:var(--tealdk); }
+  input[type=file]{ font-size:12px; width:100%; }
+  .map{ margin-top:10px; display:none; }
+  .map label{ display:block; font-size:12px; color:var(--grey); margin:8px 0 2px; }
+  select{ width:100%; padding:5px; font-size:13px; border:1px solid var(--line); border-radius:4px; background:#fff; }
+  .status{ font-size:12px; margin-top:8px; color:var(--ok); }
+  .rm{ position:absolute; top:8px; right:8px; background:#fff; border:1px solid var(--line); border-radius:4px; font-size:12px; padding:2px 7px; cursor:pointer; color:#a33; }
+  .carry{ margin-top:8px; max-height:150px; overflow:auto; border:1px solid var(--line); border-radius:4px; padding:6px; background:#fff; display:none; }
+  .carry label{ display:block; font-size:12px; margin:2px 0; color:var(--ink); }
+  button{ font-family:inherit; font-size:14px; border:none; border-radius:6px; padding:10px 16px; cursor:pointer; }
+  .primary{ background:var(--teal); color:#fff; }
+  .primary:disabled{ background:#b9c9cd; cursor:not-allowed; }
+  .ghost{ background:#fff; border:1px solid var(--teal); color:var(--tealdk); }
+  .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:16px 0; }
+  table{ border-collapse:collapse; width:100%; font-size:12px; margin-top:10px; }
+  th,td{ border:1px solid var(--line); padding:5px 7px; text-align:left; white-space:nowrap; }
+  th{ background:#e4eff2; color:var(--tealdk); position:sticky; top:0; }
+  td.num{ text-align:right; font-variant-numeric:tabular-nums; }
+  .tablebox{ max-height:460px; overflow:auto; border:1px solid var(--line); border-radius:6px; }
+  .pill{ display:inline-block; font-size:11px; padding:1px 7px; border-radius:10px; background:#dfeaed; color:var(--tealdk); }
+  .fixed{ background:#d6efd9; color:#1c7c4a; }
+  .stats{ display:flex; gap:14px; flex-wrap:wrap; margin:10px 0; }
+  .stat{ background:var(--bg); border:1px solid var(--line); border-radius:8px; padding:10px 14px; min-width:120px; }
+  .stat .n{ font-size:22px; font-weight:bold; color:var(--tealdk); }
+  .stat .l{ font-size:12px; color:var(--grey); }
+  .hint{ font-size:12px; color:var(--grey); margin:6px 0; }
+  .hidden{ display:none; }
+  input[type=search]{ padding:6px 8px; border:1px solid var(--line); border-radius:4px; font-size:13px; width:240px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Multi-Year Donor De-Identifier</h1>
+  <p class="sub">Aligns every year of giving, plus membership info, to one stable code per household. Names never leave this page.</p>
+
+  <div class="banner">
+    <b>Runs entirely on your computer.</b> No upload, no server, no internet call. You can turn off wi-fi and it still works. The only file you ever share is the coded dataset. Keep the key file private.
+  </div>
+
+  <div class="keycard">
+    <h3>Optional: reuse your existing key (recommended)</h3>
+    <p class="hint">Load the <b>PRIVATE_name_key_keep_local.csv</b> you saved before. This keeps every household's code the same across years and re-applies the merges you already made.</p>
+    <input type="file" id="keyFile" accept=".csv,text/csv">
+    <div class="status" id="keyStatus"></div>
+  </div>
+
+  <h2>Giving files (one per year/period)</h2>
+  <p class="hint">Save each export as <b>.csv</b>. Edit the label on each card so it becomes the column name in the output. Map Name and Amount (and an envelope/ID column if you have one). These amounts are summed per household.</p>
+  <div class="files" id="files"></div>
+  <div class="row"><button class="ghost" id="addSlot">+ Add another giving file</button></div>
+
+  <h2>Member info / attributes (optional)</h2>
+  <p class="hint">Load your Shelby export here. Map the Name and ID column, then check the columns to carry through, such as membership status and last-activity date. These are attached to each code as-is, not summed. People in this file who never gave will still appear, with zeros in the giving columns.</p>
+  <div class="files" id="attrFiles"></div>
+  <div class="row"><button class="ghost" id="addAttr">+ Add an attribute file</button></div>
+
+  <div class="row">
+    <button class="primary" id="buildBtn" disabled>Match &amp; generate codes</button>
+    <span class="hint" id="buildHint">Load at least one giving file with Name and Amount columns set.</span>
+  </div>
+
+  <div id="results" class="hidden">
+    <h2>Review the matches</h2>
+    <div class="stats" id="stats"></div>
+    <div id="diag" class="hint" style="background:#fff7e9;border:1px solid #f0d9a8;border-radius:6px;padding:10px 12px;"></div>
+    <p class="hint">Green codes came from your existing key (locked). To combine two rows that are the same family under different name spellings, check both boxes and click Merge.</p>
+    <div class="row">
+      <input type="search" id="search" placeholder="Search a name...">
+      <button class="ghost" id="mergeBtn">Merge selected</button>
+      <span class="hint" id="selInfo"></span>
+    </div>
+    <div class="tablebox"><table id="roster"><thead></thead><tbody></tbody></table></div>
+
+    <h2>Download</h2>
+    <div class="row">
+      <button class="primary" id="dlCoded">Download combined coded dataset</button>
+      <button class="ghost" id="dlKey">Download updated private key (keep local)</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+
+const DEFAULT_LABELS = ["2026 YTD","2025 Full Year","2025 YTD","2024 Full Year","2024 YTD","2023 Full Year","2023 YTD"];
+let slotSeq=0;
+const slots={};      // giving slots: sid -> {label,headers,rows,nameCol,idCol,amtCol}
+const attrSlots={};  // attribute slots: sid -> {headers,rows,nameCol,idCol,carry:[idx...]}
+
+function parseCSV(text){ const rows=[]; let row=[],field="",i=0,q=false; text=text.replace(/^﻿/,"");
+  while(i<text.length){ const c=text[i];
+    if(q){ if(c==='"'){ if(text[i+1]==='"'){field+='"';i+=2;continue;} q=false;i++;continue;} field+=c;i++;continue; }
+    if(c==='"'){q=true;i++;continue;} if(c===','){row.push(field);field="";i++;continue;}
+    if(c==='\r'){i++;continue;} if(c==='\n'){row.push(field);rows.push(row);row=[];field="";i++;continue;} field+=c;i++; }
+  if(field.length>0||row.length>0){row.push(field);rows.push(row);}
+  return rows.filter(r=>r.length&&!(r.length===1&&r[0].trim()===""));}
+function normalizeName(s){ if(!s) return ""; let t=String(s).trim();
+  if(t.indexOf(",")>-1){const p=t.split(",");t=(p.slice(1).join(" ")+" "+p[0]);}
+  t=t.toLowerCase().replace(/\./g," ").replace(/\b(mr|mrs|ms|miss|dr|rev|pastor|the)\b/g," ").replace(/&/g," ").replace(/\band\b/g," ").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+  return t;}
+function parseAmount(s){ if(s==null) return 0; const n=parseFloat(String(s).replace(/[^0-9.\-]/g,"")); return isNaN(n)?0:n; }
+function money(n){ return n.toLocaleString("en-US",{maximumFractionDigits:2}); }
+function safeHeader(label){ let h=String(label).trim().replace(/[^A-Za-z0-9]+/g,"_").replace(/^_|_$/g,""); return h||"col"; }
+const k_name=n=>"nm:"+normalizeName(n);
+// Canonicalize member numbers so formatting differences across files still match:
+// strips a trailing ".0" (Excel), leading zeros, and surrounding spaces. "04320", "4320", "4320.0" all match.
+function k_id(i){var v=String(i).trim().replace(/\.0+$/,"");if(/^\d+$/.test(v)){v=v.replace(/^0+/,"")||"0";return "id:#"+v;}return "id:"+v.toLowerCase();}
+
+/* ---------- existing key ---------- */
+let keyAnchors=[]; let keyMaxNum=0, keyCodeWidth=3;
+document.getElementById("keyFile").addEventListener("change", e=>{
+  const f=e.target.files[0]; if(!f) return; const reader=new FileReader();
+  reader.onload=ev=>{ const rows=parseCSV(ev.target.result); if(rows.length<2){document.getElementById("keyStatus").textContent="Could not read the key file.";return;}
+    const head=rows[0].map(h=>h.trim().toLowerCase());
+    const ci=head.indexOf("code"), ni=head.indexOf("names"), ii=head.findIndex(h=>h.includes("envelope")||h==="id");
+    keyAnchors=[]; keyMaxNum=0; keyCodeWidth=3;
+    rows.slice(1).forEach(r=>{ const code=(r[ci]||"").trim(); if(!code) return;
+      const names=new Set((ni>-1?(r[ni]||""):"").split("|").map(s=>s.trim()).filter(Boolean));
+      const ids=new Set((ii>-1?(r[ii]||""):"").split("|").map(s=>s.trim()).filter(Boolean));
+      keyAnchors.push({code,names,ids});
+      const m=code.match(/(\d+)\s*$/); if(m){ keyMaxNum=Math.max(keyMaxNum,parseInt(m[1])); keyCodeWidth=Math.max(keyCodeWidth,m[1].length);} });
+    document.getElementById("keyStatus").textContent=keyAnchors.length+" households loaded from key. Their codes are locked.";
+  }; reader.readAsText(f);
+});
+
+/* ---------- giving slot cards ---------- */
+const filesEl=document.getElementById("files");
+function addSlot(label){
+  const sid="g"+(slotSeq++);
+  slots[sid]={label:label||"File", headers:null, rows:null, nameCol:-1, idCol:-1, amtCol:-1, carry:[]};
+  const card=document.createElement("div"); card.className="card"; card.id="card-"+sid;
+  card.innerHTML='<button class="rm" data-rm="'+sid+'">remove</button>'+
+    '<h3>Column name in output</h3><input class="lbl-in" data-lbl="'+sid+'" value="'+(label||"")+'">'+
+    '<input type="file" accept=".csv,text/csv" data-file="'+sid+'">'+
+    '<div class="map" id="map-'+sid+'">'+
+      '<label>Name column</label><select data-role="name" data-sid="'+sid+'"></select>'+
+      '<label>ID / envelope column (optional)</label><select data-role="id" data-sid="'+sid+'"></select>'+
+      '<label>Amount column</label><select data-role="amt" data-sid="'+sid+'"></select>'+
+      '<label>Also carry profile columns from this file (status, age, last activity)</label><div class="carry" id="carry-'+sid+'"></div>'+
+      '<div class="status" id="status-'+sid+'"></div></div>';
+  filesEl.appendChild(card);
+}
+DEFAULT_LABELS.forEach(addSlot);
+document.getElementById("addSlot").addEventListener("click",()=>addSlot(""));
+
+/* ---------- attribute slot cards ---------- */
+const attrEl=document.getElementById("attrFiles");
+function addAttr(){
+  const sid="a"+(slotSeq++);
+  attrSlots[sid]={headers:null, rows:null, nameCol:-1, idCol:-1, carry:[]};
+  const card=document.createElement("div"); card.className="card attr"; card.id="card-"+sid;
+  card.innerHTML='<button class="rm" data-rm="'+sid+'">remove</button>'+
+    '<h3>Member / attribute file (Shelby)</h3>'+
+    '<input type="file" accept=".csv,text/csv" data-afile="'+sid+'">'+
+    '<div class="map" id="map-'+sid+'">'+
+      '<label>Name column</label><select data-arole="name" data-sid="'+sid+'"></select>'+
+      '<label>ID / envelope column (optional)</label><select data-arole="id" data-sid="'+sid+'"></select>'+
+      '<label>Columns to carry through</label><div class="carry" id="carry-'+sid+'"></div>'+
+      '<div class="status" id="status-'+sid+'"></div></div>';
+  attrEl.appendChild(card);
+}
+document.getElementById("addAttr").addEventListener("click",addAttr);
+
+function guess(headers,words){ for(const w of words){ const h=headers.findIndex(x=>x.toLowerCase().includes(w)); if(h>-1) return h; } return -1; }
+
+document.body.addEventListener("input", e=>{ const t=e.target; if(t.dataset.lbl){ slots[t.dataset.lbl].label=t.value; } });
+
+document.body.addEventListener("click", e=>{
+  const rm=e.target.dataset.rm;
+  if(rm){ if(slots[rm]) delete slots[rm]; if(attrSlots[rm]) delete attrSlots[rm]; const el=document.getElementById("card-"+rm); if(el) el.remove(); refreshBuild(); }
+});
+
+document.body.addEventListener("change", e=>{
+  const t=e.target;
+  // giving file
+  if(t.type==="file" && t.dataset.file){
+    const sid=t.dataset.file, f=t.files[0]; if(!f) return; const reader=new FileReader();
+    reader.onload=ev=>{ const rows=parseCSV(ev.target.result); if(rows.length<2){document.getElementById("status-"+sid).textContent="Could not read rows.";return;}
+      const headers=rows[0].map(h=>h.trim()); slots[sid].headers=headers; slots[sid].rows=rows.slice(1);
+      ["name","id","amt"].forEach(role=>{ const sel=document.querySelector('select[data-role="'+role+'"][data-sid="'+sid+'"]');
+        sel.innerHTML=(role==="id"?'<option value="-1">(none)</option>':'')+headers.map((h,i)=>'<option value="'+i+'">'+h.replace(/</g,"&lt;")+'</option>').join(""); });
+      const ns=document.querySelector('select[data-role="name"][data-sid="'+sid+'"]'), is=document.querySelector('select[data-role="id"][data-sid="'+sid+'"]'), as=document.querySelector('select[data-role="amt"][data-sid="'+sid+'"]');
+      const ng=guess(headers,["name","family","household","donor","giver"]), ig=guess(headers,["envelope","giving number","id","unit","account","number"]), ag=guess(headers,["amount","total","gift","contribution","given","ytd","sum"]);
+      if(ng>-1) ns.value=ng; if(ig>-1) is.value=ig; if(ag>-1) as.value=ag;
+      slots[sid].nameCol=parseInt(ns.value); slots[sid].idCol=parseInt(is.value); slots[sid].amtCol=parseInt(as.value);
+      const used=[slots[sid].nameCol,slots[sid].idCol,slots[sid].amtCol];
+      const carry=document.getElementById("carry-"+sid);
+      carry.innerHTML=headers.map((h,i)=>{ const def=/status|activ|attend|contribut|record|origin|join|member.?type|age|birth|last.?activ|date/i.test(h) && !/name/i.test(h) && !used.includes(i); return '<label><input type="checkbox" data-carry="'+sid+'" value="'+i+'" '+(def?"checked":"")+'> '+h.replace(/</g,"&lt;")+'</label>'; }).join("");
+      carry.style.display="block";
+      slots[sid].carry=Array.from(carry.querySelectorAll('input:checked')).map(c=>parseInt(c.value));
+      document.getElementById("map-"+sid).style.display="block"; document.getElementById("status-"+sid).textContent=slots[sid].rows.length+" rows loaded."; refreshBuild();
+    }; reader.readAsText(f); return;
+  }
+  if(t.tagName==="SELECT" && t.dataset.sid && t.dataset.role){ const sid=t.dataset.sid, role=t.dataset.role;
+    if(role==="name") slots[sid].nameCol=parseInt(t.value); if(role==="id") slots[sid].idCol=parseInt(t.value); if(role==="amt") slots[sid].amtCol=parseInt(t.value); refreshBuild(); return; }
+  // attribute file
+  if(t.type==="file" && t.dataset.afile){
+    const sid=t.dataset.afile, f=t.files[0]; if(!f) return; const reader=new FileReader();
+    reader.onload=ev=>{ const rows=parseCSV(ev.target.result); if(rows.length<2){document.getElementById("status-"+sid).textContent="Could not read rows.";return;}
+      const headers=rows[0].map(h=>h.trim()); attrSlots[sid].headers=headers; attrSlots[sid].rows=rows.slice(1);
+      ["name","id"].forEach(role=>{ const sel=document.querySelector('select[data-arole="'+role+'"][data-sid="'+sid+'"]');
+        sel.innerHTML=(role==="id"?'<option value="-1">(none)</option>':'')+headers.map((h,i)=>'<option value="'+i+'">'+h.replace(/</g,"&lt;")+'</option>').join(""); });
+      const ns=document.querySelector('select[data-arole="name"][data-sid="'+sid+'"]'), is=document.querySelector('select[data-arole="id"][data-sid="'+sid+'"]');
+      const ng=guess(headers,["name","family","household","member"]), ig=guess(headers,["envelope","member id","id","number","account"]);
+      if(ng>-1) ns.value=ng; if(ig>-1) is.value=ig;
+      attrSlots[sid].nameCol=parseInt(ns.value); attrSlots[sid].idCol=parseInt(is.value);
+      // carry checkboxes
+      const carry=document.getElementById("carry-"+sid);
+      carry.innerHTML=headers.map((h,i)=>{ const def=/status|activ|attend|contribut|record|origin|join|member.?type|last.?activ|date/i.test(h) && !/name/i.test(h); return '<label><input type="checkbox" data-carry="'+sid+'" value="'+i+'" '+(def?"checked":"")+'> '+h.replace(/</g,"&lt;")+'</label>'; }).join("");
+      carry.style.display="block";
+      attrSlots[sid].carry=Array.from(carry.querySelectorAll('input:checked')).map(c=>parseInt(c.value));
+      document.getElementById("map-"+sid).style.display="block"; document.getElementById("status-"+sid).textContent=attrSlots[sid].rows.length+" rows loaded."; refreshBuild();
+    }; reader.readAsText(f); return;
+  }
+  if(t.tagName==="SELECT" && t.dataset.sid && t.dataset.arole){ const sid=t.dataset.sid, role=t.dataset.arole;
+    if(role==="name") attrSlots[sid].nameCol=parseInt(t.value); if(role==="id") attrSlots[sid].idCol=parseInt(t.value); refreshBuild(); return; }
+  if(t.dataset.carry){ const sid=t.dataset.carry; const carry=document.getElementById("carry-"+sid); const sel=Array.from(carry.querySelectorAll('input:checked')).map(c=>parseInt(c.value)); if(attrSlots[sid]) attrSlots[sid].carry=sel; else if(slots[sid]) slots[sid].carry=sel; }
+});
+
+function activeSlots(){ return Object.keys(slots).filter(sid=>slots[sid].rows&&slots[sid].nameCol>-1&&slots[sid].amtCol>-1).map(sid=>({sid,...slots[sid]})); }
+function activeAttr(){ return Object.keys(attrSlots).filter(sid=>attrSlots[sid].rows&&attrSlots[sid].nameCol>-1&&attrSlots[sid].carry.length).map(sid=>({sid,...attrSlots[sid]})); }
+function refreshBuild(){ const ok=activeSlots().length>0; document.getElementById("buildBtn").disabled=!ok; document.getElementById("buildHint").textContent=ok?"Ready.":"Load at least one giving file with Name and Amount columns set."; }
+
+/* ---------- matching ---------- */
+let entities=[]; let keyMap={}; let diag={};
+document.getElementById("buildBtn").addEventListener("click", build);
+function build(){
+  entities=[]; keyMap={};
+  diag={givingRows:0, givingWithId:0, attrRows:0, attrWithId:0};
+  keyAnchors.forEach(a=>{ const ent={code:a.code,fixed:true,names:new Set(a.names),ids:new Set(a.ids),amounts:{},attrs:{}}; entities.push(ent);
+    a.names.forEach(n=>{ if(n) keyMap[k_name(n)]=ent; }); a.ids.forEach(i=>{ if(i) keyMap[k_id(i)]=ent; }); });
+  const attrCols=[];
+  // same-named carried columns merge into one output column; first non-empty value wins (most recent file is first)
+  function carryNames(slot){ return (slot.carry||[]).map(idx=>{ const h=safeHeader(slot.headers[idx]); if(!attrCols.includes(h)) attrCols.push(h); return {idx,out:h}; }); }
+  const cols=activeSlots();
+  cols.forEach(c=>{ c.header=safeHeader(c.label); c.outNames=carryNames(c);
+    c.rows.forEach(r=>{ const nm=(r[c.nameCol]||"").trim(); const idv=c.idCol>-1?(r[c.idCol]||"").trim():""; const amt=parseAmount(r[c.amtCol]);
+      if(!nm&&!idv) return;
+      diag.givingRows++; if(idv) diag.givingWithId++;
+      let ent=(idv&&keyMap[k_id(idv)])||(nm&&keyMap[k_name(nm)]);
+      if(!ent){ ent={code:null,fixed:false,names:new Set(),ids:new Set(),amounts:{},attrs:{}}; entities.push(ent); }
+      if(nm){ ent.names.add(nm); keyMap[k_name(nm)]=ent; } if(idv){ ent.ids.add(idv); keyMap[k_id(idv)]=ent; }
+      ent.amounts[c.sid]=(ent.amounts[c.sid]||0)+amt;
+      c.outNames.forEach(o=>{ const v=(r[o.idx]||"").trim(); if(v && ent.attrs[o.out]===undefined) ent.attrs[o.out]=v; }); });
+  });
+  // optional separate attribute files (e.g., a full membership roster) — fill gaps only
+  activeAttr().forEach(a=>{ a.outNames=carryNames(a);
+    a.rows.forEach(r=>{ const nm=(r[a.nameCol]||"").trim(); const idv=a.idCol>-1?(r[a.idCol]||"").trim():""; if(!nm&&!idv) return;
+      diag.attrRows++; if(idv) diag.attrWithId++;
+      let ent=(idv&&keyMap[k_id(idv)])||(nm&&keyMap[k_name(nm)]);
+      if(!ent){ ent={code:null,fixed:false,names:new Set(),ids:new Set(),amounts:{},attrs:{}}; entities.push(ent); }
+      if(nm){ ent.names.add(nm); keyMap[k_name(nm)]=ent; } if(idv){ ent.ids.add(idv); keyMap[k_id(idv)]=ent; }
+      a.outNames.forEach(o=>{ const v=(r[o.idx]||"").trim(); if(v && ent.attrs[o.out]===undefined) ent.attrs[o.out]=v; }); });
+  });
+  assignCodes();
+  renderResults(cols, attrCols);
+}
+function primaryName(e){ return Array.from(e.names)[0]||Array.from(e.ids)[0]||""; }
+function assignCodes(){
+  if(!keyAnchors.length){ entities.sort((a,b)=>primaryName(a).localeCompare(primaryName(b))); const w=Math.max(3,String(entities.length).length); entities.forEach((e,i)=>e.code="Person_"+String(i+1).padStart(w,"0")); return; }
+  const newOnes=entities.filter(e=>!e.fixed); newOnes.sort((a,b)=>primaryName(a).localeCompare(primaryName(b)));
+  let num=keyMaxNum; newOnes.forEach(e=>{ num++; e.code="Person_"+String(num).padStart(keyCodeWidth,"0"); });
+}
+
+/* ---------- render ---------- */
+const selected=new Set(); let lastCols=[], lastAttr=[];
+function renderResults(cols, attrCols){
+  lastCols=cols; lastAttr=attrCols;
+  document.getElementById("results").classList.remove("hidden");
+  const statsEl=document.getElementById("stats");
+  statsEl.innerHTML=statBox(entities.length,"unique households")+statBox(entities.filter(e=>e.fixed).length,"from existing key")+
+    cols.map(c=>statBox(entities.filter(e=>e.amounts[c.sid]!==undefined).length,"in "+c.label)).join("")+
+    attrCols.map(a=>statBox(entities.filter(e=>e.attrs[a]!==undefined).length,"with "+a)).join("");
+  // diagnostics: how much of the giving base carries profile data?
+  const gave=entities.filter(e=>Object.keys(e.amounts).length>0);
+  const matched=gave.filter(e=>Object.keys(e.attrs).length>0).length;
+  const pct=gave.length? Math.round(matched/gave.length*100):0;
+  const usedAttrFile=diag.attrRows>0;
+  let verdict, color;
+  if(attrCols.length===0){ verdict="No profile columns selected, so there's nothing to attach. Check status, age, or last-activity on the files that carry them."; color="#666"; }
+  else if(pct>=90){ verdict="Healthy: "+pct+"% of givers carry profile data. Safe to analyze."; color="#1c7c4a"; }
+  else if(pct>=55){ verdict="Mostly there: "+pct+"% of givers carry profile data. The rest are usually givers from earlier years who aren't in your current profile data, which often means they left. Workable. If you expected closer to 100%, check the member-number formatting (a .0 from Excel, or leading zeros)."; color="#9a5b00"; }
+  else { verdict="Low coverage ("+pct+"%). If you carried profile columns from the giving files, confirm those columns are actually filled in. If you used a separate roster, the member numbers likely differ in format between files."; color="#a33"; }
+  document.getElementById("diag").innerHTML="<b>Profile coverage check:</b> giving rows with an ID "+diag.givingWithId+" of "+diag.givingRows+
+    (usedAttrFile?(" &middot; roster rows with an ID "+diag.attrWithId+" of "+diag.attrRows):"")+
+    " &middot; givers carrying profile data "+matched+" of "+gave.length+" ("+pct+"%).<br><span style='color:"+color+";font-weight:bold'>"+verdict+"</span>";
+  document.querySelector("#roster thead").innerHTML="<tr><th></th><th>Code</th><th>Name(s) &mdash; local only</th>"+
+    cols.map(c=>"<th>"+c.label+"</th>").join("")+attrCols.map(a=>"<th>"+a+"</th>").join("")+"</tr>";
+  drawBody(""); selected.clear(); document.getElementById("selInfo").textContent="";
+}
+function statBox(n,l){ return '<div class="stat"><div class="n">'+n+'</div><div class="l">'+l+'</div></div>'; }
+function drawBody(filter){ const f=filter.toLowerCase(); const tb=document.querySelector("#roster tbody");
+  tb.innerHTML=entities.filter(e=>{ if(!f) return true; return Array.from(e.names).join(" ").toLowerCase().includes(f)||e.code.toLowerCase().includes(f); })
+   .map(e=>{ const gi=entities.indexOf(e); const names=Array.from(e.names).join(" | ")||"(ID "+Array.from(e.ids).join(", ")+")";
+     const cells=lastCols.map(c=>{ const v=e.amounts[c.sid]; return '<td class="num">'+(v===undefined?'<span style="color:#bbb">&mdash;</span>':money(v))+'</td>'; }).join("");
+     const acells=lastAttr.map(a=>'<td>'+(e.attrs[a]!==undefined?String(e.attrs[a]).replace(/</g,"&lt;"):'<span style="color:#bbb">&mdash;</span>')+'</td>').join("");
+     return '<tr><td><input type="checkbox" data-i="'+gi+'" '+(selected.has(gi)?"checked":"")+'></td><td><span class="pill '+(e.fixed?"fixed":"")+'">'+e.code+'</span></td><td>'+names.replace(/</g,"&lt;")+'</td>'+cells+acells+'</tr>'; }).join("");
+}
+document.getElementById("search").addEventListener("input", e=>drawBody(e.target.value));
+document.querySelector("#roster").addEventListener("change", e=>{ if(e.target.type==="checkbox"){ const i=parseInt(e.target.dataset.i); if(e.target.checked) selected.add(i); else selected.delete(i); document.getElementById("selInfo").textContent=selected.size?selected.size+" selected":""; } });
+document.getElementById("mergeBtn").addEventListener("click", ()=>{ if(selected.size<2){ alert("Select two or more rows to merge."); return; }
+  const idxs=Array.from(selected).sort((a,b)=>a-b); let keepIdx=idxs.find(i=>entities[i].fixed); if(keepIdx===undefined) keepIdx=idxs[0]; const keep=entities[keepIdx];
+  idxs.forEach(i=>{ if(i===keepIdx) return; const e=entities[i]; e.names.forEach(n=>keep.names.add(n)); e.ids.forEach(n=>keep.ids.add(n));
+    lastCols.forEach(c=>{ if(e.amounts[c.sid]!==undefined) keep.amounts[c.sid]=(keep.amounts[c.sid]||0)+e.amounts[c.sid]; });
+    lastAttr.forEach(a=>{ if(keep.attrs[a]===undefined && e.attrs[a]!==undefined) keep.attrs[a]=e.attrs[a]; }); });
+  const drop=new Set(idxs.filter(i=>i!==keepIdx)); entities=entities.filter((_,i)=>!drop.has(i)); assignCodes(); selected.clear(); renderResults(lastCols, lastAttr);
+});
+
+/* ---------- downloads ---------- */
+function download(filename,text){ const b=new Blob([text],{type:"text/csv;charset=utf-8;"}); const u=URL.createObjectURL(b); const a=document.createElement("a"); a.href=u; a.download=filename; a.click(); setTimeout(()=>URL.revokeObjectURL(u),1500); }
+function csvCell(v){ const s=String(v); return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s; }
+document.getElementById("dlCoded").addEventListener("click", ()=>{
+  const cols=lastCols; const seen={}; cols.forEach(c=>{ let h=safeHeader(c.label); if(seen[h]!==undefined){seen[h]++;h=h+"_"+seen[h];} else seen[h]=0; c.outHead=h; });
+  const head=["Code"].concat(cols.map(c=>c.outHead)).concat(lastAttr);
+  const lines=[head.join(",")]; const sorted=[...entities].sort((a,b)=>a.code.localeCompare(b.code,undefined,{numeric:true}));
+  sorted.forEach(e=>{ const row=[e.code].concat(cols.map(c=>e.amounts[c.sid]===undefined?"0":String(e.amounts[c.sid]))).concat(lastAttr.map(a=>e.attrs[a]!==undefined?e.attrs[a]:"")); lines.push(row.map(csvCell).join(",")); });
+  download("coded_giving_multiyear.csv", lines.join("\n"));
+});
+document.getElementById("dlKey").addEventListener("click", ()=>{
+  const cols=lastCols; const head=["Code","Names","EnvelopeOrID"].concat(cols.map(c=>"In_"+safeHeader(c.label))).concat(lastAttr);
+  const lines=[head.join(",")]; const sorted=[...entities].sort((a,b)=>a.code.localeCompare(b.code,undefined,{numeric:true}));
+  sorted.forEach(e=>{ const row=[e.code, Array.from(e.names).join(" | "), Array.from(e.ids).join(" | ")].concat(cols.map(c=>e.amounts[c.sid]!==undefined?"yes":"no")).concat(lastAttr.map(a=>e.attrs[a]!==undefined?e.attrs[a]:"")); lines.push(row.map(csvCell).join(",")); });
+  download("PRIVATE_name_key_keep_local.csv", lines.join("\n"));
+});
+</script>
+</body>
+</html>

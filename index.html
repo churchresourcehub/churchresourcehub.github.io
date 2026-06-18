@@ -593,6 +593,7 @@ const RESOURCES = [
   { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Business Partnership Program", desc: "A sponsorship program that brings local businesses alongside the church, with clear guardrails. Includes the recruitment flyer given to prospective partners.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Admin_BusinessPartnershipProgram_2026.docx", url: "#" }, { label: "Recruitment Flyer (PDF)", file: "SFUMC_Admin_BusinessPartnershipFlyer_2026.pdf", url: "#" } ] },
   { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Internal Controls", cs: true, desc: "Financial internal controls and separation of duties for a church.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Admin_InternalControls_2026.docx", url: "#" } ] },
   { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Counting and Depositing Procedures", cs: true, desc: "Written procedures for counting, depositing, and disbursing church funds.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Admin_CountingDepositing_2026.docx", url: "#" } ] },
+  { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Giving Analysis with Donor De-Identification", desc: "A method for studying giving year over year without exposing donors: a browser tool that codes each household anonymously, a how-to guide, and a finished example analysis. No individual giver is identified.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "De-Identifier Tool (HTML)", file: "SFUMC_Admin_DonorDeIdentifierTool_2026.html", url: "#" }, { label: "How-To Guide (Word)", file: "SFUMC_Admin_GivingDeIdentifierGuide_2026.docx", url: "#" }, { label: "Example Analysis (Word)", file: "SFUMC_Admin_GivingAnalysisExample_2026.docx", url: "#" } ] },
   { area: "Administration and Governance", topic: "Office Systems", title: "Church Database Migration", cs: true, desc: "Moving a church off one management system and onto another, including online giving, with the lessons learned.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Admin_DatabaseMigration_2026.docx", url: "#" } ] },
   { area: "Administration and Governance", topic: "Office Systems", title: "Attendance Tracking System", desc: "The actual weekly-counts spreadsheet the church uses to track worship and Sunday school attendance.", church: "Spanish Fort UMC", type: "Excel", year: 2026, url: "#", links: [ { label: "Weekly Counts Spreadsheet (Excel)", file: "SFUMC_Admin_AttendanceWeeklyCounts_2026.xlsx", url: "#" } ] }
 ];
@@ -657,6 +658,9 @@ function matches(r) {
 // Add a filename here when its file is committed and the card lights up.
 const FILES_BASE = "files/";
 const AVAILABLE = new Set([
+  "SFUMC_Admin_DonorDeIdentifierTool_2026.html",
+  "SFUMC_Admin_GivingDeIdentifierGuide_2026.docx",
+  "SFUMC_Admin_GivingAnalysisExample_2026.docx",
   "SFUMC_Frameworks_ChristianLife_2024.pdf",
   "SFUMC_Admin_MinistryTitles_2025.pdf",
   "SFUMC_Frameworks_WordTableOrderService_2024.docx",
