@@ -356,6 +356,7 @@ const RESOURCES = [
   { area: "Miscellaneous", topic: "Core Frameworks", title: "The Christian Life: The Labyrinth", star: true, desc: "A short reflection on discipleship as walking the Way, with the labyrinth as its image and the five practices that shape a Christian's life. Written by Rev. Michael Precht.", church: "Spanish Fort UMC", type: "PDF", year: 2024, url: "#", links: [ { label: "Download (PDF)", file: "SFUMC_Frameworks_ChristianLife_2024.pdf", url: "#" } ] },
   { area: "Miscellaneous", topic: "Congregational Story", title: "SFUMC 24-26: A Two-Year Church History", star: true, cs: true, desc: "The full two-year account of a congregation's rebuild after disaffiliation losses: the financial reset, the vision process, the rebrand, and the systems behind them. Written as an honest worked example, not a highlight reel.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#",
     links: [ { label: "Download (Word)", file: "SFUMC_Misc_TwoYearHistory_2026.docx", url: "#" } ] },
+  { area: "Miscellaneous", topic: "Tools", title: "Command Center", desc: "A private, password-protected dashboard that turns a single markdown file into a live view of your week, built and maintained through Claude. See the working demo, then use the setup guide to build your own.", church: "Spanish Fort UMC", type: "Link", year: 2026, url: "#", links: [ { label: "View the Live Demo", url: "https://command-center-git-main-woods-lisenby.vercel.app/demo" }, { label: "How-To Guide (Word)", file: "SFUMC_Misc_CommandCenterGuide_2026.docx", url: "#" } ] },
 
   // ---- Administration and Governance ----
   { area: "Administration and Governance", topic: "Committee Basics", title: "Church Council Orientation Packet", desc: "Big picture, membership, responsibilities, and a sample agenda for the council.", church: "Spanish Fort UMC", type: "PDF", year: 2024, url: "#",
@@ -658,6 +659,7 @@ function matches(r) {
 // Add a filename here when its file is committed and the card lights up.
 const FILES_BASE = "files/";
 const AVAILABLE = new Set([
+  "SFUMC_Misc_CommandCenterGuide_2026.docx",
   "SFUMC_Admin_DonorDeIdentifierTool_2026.html",
   "SFUMC_Admin_GivingDeIdentifierGuide_2026.docx",
   "SFUMC_Admin_GivingAnalysisExample_2026.docx",
@@ -828,7 +830,9 @@ function cardHTML(r) {
     // A link lights up as a real download once its file is in AVAILABLE.
     action = r.links.map(l => (l.file && AVAILABLE.has(l.file))
       ? `<a class="action" href="${fileHref(l.file)}" target="_blank" rel="noopener" data-file="${l.file}">${l.label}</a>`
-      : `<a class="action pending" href="#" onclick="return false;" data-file="${l.file || ''}">${l.label} (link coming)</a>`
+      : (l.url && l.url !== "#")
+        ? `<a class="action" href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`
+        : `<a class="action pending" href="#" onclick="return false;" data-file="${l.file || ''}">${l.label} (link coming)</a>`
     ).join("");
   } else {
     action = (r.file && AVAILABLE.has(r.file))
