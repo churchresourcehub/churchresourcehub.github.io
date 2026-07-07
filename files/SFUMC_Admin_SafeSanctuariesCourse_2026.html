@@ -1,0 +1,695 @@
+<title>Safe Sanctuaries Training</title>
+<style>
+  :root{
+    --pine:#1E4D3B; --pine-deep:#143528; --pine-soft:#E9F0EB; --pine-mist:#F3F6F3;
+    --paper:#FBFAF7; --ink:#25302A; --ink-soft:#5A6660; --line:#DDE3DD;
+    --brass:#9A7B2D; --brass-soft:#F5EFDE;
+    --ok:#2E7D4F; --ok-soft:#E6F2EA; --bad:#B4452F; --bad-soft:#F9ECE8;
+    --radius:10px;
+  }
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--paper); color:var(--ink); font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; margin:0;}
+  h1,h2,h3,.serif{font-family:"Iowan Old Style",Georgia,"Times New Roman",serif; letter-spacing:.005em;}
+  h1{font-size:1.9rem; line-height:1.25; text-wrap:balance; margin:0 0 .5rem;}
+  h2{font-size:1.45rem; line-height:1.3; text-wrap:balance; margin:0 0 .35rem;}
+  h3{font-size:1.1rem; margin:1.6rem 0 .5rem; color:var(--pine-deep);}
+  p{margin:.7rem 0;}
+  a{color:var(--pine);}
+  .eyebrow{font-size:.72rem; text-transform:uppercase; letter-spacing:.12em; font-weight:600; color:var(--brass); margin:0 0 .6rem;}
+  .muted{color:var(--ink-soft);}
+  .small{font-size:.85rem;}
+
+  /* ---- shell ---- */
+  .shell{max-width:1060px; margin:0 auto; padding:0 20px 80px;}
+  header.top{display:flex; align-items:center; gap:14px; padding:22px 0 18px; border-bottom:1px solid var(--line); margin-bottom:28px;}
+  .mark{width:44px; height:44px; flex:none; border-radius:50%; background:var(--pine); color:#fff; display:grid; place-items:center;}
+  .mark svg{width:24px; height:24px;}
+  .top .titles{min-width:0;}
+  .top .church{font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; color:var(--ink-soft); margin:0;}
+  .top .course{font-family:Georgia,serif; font-size:1.15rem; margin:0; color:var(--pine-deep);}
+  .top .year{margin-left:auto; font-size:.8rem; color:var(--ink-soft); white-space:nowrap;}
+
+  .layout{display:grid; grid-template-columns:230px minmax(0,1fr); gap:40px; align-items:start;}
+  @media(max-width:820px){ .layout{grid-template-columns:1fr;} nav.steps{position:static; display:flex; overflow-x:auto; gap:6px; padding-bottom:8px; border-bottom:1px solid var(--line);} nav.steps .step{flex:none;} }
+
+  nav.steps{position:sticky; top:20px; display:flex; flex-direction:column; gap:4px;}
+  .step{display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:8px; font-size:.86rem; color:var(--ink-soft); background:none; border:none; text-align:left; font-family:inherit; cursor:default;}
+  .step .dot{width:22px; height:22px; flex:none; border-radius:50%; border:1.5px solid var(--line); display:grid; place-items:center; font-size:.7rem; font-weight:600; color:var(--ink-soft); background:#fff;}
+  .step.done .dot{background:var(--pine); border-color:var(--pine); color:#fff;}
+  .step.current{background:var(--pine-soft); color:var(--pine-deep); font-weight:600;}
+  .step.current .dot{border-color:var(--pine); color:var(--pine);}
+  .step.unlocked{cursor:pointer;}
+  .step.unlocked:hover{background:var(--pine-mist);}
+  .step:focus-visible{outline:2px solid var(--pine); outline-offset:2px;}
+
+  main{max-width:66ch;}
+  .card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:28px;}
+  @media(max-width:600px){ .card{padding:20px;} }
+
+  .callout{border-left:3px solid var(--pine); background:var(--pine-mist); border-radius:0 8px 8px 0; padding:14px 18px; margin:1.1rem 0;}
+  .callout.brass{border-left-color:var(--brass); background:var(--brass-soft);}
+  .callout p{margin:.35rem 0;}
+  .callout .label{font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; font-weight:700; color:var(--pine-deep);}
+  .callout.brass .label{color:var(--brass);}
+
+  ul.policy{padding-left:1.2rem;}
+  ul.policy li{margin:.45rem 0;}
+  table.def{border-collapse:collapse; width:100%; font-size:.92rem; margin:1rem 0;}
+  table.def th{text-align:left; font-size:.72rem; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-soft); padding:8px 10px; border-bottom:2px solid var(--line);}
+  table.def td{padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top;}
+  table.def td:first-child{font-weight:600; color:var(--pine-deep); white-space:nowrap;}
+  .tablewrap{overflow-x:auto;}
+
+  /* ---- forms & buttons ---- */
+  label.f{display:block; font-size:.85rem; font-weight:600; margin:14px 0 5px; color:var(--pine-deep);}
+  input[type=text],input[type=email],select{width:100%; box-sizing:border-box; padding:10px 12px; font:inherit; border:1px solid var(--line); border-radius:8px; background:#fff; color:var(--ink);}
+  input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--pine); outline-offset:2px;}
+  .btn{display:inline-block; font:600 .95rem/1 inherit; font-family:inherit; padding:13px 22px; border-radius:8px; border:1px solid var(--pine); background:var(--pine); color:#fff; cursor:pointer; text-decoration:none;}
+  .btn:hover{background:var(--pine-deep);}
+  .btn.ghost{background:#fff; color:var(--pine);}
+  .btn.ghost:hover{background:var(--pine-mist);}
+  .btn:disabled{opacity:.45; cursor:not-allowed;}
+  .btnrow{display:flex; flex-wrap:wrap; gap:10px; margin-top:22px;}
+
+  /* ---- quiz ---- */
+  .quiz-head{display:flex; align-items:baseline; gap:12px; border-top:1px solid var(--line); margin-top:2rem; padding-top:1.4rem;}
+  .q{margin:1.3rem 0; padding:16px 18px; border:1px solid var(--line); border-radius:var(--radius); background:#fff;}
+  .q p.stem{font-weight:600; margin:0 0 .6rem; color:var(--pine-deep);}
+  .q .opts{display:flex; flex-direction:column; gap:6px;}
+  .q label.opt{display:flex; gap:10px; align-items:flex-start; padding:9px 12px; border:1px solid var(--line); border-radius:8px; cursor:pointer; font-size:.95rem;}
+  .q label.opt:hover{background:var(--pine-mist);}
+  .q input[type=radio]{margin-top:4px; accent-color:var(--pine);}
+  .q.right{border-color:var(--ok); background:var(--ok-soft);}
+  .q.wrong{border-color:var(--bad); background:var(--bad-soft);}
+  .q .expl{font-size:.88rem; margin:.7rem 0 0; padding-top:.6rem; border-top:1px dashed var(--line);}
+  .q.right .expl{color:var(--ok);}
+  .q.wrong .expl{color:var(--bad);}
+  .scorebox{margin-top:1.2rem; padding:16px 20px; border-radius:var(--radius); font-weight:600;}
+  .scorebox.pass{background:var(--ok-soft); color:var(--ok); border:1px solid var(--ok);}
+  .scorebox.fail{background:var(--bad-soft); color:var(--bad); border:1px solid var(--bad);}
+  .warnbox{border:2px solid var(--bad); background:var(--bad-soft); border-radius:var(--radius); padding:16px 20px; margin:1.4rem 0;}
+  .warnbox strong{color:var(--bad);}
+
+  .progressbar{height:5px; background:var(--line); border-radius:3px; overflow:hidden; margin:6px 0 26px;}
+  .progressbar>div{height:100%; background:var(--pine); width:0%; transition:width .4s ease;}
+  @media(prefers-reduced-motion:reduce){ .progressbar>div{transition:none;} }
+
+  .videocard{display:flex; gap:14px; align-items:center; border:1px solid var(--line); border-radius:var(--radius); padding:16px 18px; margin:1.2rem 0; background:#fff; text-decoration:none; color:inherit;}
+  .videocard:hover{border-color:var(--pine);}
+  .videocard .play{width:42px;height:42px;flex:none;border-radius:50%;background:var(--pine);display:grid;place-items:center;}
+  .videocard .play svg{width:16px;height:16px;fill:#fff;margin-left:2px;}
+
+  /* ---- certificate ---- */
+  .cert{border:3px double var(--brass); border-radius:6px; padding:38px 34px; text-align:center; background:#fff; margin:1.4rem 0;}
+  .cert .church{font-size:.78rem; text-transform:uppercase; letter-spacing:.18em; color:var(--brass); font-weight:700;}
+  .cert h2{font-size:1.7rem; margin:.5rem 0 .2rem;}
+  .cert .name{font-family:Georgia,serif; font-size:1.6rem; color:var(--pine-deep); margin:1rem 0 .2rem; border-bottom:1px solid var(--line); display:inline-block; padding:0 24px 6px;}
+  .cert .meta{font-size:.9rem; color:var(--ink-soft); margin-top:1rem;}
+  @media print{
+    body *{visibility:hidden;}
+    #certprint, #certprint *{visibility:visible;}
+    #certprint{position:absolute; inset:0; margin:0;}
+    .cert{border-width:4px;}
+  }
+  .hide{display:none !important;}
+  footer.credit{margin-top:70px; padding-top:16px; border-top:1px solid var(--line); text-align:center; font-size:.8rem; color:var(--ink-soft);}
+</style>
+
+<div class="shell">
+  <header class="top">
+    <div class="mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5 4.5 5.5v5c0 5 3.2 8.6 7.5 10.5 4.3-1.9 7.5-5.5 7.5-10.5v-5L12 2.5z"/><path d="M12 7.5v6M9 10.5h6"/></svg>
+    </div>
+    <div class="titles">
+      <p class="church">The United Methodist Church</p>
+      <p class="course">Safe Sanctuaries Annual Training</p>
+    </div>
+    <span class="year">Online Annual Certification</span>
+  </header>
+
+  <div class="layout">
+    <nav class="steps" id="stepnav" aria-label="Course progress"></nav>
+    <main id="main"></main>
+  </div>
+  <footer class="credit">Created and shared by Spanish Fort United Methodist Church · Based on the Alabama-West Florida Conference Safe Sanctuaries model policy</footer>
+</div>
+
+<script>
+/* =========================================================
+   CONFIG — edit these before publishing on the church site
+   ========================================================= */
+const CONFIG = {
+  policyVersion: "Safe Sanctuaries Policy & Minimum Standards",
+  // Where completion records are emailed.
+  // ⚠ Churches adopting this course: change this to your own office email:
+  recordEmail: "finance@spanishfortumc.org",
+  // The church whose office receives records at the address above (shown on the email button):
+  recordChurch: "Spanish Fort UMC",
+  // Optional: once the church builds a ShelbyNext completion form, paste its URL
+  // here and a "Record my completion in Shelby" button will appear automatically:
+  shelbyFormUrl: "",
+  // Conference training video (linked from Module 1):
+  videoUrl: "https://vimeo.com/985077862",
+  passPct: 100,
+  certValidMonths: 12
+};
+
+/* =========================================================
+   COURSE CONTENT — drawn from the AWF Conference model Safe Sanctuaries policy
+   ========================================================= */
+const MODULES = [
+{
+  title:"Why We Do This",
+  minutes:6,
+  html:`
+  <p>The church is called to create a safe environment for every child, youth, and vulnerable adult in our programs. Jesus made the importance of children clear: <em>“Let the little children come to me, and do not stop them; for it is to such as these that the kingdom of heaven belongs”</em> (Matthew 19:13–14).</p>
+  <p>The Safe Sanctuaries Policy and Minimum Standards (SSPMS) exists to prevent injury through accident or abuse. In each local church, the policy is developed and adopted by the <strong>Board of Trustees</strong>, drawing on the Alabama-West Florida Conference's model policy.</p>
+  <h3>The theological basis</h3>
+  <ul class="policy">
+    <li><strong>Children are important.</strong> “Whoever welcomes one such child in my name welcomes me” (Mark 9:37). We are called to offer hospitality and protection — and Jesus reserved his sternest warning for those who put a stumbling block before a little one (Matthew 18:6).</li>
+    <li><strong>The Social Principles</strong> of The United Methodist Church state that children “must be protected from economic, physical and sexual exploitation, and abuse” (¶162C).</li>
+    <li><strong>Our baptismal covenant.</strong> We pledge that each person will be “surrounded by steadfast love, established in the faith, and confirmed and strengthened in the way that leads to life eternal.”</li>
+    <li><strong>The Book of Discipline</strong> (¶2702) names child abuse, sexual abuse, sexual misconduct, and sexual harassment as chargeable offenses for both clergy <em>and</em> lay members.</li>
+  </ul>
+  <h3>What the church commits to</h3>
+  <p>In covenant with the Alabama-West Florida Conference, the local church commits to provide for physical safety and spiritual growth; to prevent physical, emotional, and sexual abuse; to minister to those who have experienced abuse; to comply with our legal responsibilities; to <strong>screen all staff and volunteers</strong> serving children, youth, and vulnerable adults; and to <strong>acknowledge, respond to, and investigate every report</strong> of alleged abuse.</p>
+  <h3>Who is responsible</h3>
+  <ul class="policy">
+    <li>The <strong>Trustees Committee</strong> develops the policy, minimum standards, and procedures.</li>
+    <li>The <strong>Senior Pastor and church staff</strong>, working with the Trustees, oversee day-to-day implementation and respond to any Safe Sanctuaries concern.</li>
+    <li>Any church member may, at any time, request and review a complete copy of the policy from the Pastor in Charge.</li>
+  </ul>
+  <div class="callout brass"><p class="label">Watch — required</p><p>Before taking the Module 1 quiz, watch the Alabama-West Florida Conference's Safe Sanctuaries training video. Some quiz questions draw on its themes:</p>
+  <a class="videocard" href="${'${CONFIG.videoUrl}'}" target="_blank" rel="noopener"><span class="play" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3 1.5v13l11-6.5z"/></svg></span><span><strong>AWF Conference Safe Sanctuaries Video</strong><br><span class="small muted">Opens on Vimeo in a new tab · required viewing</span></span></a></div>
+  `,
+  quiz:[
+    {q:"Who develops and adopts the local church's Safe Sanctuaries Policy and Minimum Standards?",
+     opts:["The Board of Trustees","The Youth Council","The Annual Conference office","The Sunday School superintendent"],a:0,
+     ex:"The Trustees Committee is responsible for developing the local church's Safe Sanctuaries policies, standards, and procedures."},
+    {q:"As the conference video emphasizes, Safe Sanctuaries practices exist to protect…",
+     opts:["All of these: young and vulnerable people, the adults who serve them, and the integrity of the church's ministry","Only the children","Only the church from lawsuits","Only paid staff"],a:0,
+     ex:"Safe Sanctuaries protects children, youth, and vulnerable adults first — and it also protects workers from false accusations and preserves the church's witness."},
+    {q:"The heart of the Safe Sanctuaries approach is…",
+     opts:["Preventing harm before it happens through screening, supervision, and training","Reacting quickly after something goes wrong","Keeping records for insurance purposes","Limiting who can attend church events"],a:0,
+     ex:"The policy exists to prevent the risk of injury through accident or abuse — prevention through screening, supervision, training, and accountable practices."},
+    {q:"According to ¶2702 of The Book of Discipline, chargeable offenses related to abuse apply to…",
+     opts:["Both clergy and lay members","Clergy only","Paid staff only","Volunteers only"],a:0,
+     ex:"Child abuse, sexual abuse, sexual misconduct, and sexual harassment are chargeable offenses for both clergy and lay members."},
+    {q:"Jesus said, \"Whoever welcomes one such child in my name welcomes me.\" For our ministry, this means…",
+     opts:["Welcoming and protecting children is part of welcoming Christ himself","Children's programming is optional for a church","Protection applies only to members' children","Hospitality is meant for adults"],a:0,
+     ex:"The theological basis of the policy begins here: children are important, and caring for them is caring for Christ (Mark 9:37)."},
+    {q:"A church member asks to read the full policy. What does the policy say?",
+     opts:["Any member may request and review a complete copy at any time","Only committee members may see it","It is confidential to staff","They must wait for the annual congregational meeting"],a:0,
+     ex:"Any church member may at any time request to review or obtain a personal written copy of the complete policy."}
+  ]
+},
+{
+  title:"Definitions That Matter",
+  minutes:7,
+  html:`
+  <p>The policy's protections hinge on precise definitions. Knowing them isn't legal trivia — it's how you recognize when a rule applies.</p>
+  <h3>Four kinds of abuse</h3>
+  <div class="tablewrap"><table class="def">
+    <tr><th>Type</th><th>Definition</th></tr>
+    <tr><td>Physical</td><td>Intentionally causing bodily harm to a child, youth, or vulnerable adult.</td></tr>
+    <tr><td>Emotional</td><td>Speaking violently or cruelly, or exposing a person to violence or emotional cruelty.</td></tr>
+    <tr><td>Neglect</td><td>Endangering a person's health, safety, or welfare by <em>failing to act</em> in a reasonable manner.</td></tr>
+    <tr><td>Sexual</td><td>An adult — or an older or more powerful youth — having sexual contact with a child, youth, or vulnerable adult.</td></tr>
+  </table></div>
+  <h3>Who's who</h3>
+  <div class="tablewrap"><table class="def">
+    <tr><th>Role</th><th>Definition</th></tr>
+    <tr><td>Authority figure</td><td>The primary leader of an activity. Must be <strong>21 or older</strong>.</td></tr>
+    <tr><td>Assistant</td><td>Helps and is directed by an authority figure (volunteers, interns, VBS workers). Must be <strong>at least 12</strong> — but only counts toward the two-adult rule if a legal adult.</td></tr>
+    <tr><td>Adult</td><td>A person of the age of majority: <strong>19 in Alabama</strong>, 18 in Florida.</td></tr>
+    <tr><td>Floater</td><td>An adult who monitors covered activities so the two-adult rule can be met when staffing every room with two unrelated adults isn't feasible.</td></tr>
+    <tr><td>Children</td><td>Infants through 5th/6th grade (following local school classifications).</td></tr>
+    <tr><td>Youth</td><td>6th/7th grade through 12th grade.</td></tr>
+    <tr><td>Vulnerable adults</td><td>Adults with physical, mental, and/or developmental impairment or disability.</td></tr>
+  </table></div>
+  <div class="callout"><p class="label">Remember</p><p>A 17-year-old helper is a valuable <em>assistant</em> — but in Alabama they are not an <em>adult</em>, so they can never be one of the two adults required to supervise a room.</p></div>
+  `,
+  quiz:[
+    {q:"A leader repeatedly mocks and belittles a middle schooler in front of the group. Under the policy, this is…",
+     opts:["Emotional abuse","Just poor leadership, not abuse","Only abuse if it becomes physical","Neglect"],a:0,
+     ex:"Emotional abuse is speaking violently or cruelly to a child, youth, or vulnerable adult, or exposing them to emotional cruelty."},
+    {q:"Neglect differs from other abuse types because it involves…",
+     opts:["A failure to act reasonably, endangering health, safety, or welfare","Intentional bodily harm","Only financial harm","Behavior outside church property"],a:0,
+     ex:"Neglect is endangering a person's welfare by failing to act in a reasonable manner — harm through inaction."},
+    {q:"How old must an authority figure (the primary leader of an activity) be?",
+     opts:["21 or older","18 or older","19 or older","16 with parental permission"],a:0,
+     ex:"The primary leader of any children's, youth, or vulnerable adult activity must be at least 21."},
+    {q:"Under the policy's definition, sexual abuse can be committed by…",
+     opts:["An adult OR an older or more powerful youth","Adults only","Strangers only, not people the child knows","Only someone in a leadership role"],a:0,
+     ex:"Sexual abuse occurs when an adult — or another older or more powerful youth — has sexual contact with a child, youth, or vulnerable adult. Youth-on-youth abuse is covered too."},
+    {q:"An 18-year-old college freshman in Alabama volunteers with the children's ministry. Can she count toward the two-adult rule?",
+     opts:["No, in Alabama she is not yet a legal adult","Yes, she is out of high school","Yes, if she is background checked","Only on Sunday mornings"],a:0,
+     ex:"Alabama's age of majority is 19. She can serve as an assistant, but she cannot be one of the two required adults."},
+    {q:"What is a 'floater'?",
+     opts:["An adult who monitors activities so the two-adult rule is satisfied when two unrelated adults can't staff every room","A substitute teacher with no training","A parent observing their own child","A youth who rotates between classrooms"],a:0,
+     ex:"A floater is an adult assistant with visual and physical access to all areas where programming occurs, used when two unrelated adults per room is unfeasible."}
+  ]
+},
+{
+  title:"The Two-Adult Rule & Supervision",
+  minutes:7,
+  html:`
+  <p>The two-adult rule is the core of Safe Sanctuaries. If you remember one thing from this training, remember this.</p>
+  <div class="callout"><p class="label">The rule</p><p>A minimum of <strong>two adults who are not related to each other</strong> should be present in all programming with children, youth, and vulnerable adults.</p></div>
+  <h3>When two adults per room isn't feasible</h3>
+  <p>When it's unfeasible to staff every room with two unrelated adults, at least one additional adult must serve as a <strong>floater</strong> with <em>visual and physical access</em> to every area where programming occurs. That means an open door, or a door with a window providing a clear line of sight into the room — and full view of outdoor sites.</p>
+  <h3>What activities are covered?</h3>
+  <p><strong>All church programming</strong> for children, youth, and vulnerable adults — Sunday school, nursery, choirs, VBS, youth group, and more. Overnight events (camps, retreats, mission trips, lock-ins) are covered activities too, with extra rules:</p>
+  <ul class="policy">
+    <li>Adults staying with young people must be the <strong>same gender</strong> as those young people.</li>
+    <li>An adult must <strong>never be alone</strong> in a lodging room with a young person.</li>
+    <li>An adult must <strong>never share a bed</strong> with a young person — unless the adult is an immediate family member or guardian of that young person and of the same gender.</li>
+    <li><strong>Family exception:</strong> a parent or guardian chaperoning an overnight event may share a room and bed with their own child regardless of gender — as long as <em>no other young people</em> share the room.</li>
+  </ul>
+  <div class="callout brass"><p class="label">Scenario</p><p>You arrive to teach 4-year-olds and your co-teacher calls in sick. No other adult is free. What do you do? <strong>Don't teach alone behind a closed door.</strong> Notify your ministry supervisor so a floater can be assigned with an open-door line of sight — or combine classes until a second adult is available.</p></div>
+  `,
+  quiz:[
+    {q:"The two-adult rule requires…",
+     opts:["At least two adults who are not related to each other","Any two people over 16","Two adults, related or not","One adult if the door is open"],a:0,
+     ex:"A minimum of two unrelated adults should be present in all programming with children, youth, and vulnerable adults."},
+    {q:"A husband and wife team-teach 3rd grade Sunday school with no one else present. Does this satisfy the two-adult rule?",
+     opts:["No, the two adults must be unrelated","Yes, they are both adults","Yes, as long as both are members","Only if one of them is a parent of a student"],a:0,
+     ex:"Related adults do not satisfy the rule by themselves. A floater with visual and physical access, or an unrelated second adult, is required."},
+    {q:"For a floater arrangement to work, the floater must have…",
+     opts:["Visual and physical access to every area where programming occurs","A written schedule","A key to every room","A walkie-talkie"],a:0,
+     ex:"Visual and physical access means an open door or door window that lets the floater see into every space where programming occurs."},
+    {q:"On a youth retreat, which of these is permitted?",
+     opts:["A mother sharing a room with her own daughter, with no other youth in the room","A male leader rooming with the middle school boys and one girl who ran out of space","An adult alone in a room with one student to talk privately","Leaders sharing beds with students to save space"],a:0,
+     ex:"The immediate family exception allows a parent/guardian to room with their own child if no other young people share the room. Adults must otherwise be same-gender, never alone with a young person, and never share a bed."},
+    {q:"Which activities does the Safe Sanctuaries policy cover?",
+     opts:["ALL church programming for children, youth, and vulnerable adults","Only Sunday school classes","Only off-campus trips","Only events with more than ten participants"],a:0,
+     ex:"Covered activities include all church programming for children, youth, and at-risk or vulnerable adults — on campus, off campus, daytime or overnight."},
+    {q:"Your co-leader cancels last minute and you're the only adult for the nursery. The best response is:",
+     opts:["Alert your supervisor so a floater can be assigned or classes can combine","Teach anyway with the door closed so kids aren't distracted","Cancel class and send children back unaccompanied","Ask a 15-year-old helper to count as the second adult"],a:0,
+     ex:"Never supervise alone behind a closed door. A floater with line-of-sight access or combining classes keeps the ministry running safely."}
+  ]
+},
+{
+  title:"Transportation & Digital Safety",
+  minutes:8,
+  html:`
+  <h3>Transportation</h3>
+  <p>Any time a church event involves transportation and our staff or volunteers are driving, the Safe Sanctuaries policy applies — whether in a church-owned or leased vehicle or a private one. Key rules:</p>
+  <ul class="policy">
+    <li><strong>Caravans are the exception:</strong> when multiple private vehicles caravan together, two adults are <em>not</em> required in each vehicle.</li>
+    <li><strong>Youth drivers:</strong> youth may not drive to out-of-town events without <strong>written parental permission</strong>.</li>
+    <li><strong>Driver screening:</strong> anyone driving to youth or children's events must pass a <strong>background check and motor vehicle records check</strong>. A driver who isn't chaperoning doesn't need Safe Sanctuary training — as long as they drive in a caravan or with another adult in the car.</li>
+    <li>Licensed day-care, preschool, or after-school transportation follows applicable state law.</li>
+  </ul>
+  <h3>Social media & electronic communication</h3>
+  <p>Digital tools can support ministry — under these rules:</p>
+  <ul class="policy">
+    <li><strong>Never initiate</strong> a social media connection (friending, following) with a student. If a student initiates one, <strong>notify the Youth Director</strong>.</li>
+    <li>If you receive a <strong>questionable private text</strong> from a young person: end the conversation in the virtual space immediately, offer to continue in person under one-on-one guidelines, and notify the ministry supervisor and/or parent right away.</li>
+    <li>Post photos only with <strong>prior written permission</strong> from a parent or guardian — and keep every photo appropriate to the spirit of the event.</li>
+    <li><strong>Online meetings follow in-person rules:</strong> two unrelated adults must be present in a Zoom room just as in a physical room.</li>
+    <li>Use the <strong>official church account</strong>, never a personal account, for online programming — and share meeting details with parents.</li>
+    <li>Everyone uses <strong>real names</strong> as usernames.</li>
+    <li><strong>Never</strong> interact with students on apps that erase messages (disappearing-message apps).</li>
+  </ul>
+  <div class="callout"><p class="label">Why it matters</p><p>These rules protect young people — and they protect <em>you</em>. Transparent, accountable communication means no one can misread your intentions and no false accusation can stick.</p></div>
+  `,
+  quiz:[
+    {q:"A volunteer is driving students to a church event in his own car. Does Safe Sanctuaries apply?",
+     opts:["Yes, the policy applies and the driver must be screened","No, the policy only covers the church van","No, private vehicles are never the church's concern","Only if the trip is out of town"],a:0,
+     ex:"Transportation for church events is a church responsibility. Drivers must pass background and motor vehicle checks, and the caravan rules apply to private vehicles."},
+    {q:"Do private vehicles in a caravan each need two adults?",
+     opts:["No, the two-adult rule does not apply to each vehicle in a caravan","Yes, every vehicle always needs two adults","Only the lead vehicle needs two adults","Only if youth are in the vehicle"],a:0,
+     ex:"Two adults are not required to occupy each private vehicle in a multi-vehicle caravan."},
+    {q:"A high school senior wants to drive himself to an out-of-town youth event. What's required?",
+     opts:["Written parental permission","Nothing, he already has a license","A church staff member in his car","He simply cannot attend"],a:0,
+     ex:"Youth shall not drive to out-of-town events without written parental permission."},
+    {q:"A student sends you a friend request on Instagram. You should…",
+     opts:["Notify the Youth Director","Accept it, since the student initiated","Ignore it and tell no one","Accept it but hide your posts"],a:0,
+     ex:"Leaders never initiate connections, and if a student initiates one, the Youth Director must be notified."},
+    {q:"You receive a private text from a youth that seems questionable. What does the policy direct?",
+     opts:["End the virtual conversation immediately, offer to talk in person under one-on-one guidelines, and notify the supervisor and/or parent right away","Keep chatting to gather more information","Screenshot it and post about it","Wait a week to see if it continues"],a:0,
+     ex:"End the conversation in the virtual space, move it to a compliant in-person setting, and immediately inform the ministry supervisor and/or parent or guardian."},
+    {q:"A student asks you to keep in touch on Snapchat, where messages disappear after they're viewed. What does the policy say?",
+     opts:["Adult leaders must never interact with students on apps that erase messages","It is fine as long as a parent also has Snapchat","It is allowed if you save screenshots of every chat","It is allowed for students who are 16 or older"],a:0,
+     ex:"Disappearing-message apps remove the accountability that protects both students and leaders. Keep communication on platforms where messages persist, using the official church account."}
+  ]
+},
+{
+  title:"Screening, Qualifications & Training",
+  minutes:8,
+  html:`
+  <p>Everyone who serves children, youth, or vulnerable adults in the church — staff and volunteer — is screened, qualified, and trained. Here's what that means for you.</p>
+  <h3>Qualifications for volunteers</h3>
+  <ul class="policy">
+    <li><strong>Three-month rule:</strong> you must have an active relationship with the church where you'll serve for at least <strong>3 months</strong> before serving as an authority figure.</li>
+    <li><strong>Five-year rule:</strong> you should be at least <strong>5 years older</strong> than the oldest member of the group you serve (unless otherwise approved by the ministry supervisor).</li>
+    <li><strong>Leaders must be 19 or older.</strong> Helpers may be as young as 12, provided they keep the five-year gap.</li>
+  </ul>
+  <h3>The screening process</h3>
+  <ol>
+    <li>Complete an <strong>Application/Commitment form</strong>.</li>
+    <li>Be <strong>interviewed</strong> by the director of the ministry you'll serve.</li>
+    <li>Consent to a <strong>multi-state criminal and sexual offender background check</strong> — plus a <strong>motor vehicle records check</strong> if you'll transport young people.</li>
+    <li>Complete <strong>Safe Sanctuaries training</strong> (this course!).</li>
+  </ol>
+  <ul class="policy">
+    <li>Background checks must be <strong>kept current</strong> — they're renewed on the cycle set by the Trustees, and refreshed after an absence of 12 months or longer.</li>
+    <li>Background checks are initiated by the church — the Pastor in Charge or the staff leaders they designate. You never run your own.</li>
+    <li>Results are strictly <strong>confidential</strong>: staff reports go only to the Pastor and SPRC chair; volunteer reports go only to the Pastor and Lay Leader.</li>
+    <li>Any reported charge, conviction, or conduct involving <strong>sexual abuse or child abuse permanently bars</strong> a person from serving with children, youth, or vulnerable adults. Other unfavorable results are reviewed considering the nature and seriousness of the conduct, its relation to the role, the person's age at the time, and time elapsed.</li>
+  </ul>
+  <h3>Training requirements</h3>
+  <ul class="policy">
+    <li>New workers must be trained within <strong>14 days</strong> of employment or the start of volunteer service.</li>
+    <li><strong>Annual</strong> continuing Safe Sanctuaries training is required of all workers — new and returning. That's why you're here!</li>
+    <li>Attendance is documented in personnel files, and each attendee <strong>signs an acknowledgement</strong> that they received the training and understand the policy — you'll do that at the end of this course.</li>
+    <li>An untrained <strong>substitute</strong> in an emergency must be briefed on the policy by the director or supervisor before beginning work.</li>
+  </ul>
+  `,
+  quiz:[
+    {q:"How long must someone be an active part of the church before serving as an authority figure?",
+     opts:["At least 3 months","At least 2 weeks","At least 1 year","No minimum, just sign up"],a:0,
+     ex:"Volunteers must demonstrate an active relationship in the local church for a minimum of three months before serving as an authority figure."},
+    {q:"The five-year rule says workers should be…",
+     opts:["At least 5 years older than the oldest member of the group they serve","Members for at least 5 years","Recertified every 5 years","At least 5 years past high school"],a:0,
+     ex:"Persons should be at least five years older than the oldest member of the age group they work with, unless the supervising minister approves otherwise."},
+    {q:"A last-minute substitute who hasn't had Safe Sanctuaries training is needed for Sunday school. What does the policy require?",
+     opts:["The director or supervisor must brief the substitute on the policy before they begin work","Nothing, substitutes are exempt","The substitute may serve once, no questions asked","The class must be cancelled"],a:0,
+     ex:"In unforeseen circumstances an untrained substitute may serve — but only after being briefed on the SSPMS by the director or supervisor."},
+    {q:"Which of these is part of the screening process before serving with children, youth, or vulnerable adults?",
+     opts:["All of these: an application form, an interview with the ministry director, a background check, and Safe Sanctuaries training","Only signing up with the church office","Only a background check","A vote of the congregation"],a:0,
+     ex:"Every worker completes an Application/Commitment form, interviews with the ministry director, consents to background checks, and completes this training."},
+    {q:"A background check reveals a decades-old conviction for child abuse. Under the policy…",
+     opts:["The person is permanently barred from serving with children, youth, or vulnerable adults","Church leadership may approve them if enough time has passed","They may serve if supervised","They may serve with youth but not children"],a:0,
+     ex:"Any charge, conviction, or conduct involving sexual abuse or child abuse bars the person from working with children, youth, or vulnerable adults — no exceptions."},
+    {q:"How soon must a new worker receive Safe Sanctuaries training, and how often thereafter?",
+     opts:["Within 14 days of starting, then at least annually","Within 6 months, then every 2 years","Before their first Sunday, then never again","Within 30 days, then every 5 years"],a:0,
+     ex:"Training must occur within 14 days of employment or the start of volunteer service, with continuing education at least annually for all workers."}
+  ]
+},
+{
+  title:"Recognizing & Reporting",
+  minutes:7,
+  html:`
+  <p>Prevention is the goal — but every worker must also know how to respond when something is wrong. Reporting is not an accusation; it is asking trained professionals to look into a concern. <strong>You don't have to be certain — you have to report.</strong></p>
+  <h3>Alabama's mandatory reporting law</h3>
+  <p>Alabama law requires school teachers and officials, social workers, day care workers, mental health professionals, <strong>members of the clergy</strong>, and <em>any person called upon to render aid to a child</em> to report known or suspected child abuse or neglect:</p>
+  <ul class="policy">
+    <li><strong>Immediately</strong> — orally, by telephone or direct communication;</li>
+    <li>followed by a <strong>written report</strong> to a duly constituted authority;</li>
+    <li>if reported to law enforcement first, they inform the Department of Human Resources (DHR) so protective services can respond.</li>
+  </ul>
+  <h3>Reporting inside the church</h3>
+  <p>Any action or conduct reasonably believed to violate the SSPMS — observed by staff, volunteers, parents, members, or guests — should be <strong>promptly reported to your ministry supervisor or the Senior Pastor</strong>. Reporting instructions are posted around the church buildings and campus.</p>
+  <div class="callout"><p class="label">Never do this</p><p>Never promise a child you'll keep a disclosure secret. Never investigate on your own. Never wait to see if it happens again. Listen calmly, reassure the child they did the right thing by telling you, and report immediately.</p></div>
+  <h3>Intervention resources</h3>
+  <div class="tablewrap"><table class="def">
+    <tr><th>Resource</th><th>Contact</th></tr>
+    <tr><td>National Child Abuse Hotline</td><td>1-800-4-A-CHILD (1-800-422-4453)</td></tr>
+    <tr><td>Florida Child Abuse Hotline</td><td>1-800-96-ABUSE</td></tr>
+    <tr><td>Alabama</td><td>County Department of Human Resources (DHR) / Child Protective Services</td></tr>
+    <tr><td>Parents Anonymous</td><td>1-800-421-0353</td></tr>
+    <tr><td>Sex offender registries</td><td>Alabama: community.dps.state.al.us · Florida: flsexoffender.net</td></tr>
+  </table></div>
+  `,
+  quiz:[
+    {q:"In Alabama, when a member of the clergy or a person rendering aid suspects child abuse, they must…",
+     opts:["Report immediately by phone or direct communication, followed by a written report","Wait until they have proof","Consult a lawyer first","Report only if the parent agrees"],a:0,
+     ex:"Alabama's mandatory reporting law requires an immediate oral report followed by a written report to a duly constituted authority."},
+    {q:"How certain must you be before reporting suspected abuse?",
+     opts:["Certainty is not required, suspicion is enough to report","Beyond a reasonable doubt","You need physical evidence","Two witnesses are required"],a:0,
+     ex:"The law covers children 'known or suspected' to be victims. Reporting asks professionals to assess a concern; it is not an accusation."},
+    {q:"A child begins telling you about something an adult did that alarms you. You should…",
+     opts:["Listen calmly, reassure them, and report immediately without promising secrecy","Promise to keep it secret so they keep trusting you","Question the accused adult yourself","Wait to see whether it happens again"],a:0,
+     ex:"Never promise secrecy, never investigate on your own, never wait. Listen, reassure, and report right away."},
+    {q:"You reasonably believe the church's Safe Sanctuaries policy has been violated. What should you do?",
+     opts:["Report it promptly to your ministry supervisor or the Senior Pastor","Post about it on social media","Handle it quietly yourself","Nothing, unless a parent complains"],a:0,
+     ex:"Suspected policy violations should be promptly reported to church leadership — your ministry supervisor or the Senior Pastor — so they can respond."},
+    {q:"Which is the National Child Abuse Hotline?",
+     opts:["1-800-4-A-CHILD","1-800-96-ABUSE","911 only","1-800-421-0353"],a:0,
+     ex:"The National Child Abuse Hotline is 1-800-4-A-CHILD (1-800-422-4453). 1-800-96-ABUSE is Florida's hotline."}
+  ]
+}
+];
+
+/* =========================================================
+   APP
+   ========================================================= */
+const $=s=>document.querySelector(s);
+const KEY="sfumc-ss-2025";
+let state = load() || { screen:0, user:null, passed:[], scores:[], shuffles:{}, ack:null, review:false, videoWatched:false };
+// screens: 0=welcome, 1..N=modules, N+1=acknowledgment, N+2=certificate
+const N = MODULES.length;
+
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)); }catch(e){ return null; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){} }
+
+function shuffledOpts(mi,qi){
+  const k=mi+"-"+qi;
+  if(!state.shuffles[k]){
+    const q=MODULES[mi].quiz[qi];
+    const idx=q.opts.map((_,i)=>i);
+    for(let i=idx.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [idx[i],idx[j]]=[idx[j],idx[i]]; }
+    state.shuffles[k]=idx; save();
+  }
+  return state.shuffles[k];
+}
+function reshuffle(mi){ MODULES[mi].quiz.forEach((_,qi)=>delete state.shuffles[mi+"-"+qi]); save(); }
+
+function esc(s){ return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function nav(){
+  const el=$("#stepnav"); el.innerHTML="";
+  const items=[{t:"Welcome"},...MODULES.map((m,i)=>({t:m.title})),{t:"Acknowledgment"},{t:"Certificate"}];
+  items.forEach((it,i)=>{
+    const done = i===0 ? !!state.user
+      : i<=N ? state.passed.includes(i-1)
+      : i===N+1 ? !!state.ack : false;
+    const unlocked = i===0 || state.review || (i<=N ? (!!state.user && state.passed.length>=i-1)
+      : i===N+1 ? state.passed.length===N
+      : !!state.ack);
+    const b=document.createElement("button");
+    b.className="step"+(done?" done":"")+(i===state.screen?" current":"")+(unlocked?" unlocked":"");
+    b.disabled=!unlocked;
+    b.innerHTML=`<span class="dot">${done?"✓":(i===0?"•":(i<=N?i:(i===N+1?"✎":"★")))}</span><span>${esc(it.t)}</span>`;
+    if(unlocked) b.onclick=()=>{ state.screen=i; save(); render(); };
+    el.appendChild(b);
+  });
+}
+
+function progressPct(){ return Math.round((state.passed.length + (state.ack?1:0)) / (N+1) * 100); }
+
+function render(){
+  nav();
+  const m=$("#main");
+  if(state.screen===0) return welcome(m);
+  if(state.screen>=1 && state.screen<=N) return module_(m, state.screen-1);
+  if(state.screen===N+1) return ack(m);
+  return certificate(m);
+}
+
+function welcome(m){
+  const u=state.user||{};
+  m.innerHTML=`
+  <div class="card">
+    <p class="eyebrow">Annual Certification · ${new Date().getFullYear()}</p>
+    <h1>Safe Sanctuaries Training</h1>
+    <p>Welcome! This course covers the <strong>Safe Sanctuaries Policy and Minimum Standards</strong> used by United Methodist congregations in the Alabama-West Florida Conference, and satisfies the church's annual training requirement for everyone who serves children, youth, or vulnerable adults.</p>
+    <ul class="policy">
+      <li><strong>${N} short modules</strong> (about 40 minutes total), each followed by a short quiz.</li>
+      <li>Module 1 includes the conference training video — <strong>watching it is required</strong>.</li>
+      <li>You need <strong>${CONFIG.passPct}%</strong> on each quiz to advance — retake as many times as you need.</li>
+      <li>Your progress saves automatically on this device; you can leave and come back.</li>
+      <li>At the end you'll sign an acknowledgment, receive a printable certificate, and your completion will be recorded with the church office.</li>
+    </ul>
+    <h3>Tell us who's training</h3>
+    <label class="f" for="fname">Full name</label>
+    <input type="text" id="fname" autocomplete="name" value="${esc(u.name||"")}" placeholder="First and last name">
+    <label class="f" for="femail">Email</label>
+    <input type="email" id="femail" autocomplete="email" value="${esc(u.email||"")}" placeholder="you@example.com">
+    <label class="f" for="fchurch">Your church</label>
+    <input type="text" id="fchurch" value="${esc(u.church||"")}" placeholder="e.g., Community United Methodist Church">
+    <label class="f" for="frole">I serve as</label>
+    <select id="frole"><option${u.role==="Volunteer"?" selected":""}>Volunteer</option><option${u.role==="Paid Staff"?" selected":""}>Paid Staff</option></select>
+    <div class="btnrow"><button class="btn" id="startbtn">${state.user?"Continue training":"Begin training"}</button></div>
+    <p class="small muted" id="werr" role="alert"></p>
+    <p class="small muted" style="margin-top:1.6rem;border-top:1px solid var(--line);padding-top:1rem;">Church staff &amp; committee members: <a href="#" id="reviewlink">review all course content</a> without registering or taking quizzes.</p>
+  </div>`;
+  $("#startbtn").onclick=()=>{
+    const name=$("#fname").value.trim(), email=$("#femail").value.trim();
+    if(name.split(" ").length<2){ $("#werr").textContent="Please enter your first and last name."; return; }
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ $("#werr").textContent="Please enter a valid email address."; return; }
+    const church=$("#fchurch").value.trim();
+    if(!church){ $("#werr").textContent="Please enter your church's name."; return; }
+    state.user={name,email,church,role:$("#frole").value}; state.review=false;
+    state.screen=Math.min(state.passed.length+1, N+1) || 1;
+    save(); render(); window.scrollTo(0,0);
+  };
+  $("#reviewlink").onclick=e=>{ e.preventDefault(); state.review=true; state.screen=1; save(); render(); window.scrollTo(0,0); };
+}
+
+function module_(m, mi){
+  const mod=MODULES[mi];
+  const passed=state.passed.includes(mi);
+  m.innerHTML=`
+  ${state.review?`<div class="callout brass" style="margin-top:0;"><p class="label">Review mode</p><p>Browsing as staff — quizzes are optional and nothing is recorded. <a href="#" id="exitreview">Exit review mode</a></p></div>`:""}
+  <p class="eyebrow">Module ${mi+1} of ${N} · about ${mod.minutes} min</p>
+  <div class="progressbar" aria-hidden="true"><div style="width:${progressPct()}%"></div></div>
+  <h1>${esc(mod.title)}</h1>
+  <div class="modbody">${mod.html.replace("${CONFIG.videoUrl}",CONFIG.videoUrl)}</div>
+  ${mi===0 && !state.review?`<div class="q" style="border-color:var(--brass);background:var(--brass-soft);"><p class="stem">Before the quiz</p><label class="opt" style="background:#fff;"><input type="checkbox" id="vwatch"${state.videoWatched?" checked":""}><span>I have watched the full Alabama-West Florida Conference Safe Sanctuaries video linked above.</span></label></div>`:""}
+  <div class="quiz-head"><h2>Module ${mi+1} quiz</h2><span class="small muted">${mod.quiz.length} questions · ${CONFIG.passPct}% to pass</span></div>
+  <form id="quizform">${mod.quiz.map((q,qi)=>{
+    const order=shuffledOpts(mi,qi);
+    return `<div class="q" id="q${qi}">
+      <p class="stem">${qi+1}. ${esc(q.q)}</p>
+      <div class="opts">${order.map(oi=>`
+        <label class="opt"><input type="radio" name="q${qi}" value="${oi}"><span>${esc(q.opts[oi])}</span></label>`).join("")}
+      </div>
+      <p class="expl hide" id="e${qi}"></p>
+    </div>`;
+  }).join("")}
+  <div class="btnrow">
+    <button class="btn" type="submit" id="gradebtn">Check my answers</button>
+    ${passed&&!state.review?`<button class="btn ghost" type="button" id="nextbtn">Continue →</button>`:""}
+    ${state.review?`<button class="btn ghost" type="button" id="revnext">${mi+1<N?"Next module →":"View acknowledgment →"}</button>`:""}
+  </div>
+  <div id="scorebox"></div>
+  </form>`;
+  if(passed&&!state.review) $("#nextbtn").onclick=()=>advance(mi);
+  if(state.review){
+    $("#exitreview").onclick=e=>{ e.preventDefault(); state.review=false; state.screen=0; save(); render(); window.scrollTo(0,0); };
+    const rn=$("#revnext"); if(rn) rn.onclick=()=>advance(mi);
+  }
+  $("#quizform").onsubmit=e=>{
+    e.preventDefault();
+    let correct=0, unanswered=0;
+    mod.quiz.forEach((q,qi)=>{
+      const sel=document.querySelector(`input[name=q${qi}]:checked`);
+      const box=$("#q"+qi), ex=$("#e"+qi);
+      box.classList.remove("right","wrong");
+      if(!sel){ unanswered++; return; }
+      const ok = Number(sel.value)===q.a;
+      if(ok) correct++;
+      box.classList.add(ok?"right":"wrong");
+      ex.classList.remove("hide");
+      ex.textContent=(ok?"Correct. ":"Not quite. ")+q.ex;
+    });
+    if(mi===0 && !state.review && !$("#vwatch").checked){ $("#scorebox").innerHTML=`<div class="scorebox fail">Please watch the conference video and check the box above, then take the quiz.</div>`; return; }
+    if(unanswered){ $("#scorebox").innerHTML=`<div class="scorebox fail">Please answer all questions — ${unanswered} left.</div>`; return; }
+    const pct=Math.round(correct/mod.quiz.length*100);
+    if(!state.review){ state.scores[mi]=pct; if(mi===0) state.videoWatched=true; }
+    if(pct>=CONFIG.passPct){
+      if(!state.review && !state.passed.includes(mi)) state.passed.push(mi);
+      save();
+      $("#scorebox").innerHTML=`<div class="scorebox pass">You scored ${pct}% — passed! </div>
+        <div class="btnrow"><button class="btn" type="button" id="advbtn">${mi+1<N?"Next module →":"Continue to acknowledgment →"}</button></div>`;
+      $("#advbtn").onclick=()=>advance(mi);
+      nav();
+    } else {
+      save();
+      $("#scorebox").innerHTML=`<div class="scorebox fail">You scored ${pct}%. Review the highlighted answers above, then try again.</div>
+        <div class="btnrow"><button class="btn ghost" type="button" id="retrybtn">Retake quiz</button></div>`;
+      $("#retrybtn").onclick=()=>{ reshuffle(mi); render(); window.scrollTo(0,0); };
+    }
+  };
+}
+
+function advance(mi){ state.screen=(mi+1<N)?mi+2:N+1; save(); render(); window.scrollTo(0,0); }
+
+function ack(m){
+  m.innerHTML=`
+  ${state.review?`<div class="callout brass" style="margin-top:0;"><p class="label">Review mode</p><p>Browsing as staff. Signing is disabled and nothing is recorded. <a href="#" id="exitreview2">Exit review mode</a></p></div>`:""}
+  <p class="eyebrow">Final step</p>
+  <div class="progressbar" aria-hidden="true"><div style="width:${progressPct()}%"></div></div>
+  <h1>Acknowledgment</h1>
+  <div class="card">
+    <p>Per the SSPMS (¶IV.I), each person completing Safe Sanctuaries training signs an acknowledgment. Please read and affirm:</p>
+    <div class="callout"><p><em>I acknowledge that I have received Safe Sanctuaries training covering the ${esc(CONFIG.policyVersion)} of ${esc(state.user?state.user.church:"my church")}, and that I have read and understand the Safe Sanctuaries Policy and Minimum Standards. I agree to observe and abide by this policy in all ministry with children, youth, and at-risk or vulnerable adults.</em></p></div>
+    <label class="f" style="display:flex;gap:10px;align-items:flex-start;font-weight:400;">
+      <input type="checkbox" id="ackbox" style="margin-top:4px;accent-color:var(--pine);">
+      <span>I have read the statement above and affirm it.</span>
+    </label>
+    <label class="f" for="sig">Type your full legal name as your signature</label>
+    <input type="text" id="sig" placeholder="${esc(state.user?state.user.name:"")}" autocomplete="off">
+    <div class="btnrow"><button class="btn" id="ackbtn">Sign & complete training</button></div>
+    <p class="small muted" id="aerr" role="alert"></p>
+  </div>`;
+  const x2=$("#exitreview2"); if(x2) x2.onclick=e=>{ e.preventDefault(); state.review=false; state.screen=0; save(); render(); window.scrollTo(0,0); };
+  $("#ackbtn").onclick=()=>{
+    if(state.review){ $("#aerr").textContent="Review mode: signing is disabled. Use the sidebar to view the certificate page."; return; }
+    const sig=$("#sig").value.trim();
+    if(!$("#ackbox").checked){ $("#aerr").textContent="Please check the affirmation box."; return; }
+    if(sig.toLowerCase()!==state.user.name.toLowerCase()){ $("#aerr").textContent="Your typed signature must match the name you registered with: "+state.user.name; return; }
+    state.ack={sig, date:new Date().toISOString()};
+    state.screen=N+2; save(); render(); window.scrollTo(0,0);
+  };
+}
+
+function recordBody(u,a){
+  const d=new Date(a.date);
+  const lines=[
+    "SAFE SANCTUARIES TRAINING COMPLETION RECORD",
+    "Church: "+u.church,
+    "Policy: "+CONFIG.policyVersion,
+    "",
+    "Name: "+u.name,
+    "Email: "+u.email,
+    "Role: "+u.role,
+    "Date completed: "+d.toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"}),
+    "Certification valid through: "+validThrough(a.date),
+    "",
+    "Module scores:",
+    ...MODULES.map((mod,i)=>"  "+(i+1)+". "+mod.title+": "+(state.scores[i]||0)+"%"),
+    "",
+    "Signed acknowledgment: \""+a.sig+"\" affirmed receipt and understanding of the SSPMS on "+d.toLocaleString(),
+    "",
+    "Please record this completion in the church's membership records."
+  ];
+  return lines.join("\n");
+}
+function validThrough(fromIso){
+  const d=new Date(fromIso); d.setMonth(d.getMonth()+CONFIG.certValidMonths);
+  return d.toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"});
+}
+
+function certificate(m){
+  const rv=state.review;
+  const u=rv?{name:"Sample Member",email:"sample@example.com",church:"Sample United Methodist Church",role:"Volunteer"}:state.user;
+  const a=rv?{date:new Date().toISOString(),sig:"Sample Member"}:state.ack;
+  const d=new Date(a.date);
+  const mailto="mailto:"+CONFIG.recordEmail
+    +"?subject="+encodeURIComponent("Safe Sanctuaries Completion — "+u.name)
+    +"&body="+encodeURIComponent(recordBody(u,a));
+  m.innerHTML=`
+  ${rv?`<div class="callout brass" style="margin-top:0;"><p class="label">Review mode</p><p>This page is shown with sample placeholder data. <a href="#" id="exitreview3">Exit review mode</a></p></div>`:""}
+  <p class="eyebrow">Training complete</p>
+  <h1>Well done, ${esc(u.name.split(" ")[0])}.</h1>
+  <p>You've completed your annual Safe Sanctuaries certification. <strong>One last step:</strong> send your completion record to your church office so it can be recorded.</p>
+  <div class="warnbox"><strong>⚠ Before you close this page:</strong> your progress is <strong>not stored on this site</strong> after completion. Be sure to <strong>click the “Email my record” button below</strong> to send your completion to the church office, and <strong>print or save a copy of your certificate</strong> for yourself.</div>
+  <div class="btnrow">
+    <a class="btn" href="${mailto}" id="mailbtn">✉ Email my record to ${esc(CONFIG.recordChurch)}</a>
+    ${CONFIG.shelbyFormUrl?`<a class="btn" href="${esc(CONFIG.shelbyFormUrl)}" target="_blank" rel="noopener">Record my completion in Shelby</a>`:""}
+    <button class="btn ghost" onclick="window.print()">Print certificate</button>
+  </div>
+  <p class="small muted"><strong>${esc(CONFIG.recordChurch)} members:</strong> press the email button and hit send — your record goes straight to our office. <strong>Members of other churches:</strong> our office doesn't need your record, so <a href="mailto:?subject=${encodeURIComponent("Safe Sanctuaries Completion — "+u.name)}&body=${encodeURIComponent(recordBody(u,a))}">address it to your own church office instead</a>. Printing also lets you save the certificate as a PDF.</p>
+  <div id="certprint"><div class="cert">
+    <p class="church">${esc(u.church)}</p>
+    <h2>Certificate of Completion</h2>
+    <p class="muted">Safe Sanctuaries Annual Training</p>
+    <p class="name">${esc(u.name)}</p>
+    <p>has completed training in the<br><strong>${esc(CONFIG.policyVersion)}</strong><br>and signed the required acknowledgment of receipt and understanding.</p>
+    <p class="meta">Completed ${d.toLocaleDateString("en-US",{year:"numeric",month:"long",day:"numeric"})} · Valid through ${validThrough(a.date)}<br>${esc(u.role)}</p>
+  </div></div>
+  ${rv?"":`<div class="btnrow"><button class="btn ghost" id="resetbtn">Start over (new person on this device)</button></div>`}`;
+  const x3=$("#exitreview3"); if(x3) x3.onclick=e=>{ e.preventDefault(); state.review=false; state.screen=0; save(); render(); window.scrollTo(0,0); };
+  const rb=$("#resetbtn"); if(rb) rb.onclick=()=>{
+    if(confirm("Clear this completion from the device so another person can train? (Send/print your record first.)")){
+      localStorage.removeItem(KEY); state={screen:0,user:null,passed:[],scores:[],shuffles:{},ack:null,review:false,videoWatched:false}; render(); window.scrollTo(0,0);
+    }
+  };
+}
+
+render();
+</script>
