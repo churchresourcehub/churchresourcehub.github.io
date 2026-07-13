@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1E4D3B">
 <title>Safe Sanctuaries Training</title>
 <style>
   :root{
@@ -8,7 +13,7 @@
     --radius:10px;
   }
   html{-webkit-text-size-adjust:100%}
-  body{background:var(--paper); color:var(--ink); font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; margin:0;}
+  body{background:var(--paper); color:var(--ink); font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; margin:0; -webkit-tap-highlight-color:transparent;}
   h1,h2,h3,.serif{font-family:"Iowan Old Style",Georgia,"Times New Roman",serif; letter-spacing:.005em;}
   h1{font-size:1.9rem; line-height:1.25; text-wrap:balance; margin:0 0 .5rem;}
   h2{font-size:1.45rem; line-height:1.3; text-wrap:balance; margin:0 0 .35rem;}
@@ -30,7 +35,7 @@
   .top .year{margin-left:auto; font-size:.8rem; color:var(--ink-soft); white-space:nowrap;}
 
   .layout{display:grid; grid-template-columns:230px minmax(0,1fr); gap:40px; align-items:start;}
-  @media(max-width:820px){ .layout{grid-template-columns:1fr;} nav.steps{position:static; display:flex; overflow-x:auto; gap:6px; padding-bottom:8px; border-bottom:1px solid var(--line);} nav.steps .step{flex:none;} }
+  @media(max-width:820px){ .layout{grid-template-columns:1fr;} }
 
   nav.steps{position:sticky; top:20px; display:flex; flex-direction:column; gap:4px;}
   .step{display:flex; align-items:center; gap:10px; padding:9px 12px; border-radius:8px; font-size:.86rem; color:var(--ink-soft); background:none; border:none; text-align:left; font-family:inherit; cursor:default;}
@@ -41,6 +46,10 @@
   .step.unlocked{cursor:pointer;}
   .step.unlocked:hover{background:var(--pine-mist);}
   .step:focus-visible{outline:2px solid var(--pine); outline-offset:2px;}
+  @media(max-width:820px){
+    nav.steps{position:static; flex-direction:row; overflow-x:auto; gap:6px; padding-bottom:8px; border-bottom:1px solid var(--line); -webkit-overflow-scrolling:touch;}
+    nav.steps .step{flex:none; white-space:nowrap;}
+  }
 
   main{max-width:66ch;}
   .card{background:#fff; border:1px solid var(--line); border-radius:var(--radius); padding:28px;}
@@ -113,6 +122,25 @@
   }
   .hide{display:none !important;}
   footer.credit{margin-top:70px; padding-top:16px; border-top:1px solid var(--line); text-align:center; font-size:.8rem; color:var(--ink-soft);}
+  .q input[type=radio]{width:18px; height:18px; flex:none;}
+
+  /* ---- app-like mobile ---- */
+  @media(max-width:600px){
+    body{font-size:17px;}
+    .shell{padding:0 16px 60px;}
+    header.top{padding:14px 0 12px; gap:11px;}
+    .top .year{display:none;}
+    .mark{width:38px; height:38px;}
+    h1{font-size:1.55rem;}
+    h2{font-size:1.3rem;}
+    nav.steps{margin:0 -16px 4px; padding:2px 16px 8px;}
+    .btnrow{flex-direction:column; align-items:stretch;}
+    .btn{text-align:center; padding:16px 22px; font-size:1.02rem;}
+    .q label.opt{padding:13px 14px; font-size:1rem;}
+    input[type=text],input[type=email],select{padding:13px 14px;}
+    .cert{padding:28px 18px;}
+    .cert .name{font-size:1.3rem; padding:0 10px 6px;}
+  }
 </style>
 
 <div class="shell">
@@ -262,7 +290,7 @@ const MODULES = [
   <p><strong>All church programming</strong> for children, youth, and vulnerable adults — Sunday school, nursery, choirs, VBS, youth group, and more. Overnight events (camps, retreats, mission trips, lock-ins) are covered activities too, with extra rules:</p>
   <ul class="policy">
     <li>Adults staying with young people must be the <strong>same gender</strong> as those young people.</li>
-    <li>An adult must <strong>never be alone</strong> in a lodging room with a young person.</li>
+    <li>An adult must <strong>never be alone with a young person</strong> — in a lodging room, bathroom, or any other private space.</li>
     <li>An adult must <strong>never share a bed</strong> with a young person — unless the adult is an immediate family member or guardian of that young person and of the same gender.</li>
     <li><strong>Family exception:</strong> a parent or guardian chaperoning an overnight event may share a room and bed with their own child regardless of gender — as long as <em>no other young people</em> share the room.</li>
   </ul>
@@ -298,7 +326,8 @@ const MODULES = [
   <ul class="policy">
     <li><strong>Caravans are the exception:</strong> when multiple private vehicles caravan together, two adults are <em>not</em> required in each vehicle.</li>
     <li><strong>Youth drivers:</strong> youth may not drive to out-of-town events without <strong>written parental permission</strong>.</li>
-    <li><strong>Driver screening:</strong> anyone driving to youth or children's events must pass a <strong>background check and motor vehicle records check</strong>. A driver who isn't chaperoning doesn't need Safe Sanctuary training — as long as they drive in a caravan or with another adult in the car.</li>
+    <li><strong>Every driver is screened:</strong> anyone driving to youth or children's events must pass a <strong>background check and motor vehicle records check</strong> — no exceptions.</li>
+    <li><strong>Training is separate from screening:</strong> a driver who is <em>only</em> driving — not serving as a chaperone — does not need Safe Sanctuaries training, provided they drive in a caravan or have another adult in the car. Anyone who chaperones in any way needs this training too.</li>
     <li>Licensed day-care, preschool, or after-school transportation follows applicable state law.</li>
   </ul>
   <h3>Social media & electronic communication</h3>
@@ -306,7 +335,7 @@ const MODULES = [
   <ul class="policy">
     <li><strong>Never initiate</strong> a social media connection (friending, following) with a student. If a student initiates one, <strong>notify the Youth Director</strong>.</li>
     <li>If you receive a <strong>questionable private text</strong> from a young person: end the conversation in the virtual space immediately, offer to continue in person under one-on-one guidelines, and notify the ministry supervisor and/or parent right away.</li>
-    <li>Post photos only with <strong>prior written permission</strong> from a parent or guardian — and keep every photo appropriate to the spirit of the event.</li>
+    <li>Post photos only with <strong>prior written permission</strong> from a parent or guardian, and keep every photo appropriate to the spirit of the event. <strong>Best practice in children's ministry: don't post photos of children at all</strong> — you rarely know whose permission is on file.</li>
     <li><strong>Online meetings follow in-person rules:</strong> two unrelated adults must be present in a Zoom room just as in a physical room.</li>
     <li>Use the <strong>official church account</strong>, never a personal account, for online programming — and share meeting details with parents.</li>
     <li>Everyone uses <strong>real names</strong> as usernames.</li>
@@ -344,7 +373,7 @@ const MODULES = [
   <ul class="policy">
     <li><strong>Three-month rule:</strong> you must have an active relationship with the church where you'll serve for at least <strong>3 months</strong> before serving as an authority figure.</li>
     <li><strong>Five-year rule:</strong> you should be at least <strong>5 years older</strong> than the oldest member of the group you serve (unless otherwise approved by the ministry supervisor).</li>
-    <li><strong>Leaders must be 19 or older.</strong> Helpers may be as young as 12, provided they keep the five-year gap.</li>
+    <li><strong>Age minimums:</strong> an <strong>authority figure</strong> — the primary leader of a ministry activity — must be <strong>21 or older</strong>. Other leaders of a group must be at least 19, and helpers may be as young as 12, provided they keep the five-year gap.</li>
   </ul>
   <h3>The screening process</h3>
   <ol>
@@ -400,6 +429,7 @@ const MODULES = [
     <li>followed by a <strong>written report</strong> to a duly constituted authority;</li>
     <li>if reported to law enforcement first, they inform the Department of Human Resources (DHR) so protective services can respond.</li>
   </ul>
+  <div class="callout"><p class="label">If the video and this policy sound different</p><p>The conference video and this module describe the same duty in different words. When details seem to differ, remember the order of operations: <strong>suspected child abuse goes to the state authorities immediately</strong> — that duty is yours under Alabama law and cannot be delegated to anyone at church. Policy concerns that don't involve abuse go to your ministry supervisor or the Senior Pastor.</p></div>
   <h3>Reporting inside the church</h3>
   <p>Any action or conduct reasonably believed to violate the SSPMS — observed by staff, volunteers, parents, members, or guests — should be <strong>promptly reported to your ministry supervisor or the Senior Pastor</strong>. Reporting instructions are posted around the church buildings and campus.</p>
   <div class="callout"><p class="label">Never do this</p><p>Never promise a child you'll keep a disclosure secret. Never investigate on your own. Never wait to see if it happens again. Listen calmly, reassure the child they did the right thing by telling you, and report immediately.</p></div>
@@ -476,6 +506,8 @@ function nav(){
     if(unlocked) b.onclick=()=>{ state.screen=i; save(); render(); };
     el.appendChild(b);
   });
+  const cur=el.querySelector(".step.current");
+  if(cur && el.scrollWidth>el.clientWidth){ el.scrollLeft=cur.offsetLeft-el.clientWidth/2+cur.offsetWidth/2; }
 }
 
 function progressPct(){ return Math.round((state.passed.length + (state.ack?1:0)) / (N+1) * 100); }
@@ -611,8 +643,8 @@ function ack(m){
       <input type="checkbox" id="ackbox" style="margin-top:4px;accent-color:var(--pine);">
       <span>I have read the statement above and affirm it.</span>
     </label>
-    <label class="f" for="sig">Type your full legal name as your signature</label>
-    <input type="text" id="sig" placeholder="${esc(state.user?state.user.name:"")}" autocomplete="off">
+    <label class="f" for="sig">Sign by typing your full name (${esc(state.user?state.user.name:"your name")}) in the box below</label>
+    <input type="text" id="sig" placeholder="Type your name here" autocomplete="off">
     <div class="btnrow"><button class="btn" id="ackbtn">Sign & complete training</button></div>
     <p class="small muted" id="aerr" role="alert"></p>
   </div>`;
@@ -662,6 +694,8 @@ function certificate(m){
   const mailto="mailto:"+CONFIG.recordEmail
     +"?subject="+encodeURIComponent("Safe Sanctuaries Completion — "+u.name)
     +"&body="+encodeURIComponent(recordBody(u,a));
+  const mailtoOwn="mailto:?subject="+encodeURIComponent("Safe Sanctuaries Completion — "+u.name)
+    +"&body="+encodeURIComponent(recordBody(u,a));
   m.innerHTML=`
   ${rv?`<div class="callout brass" style="margin-top:0;"><p class="label">Review mode</p><p>This page is shown with sample placeholder data. <a href="#" id="exitreview3">Exit review mode</a></p></div>`:""}
   <p class="eyebrow">Training complete</p>
@@ -671,9 +705,10 @@ function certificate(m){
   <div class="btnrow">
     <a class="btn" href="${mailto}" id="mailbtn">✉ Email my record to ${esc(CONFIG.recordChurch)}</a>
     ${CONFIG.shelbyFormUrl?`<a class="btn" href="${esc(CONFIG.shelbyFormUrl)}" target="_blank" rel="noopener">Record my completion in Shelby</a>`:""}
+    <a class="btn ghost" href="${mailtoOwn}">✉ Email my record to my own church</a>
     <button class="btn ghost" onclick="window.print()">Print certificate</button>
   </div>
-  <p class="small muted"><strong>${esc(CONFIG.recordChurch)} members:</strong> press the email button and hit send — your record goes straight to our office. <strong>Members of other churches:</strong> our office doesn't need your record, so <a href="mailto:?subject=${encodeURIComponent("Safe Sanctuaries Completion — "+u.name)}&body=${encodeURIComponent(recordBody(u,a))}">address it to your own church office instead</a>. Printing also lets you save the certificate as a PDF.</p>
+  <p class="small muted"><strong>${esc(CONFIG.recordChurch)} members:</strong> press the first button and hit send; your record goes straight to our office. <strong>Members of other churches:</strong> our office doesn't need your record. Press &ldquo;Email my record to my own church&rdquo; and the same record opens with a blank address line for your own church office. Printing also lets you save the certificate as a PDF.</p>
   <div id="certprint"><div class="cert">
     <p class="church">${esc(u.church)}</p>
     <h2>Certificate of Completion</h2>
