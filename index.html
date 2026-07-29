@@ -404,7 +404,7 @@ const RESOURCES = [
   { area: "Worship", topic: "Planning", title: "Annual Preaching Schedule Example", star: true, desc: "The actual 2026 preaching calendar: every Sunday mapped with series, sermon title, texts, and special days, planned a year ahead.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#", links: [ { label: "2026 Schedule (PDF)", file: "SFUMC_Worship_AnnualPreachingSchedule_2026.pdf", url: "#" } ] },
   { area: "Worship", topic: "Planning", title: "Example Planning Center Rundown", desc: "Real orders of worship, ready to adapt. A current Sunday example is coming.", church: "Spanish Fort UMC", type: "PDF", year: 2024, url: "#",
     links: [ { label: "Good Friday", file: "SFUMC_Worship_WorshipOrderGoodFriday_2024.pdf", url: "#" } ] },
-  { area: "Worship", topic: "Planning", title: "Who Plans Worship: Committee, Team, and Staff", cs: true, desc: "How one church divides worship work between a committee, a volunteer team, and weekly staff planning.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Worship_PlanningRhythm_2026.docx", url: "#" } ] },
+  { area: "Worship", topic: "Planning", title: "Who Plans Worship: Committee, Team, and Staff", es: true, desc: "How one church divides worship work between a committee, a volunteer team, and weekly staff planning, with the Tuesday staff rhythm and the Planning Center workflow behind it.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Worship_PlanningRhythm_2026.docx", url: "#" } ] },
   { area: "Worship", topic: "Operations", title: "Worship Bulletin Examples", desc: "Recent bulletins from a standard Sunday and a combined service.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
     links: [ { label: "Standard Sunday", file: "SFUMC_Worship_BulletinExample_2025.pdf", url: "#" }, { label: "Combined Service", file: "SFUMC_Worship_BulletinExampleCombined_2025.pdf", url: "#" } ] },
 
@@ -490,11 +490,11 @@ const RESOURCES = [
   // ===== Comprehensive coverage: a card for every mind map node =====
   // Worship
         { area: "Adult Discipleship", topic: "Studies and Classes", title: "Lenten Devotional Project Plan", star: true, desc: "The working plan for Leaning Into Lent: a season-long devotional podcast with release schedule, communication plan, and episode format.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#", links: [ { label: "Download (PDF)", file: "SFUMC_Worship_LentenDevotionalProject_2026.pdf", url: "#" } ] },
-  { area: "Worship", topic: "Planning", title: "Combined Worship Services Model", cs: true, desc: "When and why to combine two services into one, and how to make it a moment of unity rather than a logistics headache.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Worship_CombinedServices_2026.docx", url: "#" } ] },
+  { area: "Worship", topic: "Planning", title: "Combined Worship Services Model", es: true, desc: "When and why to combine two services into one: the festival days, local observances, and low-attendance Sundays that make natural slots, and the unity it builds across worship styles.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Worship_CombinedServices_2026.docx", url: "#" } ] },
   { area: "Worship", topic: "Music", title: "Traditional Music: Choir and Handbells", cs: true, desc: "Structure and seasonal rhythm of a sanctuary choir and a handbell choir.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Worship_TraditionalMusic_2026.docx", url: "#" } ] },
   { area: "Worship", topic: "Music", title: "Contemporary Music: Band and Tech", cs: true, desc: "How a contemporary band and its tech team are organized and scheduled.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Worship_ContemporaryMusicBandTech_2026.docx", url: "#" } ] },
   { area: "Worship", topic: "Music", title: "Christmas Musical Production Model", cs: true, desc: "Mounting an annual Christmas musical: rehearsal calendar, combined choirs, and hiring orchestra musicians.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Worship_ChristmasMusicalProduction_2026.docx", url: "#" } ] },
-  { area: "Worship", topic: "Operations", title: "Ushers, Greeters, and Hospitality Roles", cs: true, desc: "Role descriptions for the Sunday-morning hospitality team.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Worship_HospitalityRoles_2026.docx", url: "#" } ] },
+  { area: "Worship", topic: "Operations", title: "Ushers, Greeters, and Hospitality Roles", es: true, desc: "Role descriptions for the Sunday-morning hospitality team, mapped to the guest's path from the parking lot to after worship.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Worship_HospitalityRoles_2026.docx", url: "#" } ] },
   { area: "Worship", topic: "Operations", title: "Sanctuary Setup and Supplies", cs: true, desc: "The systems behind paraments, flowers, pew supplies, and weekly sanctuary setup.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Worship_SanctuarySetupSupplies_2026.docx", url: "#" } ] },
   { area: "Worship", topic: "Operations", title: "Sound and Tech System Documentation", desc: "How to document your worship AV and lighting system so volunteers can run it and vendors can service it.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#" },
 
@@ -847,7 +847,7 @@ function cardHTML(r) {
     <h3>${r.star ? '<span class="star" title="Cornerstone resource">&#9733;</span> ' : ''}${r.title}</h3>
     <div class="meta">${r.church} &middot; ${r.type} &middot; ${r.year}</div>
     <p class="desc">${r.desc}</p>
-    ${r.cs ? '<p class="cnote">Claude Summary</p>' : ''}
+    ${r.es ? '<p class="cnote">Edited Summary</p>' : r.cs ? '<p class="cnote">Claude Summary</p>' : ''}
     ${action}
   </div>`;
 }
