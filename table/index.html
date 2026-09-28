@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Table | Doing Church Together</title>
+<style>
+  :root {
+    --paper: #f9f5ec;
+    --card: #fffdf7;
+    --ink: #38332a;
+    --soft-ink: #6e675a;
+    --navy: #334057;
+    --navy-deep: #232e42;
+    --peri: #5a6690;
+    --cream: #fdf9f3;
+    --line: #ddd3bf;
+    --gold: #96731f;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  a { color: var(--navy); }
+  button { font-family: inherit; cursor: pointer; }
+
+  .eyebrow { font-size: .72rem; letter-spacing: 3px; text-transform: uppercase; }
+
+  header.band { background: var(--navy); color: var(--cream); padding: 22px 20px 26px; }
+  .bandin { max-width: 860px; margin: 0 auto; }
+  header .top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  header .brand { color: var(--cream); text-decoration: none; opacity: .9; }
+  header .links { display: flex; gap: 18px; flex-wrap: wrap; }
+  header .links a { color: var(--cream); opacity: .8; text-decoration: none; font-size: .85rem; }
+  header .links a:hover { opacity: 1; text-decoration: underline; text-underline-offset: 3px; }
+  header h1 { font-weight: normal; font-size: clamp(2rem, 6vw, 2.9rem); margin-top: 14px; }
+  header p.tag { font-style: italic; opacity: .88; font-size: .98rem; max-width: 620px; }
+  #whoami { margin-top: 12px; font-size: .85rem; opacity: .85; }
+  #whoami button { background: none; border: none; color: var(--cream); text-decoration: underline; font-size: .85rem; opacity: .9; }
+
+  main { max-width: 860px; margin: 0 auto; padding: 22px 16px 70px; }
+
+  .bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 18px; }
+  .bar select {
+    font-family: inherit; font-size: .92rem; color: var(--ink);
+    background: var(--card); border: 1px solid var(--line); border-radius: 6px; padding: 9px 10px;
+  }
+  .grow { flex: 1; }
+  .newbtn {
+    background: var(--navy); color: var(--cream); border: none; border-radius: 999px;
+    padding: 11px 24px; font-size: .92rem; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .newbtn:hover { background: var(--navy-deep); }
+
+  .hubstrip {
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--gold);
+    border-radius: 8px; padding: 14px 18px; margin-bottom: 20px;
+  }
+  .hubstrip .eyebrow { color: var(--gold); margin-bottom: 6px; }
+  .hubstrip ul { list-style: none; }
+  .hubstrip li { font-size: .92rem; padding: 3px 0; color: var(--soft-ink); }
+  .hubstrip a { color: var(--ink); }
+  .hubstrip .more { font-size: .85rem; margin-top: 6px; }
+
+  .thread {
+    background: var(--card); border: 1px solid var(--line); border-radius: 8px;
+    padding: 18px 20px; margin-bottom: 14px; cursor: pointer;
+    transition: box-shadow .2s ease;
+  }
+  .thread:hover { box-shadow: 0 6px 18px rgba(56,51,42,.10); }
+  .thread .meta { font-size: .78rem; color: var(--soft-ink); margin-bottom: 4px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .chip {
+    display: inline-block; font-size: .68rem; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--peri); border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; background: var(--paper);
+  }
+  .chip.example { color: var(--gold); }
+  .thread h3 { font-weight: normal; font-size: 1.18rem; line-height: 1.35; }
+  .thread .snip { color: var(--soft-ink); font-size: .93rem; margin-top: 6px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .thread .foot { font-size: .82rem; color: var(--peri); margin-top: 8px; }
+
+  .attach {
+    display: inline-block; font-size: .85rem; background: var(--paper); border: 1px solid var(--line);
+    border-radius: 6px; padding: 6px 12px; margin-top: 10px; color: var(--ink); text-decoration: none;
+  }
+  .attach:hover { border-color: var(--peri); }
+  .attach .k { color: var(--gold); font-size: .68rem; letter-spacing: 1.5px; text-transform: uppercase; margin-right: 6px; }
+
+  #threadView { display: none; }
+  .backlink { background: none; border: none; color: var(--peri); font-size: .9rem; text-decoration: underline; margin-bottom: 14px; }
+  .tv { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 24px 26px; }
+  .tv h2 { font-weight: normal; font-size: 1.5rem; line-height: 1.3; margin: 6px 0 4px; }
+  .tv .body { margin-top: 12px; white-space: pre-wrap; }
+  .replies { margin-top: 22px; }
+  .reply { border-top: 1px solid var(--line); padding: 14px 4px 12px; }
+  .reply .meta { font-size: .78rem; color: var(--soft-ink); margin-bottom: 3px; }
+  .reply .body { white-space: pre-wrap; font-size: .96rem; }
+  .replybox { margin-top: 18px; }
+  textarea, input[type=text], input[type=email] {
+    width: 100%; font-family: inherit; font-size: .95rem; color: var(--ink);
+    background: #fff; border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px;
+  }
+  textarea { min-height: 90px; resize: vertical; }
+  .replybox button, .modal .send {
+    margin-top: 10px; background: var(--navy); color: var(--cream); border: none; border-radius: 999px;
+    padding: 10px 26px; font-size: .9rem;
+  }
+  .replybox button:hover, .modal .send:hover { background: var(--navy-deep); }
+
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(35,46,66,.45); z-index: 20; }
+  .modal {
+    position: fixed; z-index: 21; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: min(620px, 94vw); max-height: 90vh; overflow: auto; display: none;
+    background: var(--card); border-radius: 10px; padding: 26px 26px 24px; box-shadow: 0 24px 70px rgba(0,0,0,.35);
+  }
+  .modal h2 { font-weight: normal; font-size: 1.35rem; margin-bottom: 14px; }
+  .modal label { display: block; font-size: .8rem; color: var(--soft-ink); margin: 12px 0 4px; letter-spacing: .5px; }
+  .modal select { width: 100%; font-family: inherit; font-size: .95rem; padding: 9px 10px; background: #fff; border: 1px solid var(--line); border-radius: 6px; }
+  .modal .row { display: flex; gap: 10px; }
+  .modal .row > div { flex: 1; }
+  .modal .cancel { background: none; border: none; color: var(--soft-ink); text-decoration: underline; margin: 10px 0 0 16px; font-size: .88rem; }
+  #picker { border: 1px solid var(--line); border-radius: 6px; background: #fff; max-height: 170px; overflow: auto; display: none; }
+  #picker div { padding: 7px 12px; font-size: .88rem; cursor: pointer; border-top: 1px solid var(--paper); }
+  #picker div:hover { background: var(--paper); }
+  #attached { font-size: .88rem; margin-top: 6px; color: var(--peri); }
+  #attached button { background: none; border: none; color: var(--soft-ink); text-decoration: underline; font-size: .8rem; }
+
+  .previewnote {
+    background: #f3ecdc; border: 1px solid var(--line); border-radius: 8px;
+    padding: 10px 16px; font-size: .85rem; color: var(--soft-ink); margin-bottom: 18px;
+  }
+  .empty { text-align: center; color: var(--soft-ink); padding: 40px 10px; font-style: italic; }
+
+  footer { background: var(--navy); color: var(--cream); text-align: center; padding: 30px 20px 40px; font-size: .88rem; margin-top: 40px; }
+  footer p { opacity: .9; max-width: 620px; margin: 0 auto 6px; }
+  footer a { color: var(--cream); }
+  @media (max-width: 640px) {
+    .tv { padding: 18px 16px; }
+    .modal .row { flex-direction: column; gap: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header class="band">
+  <div class="bandin">
+    <div class="top">
+      <a class="brand eyebrow" href="https://doingchurchtogether.org">Doing Church Together</a>
+      <div class="links">
+        <a href="https://churchresourcehub.github.io/">Resource Hub</a>
+        <a href="https://pastorhandbook.vercel.app">Handbook</a>
+        <a href="https://theologycompare.vercel.app">Comparative Theology</a>
+      </div>
+    </div>
+    <h1>The Table</h1>
+    <p class="tag">A place for clergy and church leaders to ask questions and pass along what works, anchored to the Church Resource Hub.</p>
+    <div id="whoami"></div>
+  </div>
+</header>
+
+<main>
+  <div id="feedView">
+    <div id="previewnote" class="previewnote" style="display:none">
+      <strong>Preview.</strong> This copy of The Table runs in your browser only, with example posts to show the shape. Nothing you write here is shared yet.
+    </div>
+
+    <div class="hubstrip">
+      <div class="eyebrow">New in the library</div>
+      <ul id="hubnew"></ul>
+      <div class="more"><a href="https://churchresourcehub.github.io/">Browse all resources on the Church Resource Hub</a></div>
+    </div>
+
+    <div class="bar">
+      <select id="areaFilter"><option value="">All ministry areas</option></select>
+      <div class="grow"></div>
+      <button class="newbtn" id="newBtn">Start a conversation</button>
+    </div>
+
+    <div id="feed"></div>
+  </div>
+
+  <div id="threadView"></div>
+</main>
+
+<div class="overlay" id="overlay"></div>
+<div class="modal" id="composeModal">
+  <h2>Start a conversation</h2>
+  <label>Question or topic</label>
+  <input type="text" id="cTitle" maxlength="140" placeholder="Thinking about a pumpkin patch this fall. Who has done one?">
+  <label>Ministry area</label>
+  <select id="cArea"></select>
+  <label>Say more</label>
+  <textarea id="cBody" placeholder="What are you weighing, what have you tried, and what would help?"></textarea>
+  <label>Attach a resource from the hub (optional)</label>
+  <input type="text" id="cSearch" placeholder="Search the library by name...">
+  <div id="picker"></div>
+  <div id="attached"></div>
+  <div class="row">
+    <div>
+      <label>Your name</label>
+      <input type="text" id="cName" maxlength="60">
+    </div>
+    <div>
+      <label>Your church</label>
+      <input type="text" id="cChurch" maxlength="80">
+    </div>
+  </div>
+  <button class="send" id="cSend">Post it</button>
+  <button class="cancel" id="cCancel">Cancel</button>
+</div>
+
+<div class="modal" id="signinModal">
+  <h2>Pull up a chair</h2>
+  <p style="font-size:.92rem;color:var(--soft-ink)">Enter your email and we will send you a sign-in link. No password to remember.</p>
+  <label>Email</label>
+  <input type="email" id="sEmail" placeholder="you@yourchurch.org">
+  <button class="send" id="sSend">Send my link</button>
+  <button class="cancel" id="sCancel">Cancel</button>
+  <p id="sNote" style="font-size:.88rem;margin-top:10px;color:var(--peri)"></p>
+</div>
+
+<footer>
+  <p>The Table is part of <a href="https://doingchurchtogether.org">Doing Church Together</a>, alongside the <a href="https://churchresourcehub.github.io/">Church Resource Hub</a>, <a href="https://pastorhandbook.vercel.app">The Pastor's Handbook</a>, and <a href="https://theologycompare.vercel.app">Comparative Theology</a>.</p>
+  <p>Be generous, be honest, and assume good faith.</p>
+</footer>
+
+<script src="config.js"></script>
+<script src="resources.js"></script>
+<script>
+(function () {
+  "use strict";
+  var CFG = window.TABLE_CONFIG || {};
+  var LIVE = !!(CFG.SUPABASE_URL && CFG.SUPABASE_ANON_KEY);
+  var sb = null;
+
+  var AREAS = ["Administration and Governance","Adult Discipleship","Children's Ministry","Communications","Congregational Care","Fellowship and Family Life","Membership and Hospitality","Miscellaneous","Missions and Evangelism","Older Adult Ministry","Preschool and Weekday Ministries","UMC Basics","Volunteer Coordination","Worship","Youth Ministry"];
+
+  var RESOURCES = [];
+  var threads = [];
+  var attachedRes = null;
+  var me = null; // { name, church, email }
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function ago(iso) {
+    var d = (Date.now() - new Date(iso).getTime()) / 1000;
+    if (d < 90) return "just now";
+    if (d < 3600) return Math.round(d / 60) + " min ago";
+    if (d < 86400 * 2) return Math.round(d / 3600) + " hours ago";
+    if (d < 86400 * 14) return Math.round(d / 86400) + " days ago";
+    return new Date(iso).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+  }
+  function byId(id) { return document.getElementById(id); }
+
+  // ---------- storage layers ----------
+  var EXAMPLES = [
+    { id: "ex1", example: true, created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
+      author_name: "Example post", author_church: "Preview only", area: "Missions and Evangelism",
+      title: "Thinking about a pumpkin patch this fall. Who has done one?",
+      body: "We have the front lawn for it and a youth group that needs a mission trip fund. Before we call the supplier: is the margin worth the volunteer hours, and what do you wish you had known the first year?",
+      resource_title: "Mission Fundraiser Library", resource_link: "https://churchresourcehub.github.io/",
+      replies: [
+        { id: "exr1", created_at: new Date(Date.now() - 86400000).toISOString(), author_name: "Example reply", author_church: "Preview only",
+          body: "This is where a colleague who has run one would jump in with real numbers, the supplier they used, and the one mistake to avoid. Replies land in the thread so the answer is still here when the next pastor searches for it." }
+      ] },
+    { id: "ex2", example: true, created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
+      author_name: "Example post", author_church: "Preview only", area: "Administration and Governance",
+      title: "What does your charge conference packet actually include?",
+      body: "First one at this appointment. The Discipline tells me what must be there; I want to know what the churches that run smooth ones actually hand out.",
+      resource_title: null, resource_link: null, replies: [] }
+  ];
+
+  var store = {
+    key: "thetable_preview_v1",
+    loadLocal: function () {
+      try { var raw = localStorage.getItem(this.key); if (raw) return JSON.parse(raw); } catch (e) {}
+      return null;
+    },
+    saveLocal: function (t) { try { localStorage.setItem(this.key, JSON.stringify(t)); } catch (e) {} },
+
+    fetchThreads: function (cb) {
+      if (!LIVE) {
+        var saved = this.loadLocal();
+        threads = (saved && saved.length ? saved : EXAMPLES.slice());
+        cb();
+        return;
+      }
+      sb.from("threads").select("*, replies(*)").order("created_at", { ascending: false }).limit(200)
+        .then(function (r) { threads = r.data || []; cb(); });
+    },
+    addThread: function (t, cb) {
+      if (!LIVE) {
+        t.id = "p" + Date.now(); t.created_at = new Date().toISOString(); t.replies = [];
+        threads.unshift(t); this.saveLocal(threads); cb(null, t);
+        return;
+      }
+      sb.from("threads").insert({
+        author_name: t.author_name, author_church: t.author_church, area: t.area,
+        title: t.title, body: t.body, resource_title: t.resource_title, resource_link: t.resource_link
+      }).select().single().then(function (r) { if (r.data) { r.data.replies = []; threads.unshift(r.data); } cb(r.error, r.data); });
+    },
+    addReply: function (thread, body, cb) {
+      if (!LIVE) {
+        var rep = { id: "r" + Date.now(), created_at: new Date().toISOString(), author_name: me.name, author_church: me.church, body: body };
+        thread.replies.push(rep); this.saveLocal(threads); cb(null, rep);
+        return;
+      }
+      sb.from("replies").insert({ thread_id: thread.id, author_name: me.name, author_church: me.church, body: body })
+        .select().single().then(function (r) { if (r.data) thread.replies.push(r.data); cb(r.error, r.data); });
+    }
+  };
+
+  // ---------- identity ----------
+  function loadMe() {
+    try { var raw = localStorage.getItem("thetable_me"); if (raw) me = JSON.parse(raw); } catch (e) {}
+  }
+  function saveMe() { try { localStorage.setItem("thetable_me", JSON.stringify(me)); } catch (e) {} }
+  function renderWho() {
+    var el = byId("whoami");
+    if (LIVE && !me) {
+      el.innerHTML = 'You are reading as a guest. <button id="signinBtn">Sign in to post</button>';
+      var b = byId("signinBtn"); if (b) b.onclick = openSignin;
+    } else if (me && me.name) {
+      el.innerHTML = "At the table as " + esc(me.name) + (me.church ? ", " + esc(me.church) : "") + ". <button id=\"outBtn\">Change</button>";
+      byId("outBtn").onclick = function () { me = null; saveMe(); if (LIVE && sb) sb.auth.signOut(); renderWho(); };
+    } else {
+      el.innerHTML = "";
+    }
+  }
+
+  // ---------- feed ----------
+  function renderHubNew() {
+    var recent = RESOURCES.filter(function (r) { return r.year >= 2026; }).slice(-4).reverse();
+    if (!recent.length) recent = RESOURCES.slice(0, 4);
+    byId("hubnew").innerHTML = recent.map(function (r) {
+      return "<li><a href=\"" + esc(r.link) + "\" target=\"_blank\" rel=\"noopener\">" + esc(r.title) + "</a> · " + esc(r.area) + (r.church ? " · " + esc(r.church) : "") + "</li>";
+    }).join("");
+  }
+
+  function renderFeed() {
+    var area = byId("areaFilter").value;
+    var list = threads.filter(function (t) { return !area || t.area === area; });
+    var host = byId("feed");
+    if (!list.length) {
+      host.innerHTML = '<div class="empty">No conversations here yet. Start the first one.</div>';
+      return;
+    }
+    host.innerHTML = list.map(function (t) {
+      var replies = (t.replies || []).length;
+      return '<div class="thread" data-id="' + esc(t.id) + '">' +
+        '<div class="meta"><span class="chip">' + esc(t.area) + "</span>" +
+        (t.example ? '<span class="chip example">Example</span>' : "") +
+        "<span>" + esc(t.author_name) + (t.author_church ? ", " + esc(t.author_church) : "") + "</span><span>· " + ago(t.created_at) + "</span></div>" +
+        "<h3>" + esc(t.title) + "</h3>" +
+        '<div class="snip">' + esc(t.body) + "</div>" +
+        (t.resource_title ? '<span class="attach"><span class="k">From the hub</span>' + esc(t.resource_title) + "</span>" : "") +
+        '<div class="foot">' + (replies ? replies + (replies === 1 ? " reply" : " replies") : "No replies yet") + "</div></div>";
+    }).join("");
+    Array.prototype.forEach.call(host.querySelectorAll(".thread"), function (el) {
+      el.onclick = function () { openThread(el.getAttribute("data-id")); };
+    });
+  }
+
+  // ---------- thread view ----------
+  var current = null;
+  function openThread(id) {
+    current = threads.filter(function (t) { return String(t.id) === String(id); })[0];
+    if (!current) return;
+    byId("feedView").style.display = "none";
+    var tv = byId("threadView");
+    tv.style.display = "block";
+    renderThread();
+    window.scrollTo(0, 0);
+  }
+  function renderThread() {
+    var t = current;
+    var reps = (t.replies || []).slice().sort(function (a, b) { return new Date(a.created_at) - new Date(b.created_at); });
+    byId("threadView").innerHTML =
+      '<button class="backlink" id="backBtn">Back to all conversations</button>' +
+      '<div class="tv">' +
+      '<div class="meta"><span class="chip">' + esc(t.area) + "</span>" + (t.example ? ' <span class="chip example">Example</span>' : "") + "</div>" +
+      "<h2>" + esc(t.title) + "</h2>" +
+      '<div style="font-size:.85rem;color:var(--soft-ink)">' + esc(t.author_name) + (t.author_church ? ", " + esc(t.author_church) : "") + " · " + ago(t.created_at) + "</div>" +
+      '<div class="body">' + esc(t.body) + "</div>" +
+      (t.resource_title ? '<a class="attach" href="' + esc(t.resource_link || "#") + '" target="_blank" rel="noopener"><span class="k">From the hub</span>' + esc(t.resource_title) + "</a>" : "") +
+      '<div class="replies" id="reps">' +
+      reps.map(function (r) {
+        return '<div class="reply"><div class="meta">' + esc(r.author_name) + (r.author_church ? ", " + esc(r.author_church) : "") + " · " + ago(r.created_at) + '</div><div class="body">' + esc(r.body) + "</div></div>";
+      }).join("") +
+      "</div>" +
+      '<div class="replybox"><textarea id="repBody" placeholder="Add what you know..."></textarea><button id="repSend">Reply</button></div>' +
+      "</div>";
+    byId("backBtn").onclick = function () {
+      byId("threadView").style.display = "none";
+      byId("feedView").style.display = "block";
+      renderFeed();
+    };
+    byId("repSend").onclick = sendReply;
+  }
+  function sendReply() {
+    var body = byId("repBody").value.trim();
+    if (!body) return;
+    ensureIdentity(function () {
+      store.addReply(current, body, function (err) {
+        if (err) { alert("That reply did not save. Try again in a moment."); return; }
+        renderThread();
+      });
+    });
+  }
+
+  // ---------- identity gate ----------
+  function ensureIdentity(cb) {
+    if (LIVE && !me) { openSignin(); return; }
+    if (!me || !me.name) {
+      var name = prompt("Your name, as colleagues know you:");
+      if (!name) return;
+      var church = prompt("Your church (optional):") || "";
+      me = { name: name.trim(), church: church.trim() };
+      saveMe(); renderWho();
+    }
+    cb();
+  }
+
+  // ---------- compose ----------
+  function openCompose() {
+    ensureIdentity(function () {
+      byId("cName").value = (me && me.name) || "";
+      byId("cChurch").value = (me && me.church) || "";
+      byId("overlay").style.display = "block";
+      byId("composeModal").style.display = "block";
+    });
+  }
+  function closeModals() {
+    byId("overlay").style.display = "none";
+    byId("composeModal").style.display = "none";
+    byId("signinModal").style.display = "none";
+  }
+  function sendCompose() {
+    var t = {
+      title: byId("cTitle").value.trim(),
+      area: byId("cArea").value,
+      body: byId("cBody").value.trim(),
+      author_name: byId("cName").value.trim(),
+      author_church: byId("cChurch").value.trim(),
+      resource_title: attachedRes ? attachedRes.title : null,
+      resource_link: attachedRes ? attachedRes.link : null
+    };
+    if (!t.title || !t.body || !t.author_name) { alert("A topic, a few words, and your name are the minimum."); return; }
+    me = { name: t.author_name, church: t.author_church, email: me && me.email }; saveMe(); renderWho();
+    store.addThread(t, function (err) {
+      if (err) { alert("That did not post. Try again in a moment."); return; }
+      attachedRes = null; byId("attached").innerHTML = ""; byId("cTitle").value = ""; byId("cBody").value = ""; byId("cSearch").value = "";
+      closeModals(); renderFeed();
+    });
+  }
+
+  // resource picker
+  function pickerSearch() {
+    var q = byId("cSearch").value.trim().toLowerCase();
+    var host = byId("picker");
+    if (q.length < 2) { host.style.display = "none"; return; }
+    var hits = RESOURCES.filter(function (r) { return r.title.toLowerCase().indexOf(q) >= 0 || r.area.toLowerCase().indexOf(q) >= 0; }).slice(0, 12);
+    host.innerHTML = hits.map(function (r, i) { return '<div data-i="' + i + '">' + esc(r.title) + ' <span style="color:var(--soft-ink)">· ' + esc(r.area) + "</span></div>"; }).join("") || '<div>No matches in the library.</div>';
+    host.style.display = "block";
+    Array.prototype.forEach.call(host.querySelectorAll("div[data-i]"), function (el) {
+      el.onclick = function () {
+        attachedRes = hits[Number(el.getAttribute("data-i"))];
+        byId("attached").innerHTML = "Attached: " + esc(attachedRes.title) + ' <button id="unattach">remove</button>';
+        byId("unattach").onclick = function () { attachedRes = null; byId("attached").innerHTML = ""; };
+        host.style.display = "none"; byId("cSearch").value = "";
+      };
+    });
+  }
+
+  // ---------- sign in (live mode) ----------
+  function openSignin() {
+    byId("overlay").style.display = "block";
+    byId("signinModal").style.display = "block";
+  }
+  function sendMagicLink() {
+    var email = byId("sEmail").value.trim();
+    if (!email) return;
+    sb.auth.signInWithOtp({ email: email, options: { emailRedirectTo: location.origin } }).then(function (r) {
+      byId("sNote").textContent = r.error ? ("That did not send: " + r.error.message) : "Check your email for the sign-in link.";
+    });
+  }
+
+  // ---------- boot ----------
+  function boot() {
+    AREAS.forEach(function (a) {
+      var o = document.createElement("option"); o.value = a; o.textContent = a; byId("areaFilter").appendChild(o);
+      var o2 = document.createElement("option"); o2.value = a; o2.textContent = a; byId("cArea").appendChild(o2);
+    });
+    byId("cArea").value = "Missions and Evangelism";
+    byId("newBtn").onclick = openCompose;
+    byId("cSend").onclick = sendCompose;
+    byId("cCancel").onclick = closeModals;
+    byId("sCancel").onclick = closeModals;
+    byId("sSend").onclick = sendMagicLink;
+    byId("overlay").onclick = closeModals;
+    byId("cSearch").oninput = pickerSearch;
+    byId("areaFilter").onchange = renderFeed;
+
+    loadMe();
+    if (!LIVE) byId("previewnote").style.display = "block";
+    renderWho();
+
+    RESOURCES = window.HUB_RESOURCES || [];
+    renderHubNew();
+
+    if (LIVE) {
+      var s = document.createElement("script");
+      s.src = "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js";
+      s.onload = function () {
+        sb = window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY);
+        sb.auth.getUser().then(function (u) {
+          if (u.data && u.data.user) { me = me || {}; me.email = u.data.user.email; saveMe(); }
+          renderWho();
+        });
+        store.fetchThreads(renderFeed);
+      };
+      document.head.appendChild(s);
+    } else {
+      store.fetchThreads(renderFeed);
+    }
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
