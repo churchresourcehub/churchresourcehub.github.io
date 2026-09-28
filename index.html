@@ -427,6 +427,8 @@ const RESOURCES = [
   // ---- Adult Discipleship ----
   { area: "Adult Discipleship", topic: "Studies and Classes", title: "What Makes Us Us (Wesleyan Identity Study)", desc: "A short-term study on United Methodist identity, written for a local congregation.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#",
     links: [ { label: "Study Guide", file: "SFUMC_Adults_WhatMakesUsUsStudy_2026.pdf", url: "#" }, { label: "Series Brief", file: "SFUMC_Adults_WhatMakesUsUsBrief_2026.pdf", url: "#" } ] },
+  { area: "Adult Discipleship", topic: "Studies and Classes", title: "What Do You Actually Believe?", star: true, desc: "Six Sundays on Methodist belief and the traditions all around us, set weekly beside Roman Catholic, Baptist and non-denominational, and Reformed views. Leader guide, handouts, weekly guides, and supplements on Nicaea, salvation, the atonement, and baptism.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#",
+    links: [ { label: "Leader Guide (PDF)", file: "SFUMC_Adults_WhatDoYouActuallyBelieveLeaderGuide_2026.pdf", url: "#" }, { label: "Welcome Handout (PDF)", file: "SFUMC_Adults_WhatDoYouActuallyBelieveWelcome_2026.pdf", url: "#" }, { label: "Weekly Guides, Weeks 1-6 (PDF)", file: "SFUMC_Adults_WhatDoYouActuallyBelieveWeeklyGuides_2026.pdf", url: "#" }, { label: "Supplements (PDF)", file: "SFUMC_Adults_WhatDoYouActuallyBelieveSupplements_2026.pdf", url: "#" }, { label: "Participant Handouts (Word)", file: "SFUMC_Adults_WhatDoYouActuallyBelieveHandouts_2026.docx", url: "#" } ] },
   { area: "Adult Discipleship", topic: "Studies and Classes", title: "Atonement Theories Teaching Deck", desc: "A teaching presentation walking through historic understandings of the cross.", church: "Spanish Fort UMC", type: "PDF", year: 2024, url: "#",
     links: [ { label: "Download (PDF)", file: "SFUMC_Adults_AtonementTheoriesDeck_2024.pdf", url: "#" } ] },
   { area: "Adult Discipleship", topic: "Studies and Classes", title: "Judges Study (Week 1 Sample)", desc: "The opening week of a homegrown study on the book of Judges.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#",
@@ -462,10 +464,15 @@ const RESOURCES = [
   { area: "Communications", topic: "Branding", title: "Church Rebrand Case Study", cs: true, desc: "A full rebrand with a professional firm: discovery, design, rollout, and the brand kit itself.", church: "Spanish Fort UMC", type: "Folder", year: 2025, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Connect_RebrandCaseStudy_2026.docx", url: "#" } ] },
   { area: "Communications", topic: "Publications", title: "Weekly Email Format", cs: true, desc: "The structure and rhythm of a weekly congregational email people actually open.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Connect_WeeklyEmailFormat_2026.docx", url: "#" } ] },
   { area: "Communications", topic: "Publications", title: "Pastor's Note as a Weekly Practice", cs: true, star: true, desc: "Why and how a weekly written word from the pastor builds trust over time.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Connect_PastorsNotePractice_2026.docx", url: "#" }, { label: "Pastor's Notes 6-24 - 6-26", file: "SFUMC_Connect_PastorsNotesCompiled_2026.pdf", url: "#" } ] },
+  { area: "Communications", topic: "Publications", title: "Publisher Bulletin to InDesign Converter", desc: "Scripts that read a Microsoft Publisher bulletin without Publisher and rebuild it as an InDesign package, pictures and text in place. Technical: it needs Python and InDesign, and the notes explain how the file format was decoded.", church: "Spanish Fort UMC", type: "Link", year: 2026, url: "#",
+    links: [ { label: "Scripts and Notes (ZIP)", file: "SFUMC_Connect_PublisherToInDesign_2026.zip", url: "#" } ] },
 
   // ---- Membership and Hospitality ----
   { area: "Membership and Hospitality", topic: "Joining", title: "Membership Status Definitions", cs: true, desc: "Plain-language definitions of member statuses with Book of Discipline references.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Membership_StatusDefinitions_2026.docx", url: "#" } ] },
-  { area: "Membership and Hospitality", topic: "Joining", title: "Congregational Guidebook Example", desc: "A printed and digital guidebook walking members through everything the church does.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#" },
+  { area: "Membership and Hospitality", topic: "Joining", title: "Congregational Guidebook Example", star: true, desc: "A printed and digital guidebook walking members through everything the church does, handed to every household on Commitment Sunday. The 2026-2027 edition, 36 pages.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#",
+    links: [ { label: "Guidebook 2026-2027 (PDF)", file: "SFUMC_Connect_Guidebook_2026.pdf", url: "#" } ] },
+  { area: "Membership and Hospitality", topic: "Records", title: "Membership Roll Maintenance", desc: "Taking a database from more than 4,000 names to an honest roll: record types, active and inactive status, one working label per person, and how a name comes off through charge conference readings. No roster data included.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#",
+    links: [ { label: "Process Guide (Word, Claude Summary)", file: "SFUMC_Membership_RollMaintenanceProcess_2026.docx", url: "#" }, { label: "Every Name on the Roll: Report to the Church (Word)", file: "SFUMC_Membership_EveryNameOnTheRoll_2026.docx", url: "#" } ] },
 
   // ---- Volunteer Coordination ----
   { area: "Volunteer Coordination", topic: "Inventory and Structure", title: "Volunteer Role Inventory Method", cs: true, desc: "How to count every volunteer role and hour in your church. Ours found 121 roles and 15,600 hours.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Volunteers_RoleInventoryMethod_2026.docx", url: "#" } ] },
@@ -530,6 +537,14 @@ const RESOURCES = [
     links: [ { label: "Series Brief (Word)", file: "SFUMC_Worship_SeriesBriefWhatIfJesusWasSerious_2026.docx", url: "#" } ] },
   { area: "Worship", topic: "Series", title: "Series: Holy Ground", desc: "Five biblical landscapes and the spiritual seasons they name, May to June 2026.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#",
     links: [ { label: "Series Brief (PDF)", file: "SFUMC_Worship_SeriesBriefHolyGround_2026.pdf", url: "#" } ] },
+  { area: "Worship", topic: "Series", title: "Series: Caught In Between", desc: "Four weeks with Moses on the life of faith lived in the middle of things: the burning bush, the sea, Marah, and Pisgah. July to August 2026.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#",
+    links: [ { label: "Series Brief (Word)", file: "SFUMC_Worship_SeriesBriefCaughtInBetween_2026.docx", url: "#" } ] },
+  { area: "Worship", topic: "Series", title: "Series: The Way", desc: "Four weeks on the oldest name for Christianity, read through the image of the labyrinth, with a standing invitation into small groups. Series brief and all four sermons as preached, August to September 2026.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#",
+    links: [ { label: "Series Brief (Word)", file: "SFUMC_Worship_SeriesBriefTheWay_2026.docx", url: "#" }, { label: "Week 1: The Way (Word)", file: "SFUMC_Worship_TheWayWeek1_2026.docx", url: "#" }, { label: "Week 2: Next Steps (Word)", file: "SFUMC_Worship_TheWayWeek2_2026.docx", url: "#" }, { label: "Week 3: Unknown Paths (Word)", file: "SFUMC_Worship_TheWayWeek3_2026.docx", url: "#" }, { label: "Week 4: Walking With Others (Word)", file: "SFUMC_Worship_TheWayWeek4_2026.docx", url: "#" } ] },
+  { area: "Worship", topic: "Series", title: "Series: Wells We Didn't Dig", star: true, desc: "A commitment series on gratitude that turns into commitment, ending on Commitment Sunday with cards returned, a new guidebook in every household, and the membership vows renewed. Series brief, sermons as preached, and the commitment card, September to October 2026.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#",
+    links: [ { label: "Series Brief (Word)", file: "SFUMC_Worship_SeriesBriefWellsWeDidntDig_2026.docx", url: "#" }, { label: "Week 1: Wells We Didn't Dig (Word)", file: "SFUMC_Worship_WellsWeDidntDigWeek1_2026.docx", url: "#" }, { label: "Week 2: Planted and Watered (Word)", file: "SFUMC_Worship_WellsWeDidntDigWeek2_2026.docx", url: "#" }, { label: "Commitment Card (PDF)", file: "SFUMC_Admin_CommitmentCard_2026.pdf", url: "#" } ] },
+  { area: "Worship", topic: "Series", title: "Series: Sermon By Committee", desc: "Six weeks where a Sunday evening class reads the coming Sunday's lectionary texts together and what they notice shapes the sermon, with an online space for reflections between meetings. October to November 2026.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#",
+    links: [ { label: "Series Brief (Word)", file: "SFUMC_Worship_SeriesBriefSermonByCommittee_2026.docx", url: "#" }, { label: "The Reflection Site", url: "https://sermonbycommittee.vercel.app" } ] },
 
   // Missions and Evangelism
   { area: "Missions and Evangelism", topic: "Local Missions", title: "Missions Team Operations", cs: true, desc: "How a missions team runs: meeting rhythm, per-drive leader rotation, and a walkthrough of the mission-line budget.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Missions_TeamOperations_2026.docx", url: "#" } ] },
@@ -554,7 +569,7 @@ const RESOURCES = [
   // Communications
   { area: "Communications", topic: "Publications", title: "Spanish Fort Monthly Example", star: true, desc: "The actual May 2026 issue: ministry and committee reports, financial summary, the month at a glance, and the volunteer infrastructure brief.", church: "Spanish Fort UMC", type: "PDF", year: 2026, url: "#", links: [ { label: "May 2026 Issue (PDF)", file: "SFUMC_Connect_SpanishFortMonthlyExample_2026.pdf", url: "#" } ] },
   { area: "Communications", topic: "Publications", title: "Churchwide Email and Calendar Rhythm", cs: true, desc: "The weekly and monthly cadence of churchwide email and the shared calendar behind it.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Connect_ChurchwideEmailCalendarRhythm_2026.docx", url: "#" } ] },
-  { area: "Communications", topic: "Digital", title: "Website Structure", cs: true, desc: "A church website that works: an I'm-new path, events, online giving, and a merch store.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Connect_WebsiteFeatureSet_2026.docx", url: "#" } ] },
+  { area: "Communications", topic: "Digital", title: "Website Structure", cs: true, desc: "A church website that works: an I'm-new path, events, online giving, and a merch store. Now with the playbook from rebuilding it as a simple static site in 2026.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Connect_WebsiteFeatureSet_2026.docx", url: "#" }, { label: "Rebuild Playbook (Word)", file: "SFUMC_Connect_WebsiteRebuildPlaybook_2026.docx", url: "#" } ] },
   { area: "Communications", topic: "Digital", title: "Social Media Rhythm", cs: true, desc: "A sustainable rhythm for church social media. A strong example from a contributing church is wanted.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Connect_SocialMediaRhythm_2026.docx", url: "#" } ] },
 
   // Adult Discipleship
@@ -588,11 +603,15 @@ const RESOURCES = [
     links: [ { label: "2026 Budget (Excel)", file: "SFUMC_Admin_AnnualBudget_2026.xlsx", url: "#" }, { label: "2025 Budget (Excel)", file: "SFUMC_Admin_AnnualBudget_2025.xlsx", url: "#" }, { label: "2025 Budget (PDF)", file: "SFUMC_Admin_AnnualBudget_2025.pdf", url: "#" } ] },
   { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Year-Round Stewardship Plan", desc: "A month-by-month stewardship and giving-communication calendar.", church: "Spanish Fort UMC", type: "PDF", year: 2025, url: "#",
     links: [ { label: "Download (PDF)", file: "SFUMC_Admin_YearRoundStewardshipPlan_2025.pdf", url: "#" } ] },
-  { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Stewardship Campaign Model", cs: true, desc: "Running an annual pledge campaign: sermon series, commitment cards, a 30-day devotional, and follow-up.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Admin_StewardshipCampaignModel_2026.docx", url: "#" } ] },
+  { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Stewardship Campaign Model", cs: true, desc: "Running an annual pledge campaign: sermon series, commitment cards, a 30-day devotional, and follow-up.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Admin_StewardshipCampaignModel_2026.docx", url: "#" }, { label: "2027 Commitment Card (PDF)", file: "SFUMC_Admin_CommitmentCard_2026.pdf", url: "#" }, { label: "Commitment Card, Editable Source (HTML)", file: "SFUMC_Admin_CommitmentCardSource_2026.html", url: "#" } ] },
   { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Business Partnership Program", desc: "A sponsorship program that brings local businesses alongside the church, with clear guardrails. Includes the recruitment flyer given to prospective partners.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Admin_BusinessPartnershipProgram_2026.docx", url: "#" }, { label: "Recruitment Flyer (PDF)", file: "SFUMC_Admin_BusinessPartnershipFlyer_2026.pdf", url: "#" } ] },
   { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Internal Controls", cs: true, desc: "Financial internal controls and separation of duties for a church.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Admin_InternalControls_2026.docx", url: "#" } ] },
   { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Counting and Depositing Procedures", cs: true, desc: "Written procedures for counting, depositing, and disbursing church funds.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Admin_CountingDepositing_2026.docx", url: "#" } ] },
   { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Giving Analysis with Donor De-Identification", star: true, desc: "A method for studying giving year over year without exposing donors: a browser tool that codes each household anonymously, a how-to guide, and a finished example analysis. No individual giver is identified.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "De-Identifier Tool (HTML)", file: "SFUMC_Admin_DonorDeIdentifierTool_2026.html", url: "#" }, { label: "How-To Guide (Word, Claude Summary)", file: "SFUMC_Admin_GivingDeIdentifierGuide_2026.docx", url: "#" }, { label: "Example Analysis (Word)", file: "SFUMC_Admin_GivingAnalysisExample_2026.docx", url: "#" } ] },
+  { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Budget Scenario Model", star: true, desc: "A workbook that tests next year's budget against conservative, expected, and optimistic giving, with every revenue and expense lever priced and tied to its budget line, and a reserve runway check. Built for the 2027 budget; the household giving extract behind the cohort math is withheld.", church: "Spanish Fort UMC", type: "Excel", year: 2026, url: "#",
+    links: [ { label: "2027 Budget Scenarios (Excel)", file: "SFUMC_Admin_2027BudgetScenarios_2026.xlsx", url: "#" } ] },
+  { area: "Administration and Governance", topic: "Finance and Stewardship", title: "Telling the Congregation the Full Financial Picture", desc: "How one church laid out attendance, groups, membership, giving, the deficit, and reserves in one honest report, with the committee's shorter monthly update beside it.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#",
+    links: [ { label: "Where We Stand: The Full Picture (Word)", file: "SFUMC_Admin_WhereWeStandFullPicture_2026.docx", url: "#" }, { label: "Finance Committee Monthly Update (Word)", file: "SFUMC_Admin_FinanceMonthlyUpdate_2026.docx", url: "#" } ] },
   { area: "Administration and Governance", topic: "Office Systems", title: "Church Database Migration", cs: true, desc: "Moving a church off one management system and onto another, including online giving, with the lessons learned.", church: "Spanish Fort UMC", type: "Word", year: 2026, url: "#", links: [ { label: "Download (Word)", file: "SFUMC_Admin_DatabaseMigration_2026.docx", url: "#" } ] },
   { area: "Administration and Governance", topic: "Office Systems", title: "Attendance Tracking System", desc: "The actual weekly-counts spreadsheet the church uses to track worship and Sunday school attendance.", church: "Spanish Fort UMC", type: "Excel", year: 2026, url: "#", links: [ { label: "Weekly Counts Spreadsheet (Excel)", file: "SFUMC_Admin_AttendanceWeeklyCounts_2026.xlsx", url: "#" } ] }
 ];
@@ -657,6 +676,31 @@ function matches(r) {
 // Add a filename here when its file is committed and the card lights up.
 const FILES_BASE = "files/";
 const AVAILABLE = new Set([
+  "SFUMC_Admin_2027BudgetScenarios_2026.xlsx",
+  "SFUMC_Admin_CommitmentCardSource_2026.html",
+  "SFUMC_Admin_CommitmentCard_2026.pdf",
+  "SFUMC_Admin_FinanceMonthlyUpdate_2026.docx",
+  "SFUMC_Admin_WhereWeStandFullPicture_2026.docx",
+  "SFUMC_Adults_WhatDoYouActuallyBelieveHandouts_2026.docx",
+  "SFUMC_Adults_WhatDoYouActuallyBelieveLeaderGuide_2026.pdf",
+  "SFUMC_Adults_WhatDoYouActuallyBelieveSupplements_2026.pdf",
+  "SFUMC_Adults_WhatDoYouActuallyBelieveWeeklyGuides_2026.pdf",
+  "SFUMC_Adults_WhatDoYouActuallyBelieveWelcome_2026.pdf",
+  "SFUMC_Connect_Guidebook_2026.pdf",
+  "SFUMC_Connect_PublisherToInDesign_2026.zip",
+  "SFUMC_Connect_WebsiteRebuildPlaybook_2026.docx",
+  "SFUMC_Membership_EveryNameOnTheRoll_2026.docx",
+  "SFUMC_Membership_RollMaintenanceProcess_2026.docx",
+  "SFUMC_Worship_SeriesBriefCaughtInBetween_2026.docx",
+  "SFUMC_Worship_SeriesBriefSermonByCommittee_2026.docx",
+  "SFUMC_Worship_SeriesBriefTheWay_2026.docx",
+  "SFUMC_Worship_SeriesBriefWellsWeDidntDig_2026.docx",
+  "SFUMC_Worship_TheWayWeek1_2026.docx",
+  "SFUMC_Worship_TheWayWeek2_2026.docx",
+  "SFUMC_Worship_TheWayWeek3_2026.docx",
+  "SFUMC_Worship_TheWayWeek4_2026.docx",
+  "SFUMC_Worship_WellsWeDidntDigWeek1_2026.docx",
+  "SFUMC_Worship_WellsWeDidntDigWeek2_2026.docx",
   "SFUMC_Admin_SafeSanctuariesCourse_2026.html",
   "SFUMC_Children_CampChecklist_2026.docx",
   "SFUMC_Misc_CommandCenterGuide_2026.docx",
