@@ -32,7 +32,7 @@ on Vercel, so it wires itself).
 
 ## 4. Refreshing the library snapshot
 
-`resources.json` is a snapshot of the hub's catalog (145 resources) used by the attach picker
+`resources.json` is a snapshot of the hub's catalog (154 resources) used by the attach picker
 and the "New in the library" strip. When the hub gains cards, re-extract it from the hub
 master's `RESOURCES` array (the session log shows the one-liner) and redeploy.
 
