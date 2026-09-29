@@ -140,6 +140,14 @@
   .nt-areas input { accent-color: var(--accent); }
   .nt-note { font-family: var(--sans); font-size: .84rem; color: var(--peri); margin-top: 8px; }
   .nt-note.warn { color: var(--accent); }
+  .choice { padding-top: 6px; }
+  .choice.guest { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--rule); }
+  .choice-k { font-family: var(--sans); font-size: .74rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+  .choice-sub { font-family: var(--sans); font-size: .88rem; color: var(--muted); margin-top: 4px; }
+  .modal .send.ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+  .modal .send.ghost:hover { background: var(--ink); color: #fff; }
+  .hp { position: absolute; left: -9999px; width: 1px; height: 1px; }
+  .chip.guest { color: var(--muted); }
   .signin-note { font-family: var(--sans); font-size: .88rem; margin-top: 10px; color: var(--peri); }
 
   #picker { border: 1px solid var(--rule); background: #fff; max-height: 170px; overflow: auto; display: none; }
@@ -231,18 +239,31 @@
       <input type="text" id="cChurch" maxlength="80">
     </div>
   </div>
+  <input type="text" id="cWebsite" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
   <button class="send" id="cSend">Post it</button>
   <button class="cancel" id="cCancel">Cancel</button>
 </div>
 
 <div class="modal" id="signinModal">
-  <h2>Sign in to The Table</h2>
-  <p style="font-family:var(--sans);font-size:.92rem;color:var(--muted)">Enter your email and we will send you a sign-in link. No password to remember.</p>
-  <label>Email</label>
-  <input type="email" id="sEmail" placeholder="you@yourchurch.org">
-  <button class="send" id="sSend">Send my link</button>
+  <h2 id="sTitle">Sign in to The Table</h2>
+  <div class="choice">
+    <p class="choice-k">Sign in with email</p>
+    <p class="choice-sub">We send you a link, with no password to remember. Signing in lets you turn on notifications when someone replies.</p>
+    <label for="sEmail">Email</label>
+    <input type="email" id="sEmail" placeholder="you@yourchurch.org">
+    <button class="send" id="sSend">Send my link</button>
+    <p id="sNote" class="signin-note"></p>
+  </div>
+  <div class="choice guest" id="guestChoice">
+    <p class="choice-k">Or post as a guest</p>
+    <p class="choice-sub">No email needed. Your post shows your name and church, and you will not get notifications about replies.</p>
+    <div class="row">
+      <div><label for="gName">Your name</label><input type="text" id="gName" maxlength="60"></div>
+      <div><label for="gChurch">Your church</label><input type="text" id="gChurch" maxlength="80"></div>
+    </div>
+    <button class="send ghost" id="gGo">Continue as a guest</button>
+  </div>
   <button class="cancel" id="sCancel">Cancel</button>
-  <p id="sNote" class="signin-note"></p>
 </div>
 
 <div class="modal" id="notifyModal">
@@ -378,8 +399,14 @@
     var el = byId("whoami");
     if (LIVE) {
       if (!authUser) {
-        el.innerHTML = 'You are reading as a guest.<button id="signinBtn">Sign in to post</button>';
-        byId("signinBtn").onclick = openSignin;
+        if (me && me.guest && me.name) {
+          el.innerHTML = "Posting as a guest: " + esc(me.name) + (me.church ? ", " + esc(me.church) : "") + '.<button id="signinBtn">Sign in for notifications</button><button id="outBtn">Change</button>';
+          byId("signinBtn").onclick = function () { openSignin(false); };
+          byId("outBtn").onclick = function () { me = null; saveMe(); renderWho(); };
+        } else {
+          el.innerHTML = 'You are reading as a visitor.<button id="signinBtn">Sign in or post as a guest</button>';
+          byId("signinBtn").onclick = function () { openSignin(true); };
+        }
         return;
       }
       var label = me && me.name ? esc(me.name) + (me.church ? ", " + esc(me.church) : "") : esc(authUser.email || "you");
@@ -418,6 +445,7 @@
       return '<div class="thread" data-id="' + esc(t.id) + '">' +
         '<div class="meta"><span class="chip">' + esc(t.area) + "</span>" +
         (t.example ? '<span class="chip example">Example</span>' : "") +
+        (LIVE && "user_id" in t && !t.user_id ? '<span class="chip guest">Guest</span>' : "") +
         "<span>" + esc(t.author_name) + (t.author_church ? ", " + esc(t.author_church) : "") + "</span><span>· " + ago(t.created_at) + "</span></div>" +
         "<h3>" + esc(t.title) + "</h3>" +
         '<div class="snip">' + esc(t.body) + "</div>" +
@@ -453,7 +481,7 @@
       (t.resource_title ? '<a class="attach" href="' + esc(t.resource_link || "#") + '" target="_blank" rel="noopener"><span class="k">From the hub</span>' + esc(t.resource_title) + "</a>" : "") +
       '<div class="replies" id="reps">' +
       reps.map(function (r) {
-        return '<div class="reply"><div class="meta">' + esc(r.author_name) + (r.author_church ? ", " + esc(r.author_church) : "") + " · " + ago(r.created_at) + '</div><div class="body">' + esc(r.body) + "</div></div>";
+        return '<div class="reply"><div class="meta">' + (LIVE && "user_id" in r && !r.user_id ? '<span class="chip guest">Guest</span> ' : "") + esc(r.author_name) + (r.author_church ? ", " + esc(r.author_church) : "") + " · " + ago(r.created_at) + '</div><div class="body">' + esc(r.body) + "</div></div>";
       }).join("") +
       "</div>" +
       '<div class="replybox"><textarea id="repBody" placeholder="Add what you know..."></textarea><button id="repSend">Reply</button></div>' +
@@ -477,8 +505,9 @@
   }
 
   // ---------- identity gate ----------
+  var pendingAction = null;
   function ensureIdentity(cb) {
-    if (LIVE && !authUser) { openSignin(); return; }
+    if (LIVE && !authUser && !(me && me.guest && me.name)) { pendingAction = cb; openSignin(true); return; }
     if (!me || !me.name) {
       var name = prompt("Your name, as colleagues know you:");
       if (!name) return;
@@ -491,8 +520,13 @@
 
   function postFailed(err, lead) {
     var msg = (err && err.message) || "";
+    if (/row-level security|JWT|not authenticated|permission/i.test(msg) && me && me.guest && !authUser) {
+      alert(lead + " Guest posting is not switched on yet. Sign in with your email to post for now.");
+      openSignin(false);
+      return;
+    }
     if (/row-level security|JWT|not authenticated|permission/i.test(msg)) {
-      authUser = null; renderWho(); closeModals(); openSignin();
+      authUser = null; renderWho(); closeModals(); openSignin(true);
       byId("sNote").textContent = "Your sign-in has expired. Enter your email for a fresh link, then post again. Your draft is still in the form.";
       return;
     }
@@ -524,8 +558,9 @@
       resource_title: attachedRes ? attachedRes.title : null,
       resource_link: attachedRes ? attachedRes.link : null
     };
+    if (byId("cWebsite").value) { closeModals(); return; }
     if (!t.title || !t.body || !t.author_name) { alert("A topic, a few words, and your name are the minimum."); return; }
-    me = { name: t.author_name, church: t.author_church, email: me && me.email }; saveMe(); renderWho();
+    me = { name: t.author_name, church: t.author_church, email: me && me.email, guest: !!(me && me.guest && !authUser) }; saveMe(); renderWho();
     store.addThread(t, function (err) {
       if (err) { postFailed(err, "That did not post."); return; }
       attachedRes = null; byId("attached").innerHTML = ""; byId("cTitle").value = ""; byId("cBody").value = ""; byId("cSearch").value = "";
@@ -663,9 +698,20 @@
   }
 
   // ---------- sign in (live mode) ----------
-  function openSignin() {
+  function openSignin(allowGuest) {
+    byId("guestChoice").style.display = allowGuest ? "block" : "none";
+    byId("sTitle").textContent = allowGuest ? "How would you like to post?" : "Sign in to The Table";
+    if (me && me.name) { byId("gName").value = me.name; byId("gChurch").value = me.church || ""; }
     byId("overlay").style.display = "block";
     byId("signinModal").style.display = "block";
+  }
+  function continueAsGuest() {
+    var name = byId("gName").value.trim();
+    if (!name) { byId("gName").focus(); return; }
+    me = { name: name, church: byId("gChurch").value.trim(), guest: true };
+    saveMe(); renderWho(); closeModals();
+    var next = pendingAction; pendingAction = null;
+    if (next) next();
   }
   function sendMagicLink() {
     var email = byId("sEmail").value.trim();
@@ -687,6 +733,7 @@
     byId("cCancel").onclick = closeModals;
     byId("sCancel").onclick = closeModals;
     byId("sSend").onclick = sendMagicLink;
+    byId("gGo").onclick = continueAsGuest;
     byId("overlay").onclick = closeModals;
     byId("cSearch").oninput = pickerSearch;
     byId("areaFilter").onchange = renderFeed;
@@ -710,11 +757,11 @@
       s.onload = function () {
         sb = window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY);
         sb.auth.getUser().then(function (u) {
-          if (u.data && u.data.user) { authUser = u.data.user; me = me || {}; me.email = u.data.user.email; saveMe(); }
+          if (u.data && u.data.user) { authUser = u.data.user; me = me || {}; me.email = u.data.user.email; me.guest = false; saveMe(); }
           renderWho();
           sb.auth.onAuthStateChange(function (event, session) {
             authUser = session ? session.user : null;
-            if (authUser) { me = me || {}; me.email = authUser.email; saveMe(); }
+            if (authUser) { me = me || {}; me.email = authUser.email; me.guest = false; saveMe(); }
             renderWho();
           });
           store.fetchThreads(function () { renderFeed(); routeFromHash(); });

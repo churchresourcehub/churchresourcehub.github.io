@@ -44,6 +44,9 @@ the sending side needs these one-time steps, all in dashboards Claude cannot rea
 
 **A. Database (2 minutes).** Supabase → SQL Editor → paste and run `notifications.sql`.
 It stamps new posts and replies with the author's account, and adds the settings and device tables.
+It also switches on **guest posting** (name and church, no email, no notifications; posts show a
+Guest label and are length-capped) and makes signed-in posts carry the poster's own account.
+Until it runs, choosing "post as a guest" ends with a note that guest posting is not on yet.
 
 **B. Email sender (10 minutes).** Create a free Resend account (resend.com). Domains → Add
 `doingchurchtogether.org`. Resend shows three or four DNS records; the domain's DNS is on Vercel,
