@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Table | Doing Church Together</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#334057">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="The Table">
 <style>
   :root {
     --paper: #f9f5ec;
@@ -122,6 +128,16 @@
   .modal .row { display: flex; gap: 10px; }
   .modal .row > div { flex: 1; }
   .modal .cancel { background: none; border: none; color: var(--soft-ink); text-decoration: underline; margin: 10px 0 0 16px; font-size: .88rem; }
+  .nt-group { border-top: 1px solid var(--line); margin-top: 16px; padding-top: 12px; }
+  .nt-group h3 { font-weight: normal; font-size: 1rem; margin-bottom: 4px; }
+  .modal .nt-opt { display: flex; color: var(--ink); letter-spacing: 0; gap: 10px; align-items: flex-start; font-size: .92rem; margin: 8px 0; cursor: pointer; }
+  .nt-opt input { margin-top: 4px; accent-color: var(--navy); }
+  .nt-opt small { display: block; color: var(--soft-ink); font-size: .8rem; }
+  .nt-areas { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 14px; margin: 6px 0 0 26px; }
+  .modal .nt-areas label { display: flex; gap: 8px; align-items: center; margin: 2px 0; font-size: .84rem; color: var(--ink); letter-spacing: 0; }
+  .nt-note { font-size: .84rem; color: var(--peri); margin-top: 8px; }
+  .nt-note.warn { color: var(--gold); }
+  @media (max-width: 640px) { .nt-areas { grid-template-columns: 1fr; } }
   #picker { border: 1px solid var(--line); border-radius: 6px; background: #fff; max-height: 170px; overflow: auto; display: none; }
   #picker div { padding: 7px 12px; font-size: .88rem; cursor: pointer; border-top: 1px solid var(--paper); }
   #picker div:hover { background: var(--paper); }
@@ -212,13 +228,42 @@
 </div>
 
 <div class="modal" id="signinModal">
-  <h2>Pull up a chair</h2>
+  <h2>Sign in to The Table</h2>
   <p style="font-size:.92rem;color:var(--soft-ink)">Enter your email and we will send you a sign-in link. No password to remember.</p>
   <label>Email</label>
   <input type="email" id="sEmail" placeholder="you@yourchurch.org">
   <button class="send" id="sSend">Send my link</button>
   <button class="cancel" id="sCancel">Cancel</button>
   <p id="sNote" style="font-size:.88rem;margin-top:10px;color:var(--peri)"></p>
+</div>
+
+<div class="modal" id="notifyModal">
+  <h2>Notifications</h2>
+  <p style="font-size:.9rem;color:var(--soft-ink)">Choose what you want to hear about and how. You will never be notified about your own posts.</p>
+  <div id="ntBody">
+    <div class="nt-group">
+      <h3>How to reach you</h3>
+      <label class="nt-opt"><input type="checkbox" id="ntEmail"><span>By email<small id="ntEmailAddr"></small></span></label>
+      <label class="nt-opt"><input type="checkbox" id="ntPush"><span>On this phone or computer<small>An alert on this device, like an app. Turn it on separately on each device you use.</small></span></label>
+      <p class="nt-note" id="ntPushNote"></p>
+    </div>
+    <div class="nt-group">
+      <h3>Replies</h3>
+      <label class="nt-opt"><input type="checkbox" id="ntMine"><span>When someone replies to my posts</span></label>
+      <label class="nt-opt"><input type="checkbox" id="ntJoined"><span>When someone replies in a conversation I have joined<small>Any conversation you have replied to.</small></span></label>
+      <label class="nt-opt"><input type="checkbox" id="ntAllReplies"><span>Every reply on The Table</span></label>
+    </div>
+    <div class="nt-group">
+      <h3>New conversations</h3>
+      <label class="nt-opt"><input type="radio" name="ntNew" value="off"><span>Don't notify me about new conversations</span></label>
+      <label class="nt-opt"><input type="radio" name="ntNew" value="all"><span>Every new conversation</span></label>
+      <label class="nt-opt"><input type="radio" name="ntNew" value="areas"><span>Only in the ministry areas I choose</span></label>
+      <div class="nt-areas" id="ntAreas"></div>
+    </div>
+    <button class="send" id="ntSave">Save my settings</button>
+    <button class="cancel" id="ntCancel">Close</button>
+    <p class="nt-note" id="ntMsg"></p>
+  </div>
 </div>
 
 <footer>
@@ -241,6 +286,7 @@
   var threads = [];
   var attachedRes = null;
   var me = null; // { name, church, email }
+  var authUser = null; // the signed-in Supabase account, live mode only
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -326,8 +372,13 @@
       el.innerHTML = 'You are reading as a guest. <button id="signinBtn">Sign in to post</button>';
       var b = byId("signinBtn"); if (b) b.onclick = openSignin;
     } else if (me && me.name) {
-      el.innerHTML = "At the table as " + esc(me.name) + (me.church ? ", " + esc(me.church) : "") + ". <button id=\"outBtn\">Change</button>";
-      byId("outBtn").onclick = function () { me = null; saveMe(); if (LIVE && sb) sb.auth.signOut(); renderWho(); };
+      el.innerHTML = "At the table as " + esc(me.name) + (me.church ? ", " + esc(me.church) : "") + ". <button id=\"outBtn\">Change</button>" +
+        (authUser ? ' <button id="ntBtn">Notifications</button>' : "");
+      byId("outBtn").onclick = function () { me = null; authUser = null; saveMe(); if (LIVE && sb) sb.auth.signOut(); renderWho(); };
+      if (authUser) byId("ntBtn").onclick = openNotify;
+    } else if (authUser) {
+      el.innerHTML = 'Signed in. <button id="ntBtn">Notifications</button>';
+      byId("ntBtn").onclick = openNotify;
     } else {
       el.innerHTML = "";
     }
@@ -439,6 +490,7 @@
     byId("overlay").style.display = "none";
     byId("composeModal").style.display = "none";
     byId("signinModal").style.display = "none";
+    byId("notifyModal").style.display = "none";
   }
   function sendCompose() {
     var t = {
@@ -477,6 +529,117 @@
     });
   }
 
+  // ---------- notifications (live mode) ----------
+  var swReg = null;
+  function isIOS() { return /iphone|ipad|ipod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1); }
+  function isStandalone() { return window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true; }
+  function pushSupported() { return "serviceWorker" in navigator && "PushManager" in window && "Notification" in window; }
+  function b64ToBytes(b64) {
+    var pad = "=".repeat((4 - b64.length % 4) % 4);
+    var raw = atob((b64 + pad).replace(/-/g, "+").replace(/_/g, "/"));
+    var out = new Uint8Array(raw.length);
+    for (var i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
+    return out;
+  }
+  function bufToB64(buf) {
+    var s = "", b = new Uint8Array(buf);
+    for (var i = 0; i < b.length; i++) s += String.fromCharCode(b[i]);
+    return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+  function pushNote(text, warn) { var n = byId("ntPushNote"); n.textContent = text || ""; n.className = "nt-note" + (warn ? " warn" : ""); }
+
+  function currentSubscription() {
+    if (!swReg || !swReg.pushManager) return Promise.resolve(null);
+    return swReg.pushManager.getSubscription();
+  }
+  function enablePush() {
+    if (!pushSupported()) {
+      if (isIOS() && !isStandalone()) return Promise.reject(new Error("On iPhone or iPad, first tap the Share button, choose Add to Home Screen, then open The Table from your home screen and turn this on there."));
+      return Promise.reject(new Error("This browser cannot receive alerts. Email notifications still work."));
+    }
+    if (!CFG.VAPID_PUBLIC_KEY) return Promise.reject(new Error("Device alerts are not switched on yet."));
+    return Notification.requestPermission().then(function (perm) {
+      if (perm !== "granted") throw new Error("Alerts are blocked for this site. Allow notifications in your browser settings, then try again.");
+      return navigator.serviceWorker.ready;
+    }).then(function (reg) {
+      swReg = reg;
+      return reg.pushManager.getSubscription().then(function (sub) {
+        return sub || reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToBytes(CFG.VAPID_PUBLIC_KEY) });
+      });
+    }).then(function (sub) {
+      return sb.from("push_subscriptions").upsert({
+        endpoint: sub.endpoint, p256dh: bufToB64(sub.getKey("p256dh")), auth: bufToB64(sub.getKey("auth")),
+        user_agent: navigator.userAgent.slice(0, 200)
+      }, { onConflict: "endpoint" }).then(function (r) { if (r.error) throw r.error; });
+    });
+  }
+  function disablePush() {
+    return currentSubscription().then(function (sub) {
+      if (!sub) return;
+      var ep = sub.endpoint;
+      return sub.unsubscribe().then(function () { return sb.from("push_subscriptions").delete().eq("endpoint", ep); });
+    });
+  }
+
+  function openNotify() {
+    if (!LIVE || !sb || !authUser) { openSignin(); return; }
+    byId("ntAreas").innerHTML = AREAS.map(function (a, i) {
+      return '<label><input type="checkbox" value="' + esc(a) + '" id="nta' + i + '">' + esc(a) + "</label>";
+    }).join("");
+    byId("ntEmailAddr").textContent = authUser.email ? "To " + authUser.email : "";
+    byId("ntMsg").textContent = ""; pushNote("");
+    byId("overlay").style.display = "block";
+    byId("notifyModal").style.display = "block";
+    sb.from("notification_prefs").select("*").eq("user_id", authUser.id).maybeSingle().then(function (r) {
+      if (r.error) { byId("ntMsg").textContent = "Notifications are almost ready. Check back soon."; byId("ntSave").disabled = true; return; }
+      byId("ntSave").disabled = false;
+      var p = r.data || { by_email: true, by_push: false, new_posts: "off", areas: [], replies_to_mine: true, replies_where_joined: true, all_replies: false };
+      byId("ntEmail").checked = !!p.by_email;
+      byId("ntMine").checked = !!p.replies_to_mine;
+      byId("ntJoined").checked = !!p.replies_where_joined;
+      byId("ntAllReplies").checked = !!p.all_replies;
+      Array.prototype.forEach.call(document.querySelectorAll('input[name="ntNew"]'), function (el) { el.checked = el.value === p.new_posts; });
+      Array.prototype.forEach.call(byId("ntAreas").querySelectorAll("input"), function (el) { el.checked = (p.areas || []).indexOf(el.value) >= 0; });
+      currentSubscription().then(function (sub) {
+        byId("ntPush").checked = !!(p.by_push && sub);
+        if (p.by_push && !sub) pushNote("Device alerts are on for another device. Tick the box to add this one too.");
+        if (!pushSupported() && isIOS() && !isStandalone()) pushNote("On iPhone or iPad, add The Table to your home screen first (Share, then Add to Home Screen), then open it from there to turn on alerts.", true);
+      });
+    });
+  }
+  function saveNotify() {
+    var newPosts = (document.querySelector('input[name="ntNew"]:checked') || {}).value || "off";
+    var areas = Array.prototype.filter.call(byId("ntAreas").querySelectorAll("input"), function (el) { return el.checked; }).map(function (el) { return el.value; });
+    if (newPosts === "areas" && !areas.length) { byId("ntMsg").textContent = "Pick at least one ministry area, or choose a different option for new conversations."; return; }
+    var wantPush = byId("ntPush").checked;
+    byId("ntMsg").textContent = "Saving...";
+    currentSubscription().then(function (sub) {
+      if (wantPush && !sub) return enablePush();
+      if (!wantPush && sub) return disablePush();
+    }).then(function () {
+      return sb.from("push_subscriptions").select("id", { count: "exact", head: true }).eq("user_id", authUser.id);
+    }).then(function (c) {
+      return sb.from("notification_prefs").upsert({
+        user_id: authUser.id, email: authUser.email, by_email: byId("ntEmail").checked, by_push: (c && c.count) > 0,
+        new_posts: newPosts, areas: areas, replies_to_mine: byId("ntMine").checked,
+        replies_where_joined: byId("ntJoined").checked, all_replies: byId("ntAllReplies").checked, updated_at: new Date().toISOString()
+      });
+    }).then(function (r) {
+      if (r && r.error) throw r.error;
+      byId("ntMsg").textContent = "Saved.";
+    }).catch(function (e) {
+      byId("ntPush").checked = false;
+      pushNote(e.message || String(e), true);
+      byId("ntMsg").textContent = "Your other choices were not saved yet. Fix the device alert setting or untick it, then save again.";
+    });
+  }
+
+  function routeFromHash() {
+    var h = location.hash || "";
+    if (h.indexOf("#thread-") === 0) openThread(h.slice(8));
+    else if (h === "#notifications") { if (authUser) openNotify(); else if (LIVE) openSignin(); }
+  }
+
   // ---------- sign in (live mode) ----------
   function openSignin() {
     byId("overlay").style.display = "block";
@@ -505,6 +668,12 @@
     byId("overlay").onclick = closeModals;
     byId("cSearch").oninput = pickerSearch;
     byId("areaFilter").onchange = renderFeed;
+    byId("ntSave").onclick = saveNotify;
+    byId("ntCancel").onclick = closeModals;
+    byId("ntEmail").onchange = function () { byId("ntMsg").textContent = ""; };
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").then(function (reg) { swReg = reg; }).catch(function () {});
+    }
 
     loadMe();
     if (!LIVE) byId("previewnote").style.display = "block";
@@ -519,16 +688,17 @@
       s.onload = function () {
         sb = window.supabase.createClient(CFG.SUPABASE_URL, CFG.SUPABASE_ANON_KEY);
         sb.auth.getUser().then(function (u) {
-          if (u.data && u.data.user) { me = me || {}; me.email = u.data.user.email; saveMe(); }
+          if (u.data && u.data.user) { authUser = u.data.user; me = me || {}; me.email = u.data.user.email; saveMe(); }
           renderWho();
+          store.fetchThreads(function () { renderFeed(); routeFromHash(); });
         });
-        store.fetchThreads(renderFeed);
       };
       document.head.appendChild(s);
     } else {
       store.fetchThreads(renderFeed);
     }
   }
+  window.addEventListener("hashchange", routeFromHash);
   boot();
 })();
 </script>
