@@ -4,96 +4,118 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Contribute a Resource | Doing Church Together</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Poppins:wght@300;400;500;600&display=swap">
 <style>
   :root {
-    --paper: #f9f5ec;
-    --card: #fffdf7;
-    --ink: #38332a;
-    --soft-ink: #6e675a;
-    --burgundy: #334057;
-    --olive: #5a6690;
-    --line: #ddd3bf;
-    --rule: #c8bda3;
+    --serif: "new-spirit", "Fraunces", Georgia, serif;
+    --sans: "Poppins", "Century Gothic", "Helvetica Neue", Arial, sans-serif;
+    --navy: #334057;
+    --navy-deep: #29344a;
+    --ink: #2b3247;
+    --muted: #5d6577;
+    --peri: #8e9bc4;
+    --peri-light: #b7c0dc;
+    --peri-wash: #eef0f7;
+    --red: #d7282f;
+    --red-dark: #b81f26;
+    --green: #79b943;
+    --white: #ffffff;
+    --paper: #faf8f4;
+    --line: #e3e0d8;
+    --shadow: 0 2px 24px rgba(43,50,71,.10);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
-    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+    font-family: var(--sans);
     background: var(--paper);
     color: var(--ink);
-    line-height: 1.6;
+    font-size: 1rem;
+    line-height: 1.7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
   }
   header.hero {
     text-align: center;
-    padding: 44px 24px 18px;
+    padding: 56px 24px 20px;
     max-width: 760px;
     margin: 0 auto;
   }
   header.hero .eyebrow {
+    font-weight: 600;
     font-size: 0.78rem;
-    letter-spacing: 3px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--burgundy);
-    margin-bottom: 14px;
+    color: var(--red);
+    margin-bottom: 12px;
   }
   header.hero h1 {
-    font-size: clamp(1.7rem, 4.5vw, 2.4rem);
-    font-weight: normal;
-    color: var(--ink);
-    margin-bottom: 14px;
+    font-family: var(--serif);
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    font-weight: 600;
+    line-height: 1.15;
+    color: var(--navy);
+    margin-bottom: 16px;
   }
-  header.hero .rule {
-    width: 80px;
-    margin: 0 auto 16px;
-    border: none;
-    border-top: 1px solid var(--rule);
-  }
+  header.hero .rule { display: none; }
   header.hero p.tagline {
-    font-size: 1.0rem;
-    color: var(--soft-ink);
+    font-size: 1.05rem;
+    color: var(--muted);
   }
   .backlink {
     display: block;
     text-align: center;
-    margin: 4px auto 0;
+    margin: 10px auto 0;
     font-size: 0.9rem;
+    font-weight: 500;
   }
-  .backlink a { color: var(--burgundy); text-decoration: underline; text-underline-offset: 3px; }
+  .backlink a { color: var(--navy); text-decoration: underline; text-underline-offset: 3px; }
+  .backlink a:hover { color: var(--red); }
   .standard {
     max-width: 680px;
-    margin: 18px auto 0;
-    background: var(--card);
+    margin: 22px auto 0;
+    background: var(--white);
     border: 1px solid var(--line);
-    border-radius: 6px;
-    padding: 16px 24px;
-    color: var(--soft-ink);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 20px 26px;
+    color: var(--ink);
     font-size: 0.95rem;
   }
-  .standard strong { color: var(--ink); }
+  .standard strong { color: var(--navy); font-weight: 600; }
   .form-wrap {
     max-width: 760px;
-    margin: 32px auto 70px;
+    margin: 36px auto 72px;
     padding: 0 12px;
     text-align: center;
+    flex: 1 0 auto;
   }
   a.form-btn {
     display: inline-block;
-    background: var(--burgundy);
-    color: #fff;
-    font-size: 1.05rem;
+    background: var(--red);
+    color: var(--white);
+    font-weight: 600;
+    font-size: 1rem;
     padding: 14px 34px;
-    border-radius: 6px;
+    border-radius: 999px;
     text-decoration: none;
+    transition: background-color .15s ease;
   }
-  a.form-btn:hover { background: #5f231d; }
-  .form-wrap .note { margin-top: 14px; color: var(--soft-ink); font-size: 0.9rem; }
+  a.form-btn:hover { background: var(--red-dark); }
+  .form-wrap .note { margin-top: 14px; color: var(--muted); font-size: 0.88rem; }
   footer {
-    border-top: 1px solid var(--line);
-    color: var(--soft-ink);
-    padding: 28px 24px 40px;
+    background: var(--navy);
+    color: var(--peri-light);
+    padding: 36px 24px 44px;
     text-align: center;
     font-size: 0.9rem;
   }
-  footer a { color: var(--burgundy); }
+  footer a { color: var(--white); text-underline-offset: 3px; }
+  @media (max-width: 600px) {
+    .standard { margin: 22px 16px 0; padding: 18px 20px; }
+  }
 </style>
 </head>
 <body>

@@ -9,33 +9,35 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<meta name="theme-color" content="#1f2a3c">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#334057">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="The Table">
 <style>
-  /* The Table. Same family as doingchurchtogether.org:
-     Fraunces (display), Source Serif 4 (reading), Instrument Sans (interface). */
+  /* The Table. Spanish Fort UMC brand: New Spirit (Fraunces stand-in) headings, Poppins everything else. */
   :root {
-    --ink: #1f2a3c;
-    --ink-2: #2c3a52;
-    --text: #2b2722;
-    --muted: #6b6258;
-    --page: #fbf8f2;
-    --paper: #f4efe6;
-    --leaf: #fffdf8;
-    --rule: #d9cfbf;
-    --rule-soft: #e7dfd1;
-    --accent: #a4532f;
-    --accent-deep: #86401f;
-    --gold: #d6b26a;
-    --gold-soft: #e8c98a;
-    --peri: #5a6690;
-    --on-ink: #f4efe6;
-    --display: "Fraunces", Georgia, serif;
-    --serif: "Source Serif 4", Georgia, serif;
-    --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.2 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --ink: #334057;
+    --ink-2: #29344a;
+    --text: #2b3247;
+    --muted: #5d6577;
+    --page: #faf8f4;
+    --paper: #eef0f7;
+    --leaf: #ffffff;
+    --rule: #e3e0d8;
+    --rule-soft: #eceae4;
+    --accent: #d7282f;
+    --accent-deep: #b81f26;
+    --gold: #8e9bc4;
+    --gold-soft: #b7c0dc;
+    --peri: #8e9bc4;
+    --green: #79b943;
+    --on-ink: #ffffff;
+    --radius: 14px;
+    --shadow: 0 2px 24px rgba(43,50,71,.10);
+    --display: "new-spirit", "Fraunces", Georgia, serif;
+    --serif: "Poppins", "Century Gothic", "Helvetica Neue", Arial, sans-serif;
+    --sans: "Poppins", "Century Gothic", "Helvetica Neue", Arial, sans-serif;
+    --grain: none;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: var(--serif); font-size: 17px; line-height: 1.6; color: var(--text); background: var(--page) var(--grain); -webkit-font-smoothing: antialiased; }
@@ -46,16 +48,16 @@
 
   /* Header */
   header.band { position: relative; background: var(--ink) var(--grain); color: var(--on-ink); padding: 0 20px 40px; }
-  header.band::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: var(--peri); }
+  header.band::after { content: none; }
   .bandin { max-width: 880px; margin: 0 auto; }
   header .top { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; min-height: 64px; border-bottom: 1px solid rgba(244,239,230,.1); }
-  header .brand { display: flex; align-items: center; gap: 10px; color: var(--on-ink); text-decoration: none; font-family: var(--display); font-size: 1.15rem; font-weight: 500; letter-spacing: 0; text-transform: none; }
-  header .brand svg { width: 26px; height: 26px; color: var(--gold-soft); }
+  header .brand { display: flex; align-items: center; gap: 10px; color: var(--on-ink); text-decoration: none; font-family: var(--display); font-size: 1.15rem; font-weight: 600; letter-spacing: 0; text-transform: none; }
+  header .brand svg { width: 26px; height: 26px; color: #fff; }
   header .brand em { font-weight: 300; color: var(--gold-soft); }
   header .links { display: flex; gap: 22px; flex-wrap: wrap; font-family: var(--sans); font-size: .88rem; font-weight: 500; }
   header .links a { color: var(--on-ink); opacity: .78; text-decoration: none; padding: 4px 0; border-bottom: 2px solid transparent; }
   header .links a:hover { opacity: 1; border-bottom-color: var(--gold); }
-  header h1 { font-family: var(--display); font-weight: 400; font-variation-settings: "opsz" 144; font-size: clamp(2.6rem, 7vw, 3.8rem); line-height: 1; letter-spacing: -.02em; margin-top: 36px; }
+  header h1 { font-family: var(--display); font-weight: 600; font-variation-settings: "opsz" 144; font-size: clamp(2.6rem, 7vw, 3.8rem); line-height: 1; letter-spacing: -.02em; margin-top: 36px; }
   header h1 em { font-style: italic; font-weight: 300; color: var(--gold-soft); }
   header p.tag { margin-top: 14px; max-width: 34em; font-size: 1.08rem; color: rgba(244,239,230,.84); }
   #whoami { margin-top: 18px; font-family: var(--sans); font-size: .86rem; color: rgba(244,239,230,.78); }
@@ -68,16 +70,16 @@
   .bar { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 30px 0 6px; padding-bottom: 16px; border-bottom: 1px solid var(--ink); }
   .bar select { font-family: var(--sans); font-size: .9rem; color: var(--text); background: var(--leaf); border: 1px solid var(--rule); border-radius: 3px; padding: 9px 10px; }
   .grow { flex: 1; }
-  .newbtn { background: var(--accent); color: #fff; border: none; border-radius: 4px; padding: 11px 20px; font-size: .92rem; font-weight: 600; transition: background .2s; }
+  .newbtn { background: var(--accent); color: #fff; border: none; border-radius: 999px; padding: 11px 20px; font-size: .92rem; font-weight: 600; transition: background .2s; }
   .newbtn:hover { background: var(--accent-deep); }
 
   /* New in the library */
-  .hubstrip { background: var(--leaf); border: 1px solid var(--rule); border-top: 4px solid var(--gold); padding: 18px 22px 16px; box-shadow: 0 24px 48px -36px rgba(31,42,60,.35); }
+  .hubstrip { background: var(--leaf); border: 1px solid var(--rule); border-radius: var(--radius); padding: 18px 22px 16px; box-shadow: 0 24px 48px -36px rgba(31,42,60,.35); }
   .hubstrip .eyebrow { color: var(--accent); margin-bottom: 8px; }
   .hubstrip ul { list-style: none; }
   .hubstrip li { font-family: var(--sans); font-size: .86rem; padding: 7px 0; color: var(--muted); border-top: 1px solid var(--rule-soft); }
   .hubstrip li:first-child { border-top: 0; }
-  .hubstrip li a { font-family: var(--display); font-size: 1.05rem; color: var(--ink); text-decoration: none; margin-right: 4px; }
+  .hubstrip li a { font-family: var(--display); font-weight: 600; font-size: 1.05rem; color: var(--ink); text-decoration: none; margin-right: 4px; }
   .hubstrip li a:hover { color: var(--accent); }
   .hubstrip .more { font-family: var(--sans); font-size: .84rem; font-weight: 500; margin-top: 8px; }
   .hubstrip .more a { text-decoration: none; border-bottom: 1px solid currentColor; }
@@ -89,12 +91,12 @@
   .thread .meta { font-family: var(--sans); font-size: .8rem; color: var(--muted); margin-bottom: 6px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
   .chip { display: inline-block; font-family: var(--sans); font-size: .66rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--peri); border: 1px solid currentColor; border-radius: 3px; padding: 1px 6px; }
   .chip.example { color: var(--accent); }
-  .thread h3 { font-family: var(--display); font-weight: 400; font-size: 1.4rem; line-height: 1.2; color: var(--ink); }
+  .thread h3 { font-family: var(--display); font-weight: 600; font-size: 1.4rem; line-height: 1.2; color: var(--ink); }
   .thread:hover h3 { color: var(--accent); }
   .thread .snip { color: var(--muted); font-size: .98rem; margin-top: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
   .thread .foot { font-family: var(--sans); font-size: .82rem; font-weight: 500; color: var(--accent); margin-top: 10px; }
 
-  .attach { display: inline-block; font-family: var(--sans); font-size: .84rem; background: var(--paper); border: 1px solid var(--rule); border-left: 3px solid var(--gold); padding: 6px 12px; margin-top: 12px; color: var(--text); text-decoration: none; }
+  .attach { display: inline-block; font-family: var(--sans); font-size: .84rem; background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; padding: 6px 12px; margin-top: 12px; color: var(--text); text-decoration: none; }
   .attach:hover { border-color: var(--peri); }
   .attach .k { color: var(--accent); font-size: .66rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; margin-right: 8px; }
 
@@ -103,8 +105,8 @@
   .backlink { background: none; border: none; color: var(--muted); font-size: .88rem; font-weight: 500; margin-bottom: 18px; }
   .backlink::before { content: "← "; }
   .backlink:hover { color: var(--ink); }
-  .tv { background: var(--leaf); border: 1px solid var(--rule); border-top: 4px solid var(--peri); padding: 28px 32px; }
-  .tv h2 { font-family: var(--display); font-weight: 400; font-size: clamp(1.7rem, 4vw, 2.3rem); line-height: 1.1; letter-spacing: -.01em; color: var(--ink); margin: 10px 0 8px; }
+  .tv { background: var(--leaf); border: 1px solid var(--rule); border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 32px; }
+  .tv h2 { font-family: var(--display); font-weight: 600; font-size: clamp(1.7rem, 4vw, 2.3rem); line-height: 1.1; letter-spacing: -.01em; color: var(--ink); margin: 10px 0 8px; }
   .tv > div[style] { font-family: var(--sans); }
   .tv .body { margin-top: 14px; white-space: pre-wrap; font-size: 1.05rem; }
   .replies { margin-top: 30px; border-top: 1px solid var(--ink); }
@@ -114,17 +116,17 @@
   .replybox { margin-top: 20px; }
 
   /* Forms */
-  textarea, input[type=text], input[type=email] { width: 100%; font-family: var(--serif); font-size: 1rem; color: var(--text); background: #fff; border: 1px solid var(--rule); border-radius: 3px; padding: 10px 12px; transition: border-color .2s, box-shadow .2s; }
-  textarea:focus, input[type=text]:focus, input[type=email]:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(164,83,47,.14); }
+  textarea, input[type=text], input[type=email] { width: 100%; font-family: var(--sans); font-size: 1rem; color: var(--text); background: #fff; border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; transition: border-color .2s, box-shadow .2s; }
+  textarea:focus, input[type=text]:focus, input[type=email]:focus, select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(215,40,47,.14); }
   textarea { min-height: 96px; resize: vertical; line-height: 1.55; }
-  .replybox button, .modal .send { margin-top: 12px; background: var(--accent); color: #fff; border: none; border-radius: 4px; padding: 11px 22px; font-size: .92rem; font-weight: 600; }
+  .replybox button, .modal .send { margin-top: 12px; background: var(--accent); color: #fff; border: none; border-radius: 999px; padding: 11px 22px; font-size: .92rem; font-weight: 600; }
   .replybox button:hover, .modal .send:hover { background: var(--accent-deep); }
   .modal .send:disabled { opacity: .5; cursor: default; }
 
   /* Modals */
-  .overlay { display: none; position: fixed; inset: 0; background: rgba(24,33,48,.55); z-index: 20; }
-  .modal { position: fixed; z-index: 21; top: 50%; left: 50%; transform: translate(-50%,-50%); width: min(620px, 94vw); max-height: 90vh; overflow: auto; display: none; background: var(--leaf); border-top: 4px solid var(--gold); border-radius: 2px; padding: 28px 30px 26px; box-shadow: 0 30px 80px -20px rgba(0,0,0,.5); }
-  .modal h2 { font-family: var(--display); font-weight: 400; font-size: 1.7rem; line-height: 1.1; color: var(--ink); margin-bottom: 12px; }
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(41,52,74,.55); z-index: 20; }
+  .modal { position: fixed; z-index: 21; top: 50%; left: 50%; transform: translate(-50%,-50%); width: min(620px, 94vw); max-height: 90vh; overflow: auto; display: none; background: var(--leaf); border-radius: var(--radius); padding: 28px 30px 26px; box-shadow: 0 30px 80px -20px rgba(0,0,0,.5); }
+  .modal h2 { font-family: var(--display); font-weight: 600; font-size: 1.7rem; line-height: 1.1; color: var(--ink); margin-bottom: 12px; }
   .modal label { display: block; font-family: var(--sans); font-size: .78rem; font-weight: 500; color: var(--muted); margin: 14px 0 5px; }
   .modal select { width: 100%; font-family: var(--sans); font-size: .92rem; padding: 9px 10px; background: #fff; border: 1px solid var(--rule); border-radius: 3px; }
   .modal .row { display: flex; gap: 12px; }
@@ -157,7 +159,7 @@
   #attached button { background: none; border: none; color: var(--muted); border-bottom: 1px solid currentColor; font-size: .8rem; margin-left: 6px; }
 
   .previewnote { background: var(--paper); border: 1px solid var(--rule); border-left: 3px solid var(--accent); padding: 10px 16px; font-family: var(--sans); font-size: .85rem; color: var(--muted); margin-bottom: 18px; }
-  .empty { text-align: center; padding: 48px 10px; font-family: var(--display); font-weight: 300; font-style: italic; font-size: 1.25rem; color: var(--muted); }
+  .empty { text-align: center; padding: 48px 10px; font-family: var(--sans); font-weight: 400; font-size: 1.25rem; color: var(--muted); }
 
   footer { background: var(--ink) var(--grain); color: rgba(244,239,230,.72); text-align: center; padding: 40px 20px 48px; font-family: var(--sans); font-size: .86rem; margin-top: 40px; }
   footer p { max-width: 620px; margin: 0 auto 8px; }
@@ -180,13 +182,13 @@
 <header class="band">
   <div class="bandin">
     <div class="top">
-      <a class="brand" href="https://doingchurchtogether.org"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="11" fill="none" stroke="currentColor" stroke-width="2.5"/><g fill="currentColor"><circle cx="32" cy="12" r="4"/><circle cx="49.3" cy="42" r="4"/><circle cx="14.7" cy="42" r="4"/></g></svg><span>Doing Church <em>Together</em></span></a>
+      <a class="brand" href="https://doingchurchtogether.org"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="11" fill="none" stroke="currentColor" stroke-width="2.5"/><g fill="currentColor"><circle cx="32" cy="12" r="4"/><circle cx="49.3" cy="42" r="4"/><circle cx="14.7" cy="42" r="4"/></g></svg><span>Doing Church Together</span></a>
       <div class="links">
         <a href="https://churchresourcehub.github.io/">Resource Hub</a>
         <a href="https://theologycompare.vercel.app">Comparative Theology</a>
       </div>
     </div>
-    <h1>The <em>Table</em></h1>
+    <h1>The Table</h1>
     <p class="tag">A place for clergy and church leaders to ask questions and pass along what works, anchored to the Church Resource Hub.</p>
     <div id="whoami"></div>
   </div>

@@ -4,52 +4,79 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Page not found | Doing Church Together</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Poppins:wght@300;400;500;600&display=swap">
 <style>
   :root {
-    --paper: #f9f5ec;
-    --ink: #38332a;
-    --soft-ink: #6e675a;
-    --burgundy: #334057;
-    --rule: #c8bda3;
+    --serif: "new-spirit", "Fraunces", Georgia, serif;
+    --sans: "Poppins", "Century Gothic", "Helvetica Neue", Arial, sans-serif;
+    --navy: #334057;
+    --navy-deep: #29344a;
+    --ink: #2b3247;
+    --muted: #5d6577;
+    --peri: #8e9bc4;
+    --peri-light: #b7c0dc;
+    --peri-wash: #eef0f7;
+    --red: #d7282f;
+    --red-dark: #b81f26;
+    --green: #79b943;
+    --white: #ffffff;
+    --paper: #faf8f4;
+    --line: #e3e0d8;
+    --shadow: 0 2px 24px rgba(43,50,71,.10);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   body {
-    font-family: Georgia, "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+    font-family: var(--sans);
     background: var(--paper);
     color: var(--ink);
-    line-height: 1.6;
+    line-height: 1.7;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 24px;
+    padding: 24px 16px;
   }
-  .wrap { max-width: 540px; }
+  .wrap {
+    max-width: 540px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 44px 32px 40px;
+  }
   .eyebrow {
+    font-weight: 600;
     font-size: 0.78rem;
-    letter-spacing: 3px;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--burgundy);
-    margin-bottom: 18px;
+    color: var(--red);
+    margin-bottom: 12px;
   }
   h1 {
-    font-size: clamp(1.6rem, 5vw, 2.2rem);
-    font-weight: normal;
+    font-family: var(--serif);
+    font-size: clamp(1.7rem, 5vw, 2.3rem);
+    font-weight: 600;
+    line-height: 1.2;
+    color: var(--navy);
     margin-bottom: 14px;
   }
-  hr.rule { width: 70px; margin: 0 auto 18px; border: none; border-top: 1px solid var(--rule); }
-  p { color: var(--soft-ink); margin-bottom: 22px; }
+  hr.rule { display: none; }
+  p { color: var(--muted); margin-bottom: 24px; }
   a.home {
     display: inline-block;
-    background: var(--burgundy);
-    color: #fff;
+    background: var(--red);
+    color: var(--white);
     text-decoration: none;
-    font-size: 1rem;
+    font-weight: 600;
+    font-size: 0.95rem;
     padding: 12px 30px;
-    border-radius: 6px;
+    border-radius: 999px;
+    transition: background-color .15s ease;
   }
-  a.home:hover { background: #5f231d; }
+  a.home:hover { background: var(--red-dark); }
 </style>
 </head>
 <body>
